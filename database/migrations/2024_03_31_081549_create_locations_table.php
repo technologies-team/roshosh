@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('street1');
             $table->string('street2')->nullable();
             $table->string('country');
+            $table->string('phone');
+            $table->boolean('verified')->default(0);
             $table->string('city');
             $table->decimal('latitude', 10, 8); // Latitude field
             $table->decimal('longitude', 11, 8); // Longitude field

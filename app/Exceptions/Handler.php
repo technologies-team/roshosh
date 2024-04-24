@@ -64,6 +64,7 @@ class Handler extends ExceptionHandler
     {
 
 
+
         if ($request->is('api/*')) {
             $statusCode = $e->getCode() ? (int)$e->getCode() : 400;
 

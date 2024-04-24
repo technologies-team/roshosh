@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'super admin',
-                'email' => 'super@roshosh.com',
+                'email' => 'super@roshosh.ae',
                 'phone' => '1234567890',
                 'rewards' => 0,
                 'status' => User::status_active,
@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'admin',
-                'email' => 'admin@roshosh.com',
+                'email' => 'admin@roshosh.ae',
                 'phone' => '9876543210',
                 'rewards' => 0,
                 'status' => User::status_active,

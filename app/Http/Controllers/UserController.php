@@ -56,9 +56,18 @@ class UserController extends Controller
         return $this->ok($this->service->register($request->all()));
     }
 
+    /**
+     * @throws Exception
+     */
     public function update(UpdateUserRequest $request, int $id): SuccessResponse
     {
         return $this->ok($this->service->update($id, $request->all()));
+    }    /**
+     * @throws Exception
+     */
+    public function delete( ): SuccessResponse
+    {
+        return $this->ok($this->service->delete());
     }
 
 }

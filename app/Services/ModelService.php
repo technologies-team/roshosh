@@ -166,6 +166,7 @@ abstract class ModelService extends Service
 
     /**
      * save
+     * @throws \Exception
      */
     public function save( $id, array $attributes)
     {

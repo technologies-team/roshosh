@@ -64,10 +64,12 @@ class AttachmentController extends Controller
         return $this->ok($this->service->update2($id, $request->all()));
     }
 
-    public function destroy( int $id): SuccessResponse
+    public function destroy(int $id): SuccessResponse
     {
         return $this->ok($this->service->delete($id));
     }
-
+    public function download(string $name)
+    {
+        return $this->service->download($name);
+    }
 }
-

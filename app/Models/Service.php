@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Service extends Model
 {
 
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -40,13 +40,17 @@ class Service extends Model
         'duration' => 'int',
         'rewards' => 'int',
         'category_id' => 'integer',
-        'avatar_id'=>'integer'
+        'avatar_id' => 'photo'
     ];
 
-    protected $with = ['avatar','category'];
+    protected $with = ['photo', 'category'];
 
 
     public function avatar(): BelongsTo
+    {
+        return $this->belongsTo(Attachment::class);
+    }
+    public function photo(): BelongsTo
     {
         return $this->belongsTo(Attachment::class);
     }
@@ -54,5 +58,4 @@ class Service extends Model
     {
         return $this->belongsTo(Category::class);
     }
-
 }

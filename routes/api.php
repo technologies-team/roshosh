@@ -1,7 +1,23 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+
+
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('github')->user();
+
+    // $user->token
+});
+
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -16,9 +32,9 @@ Route::prefix('/auth')->group(function () {
         Route::put('/user/{id}', [UserController::class, 'update']);
 
         Route::get('/me', [AuthController::class, 'me']);
+        Route::get('/delete', [UserController::class, 'delete']);
         Route::post('/logout', [AuthController::class, 'logout']);
     });
-
 });
 
 Route::prefix('/attachment')->group(function () {
@@ -31,6 +47,7 @@ Route::prefix('/attachment')->group(function () {
             Route::put('/{id}', [AttachmentController::class, 'update']);
             Route::delete('/{id}', [AttachmentController::class, 'destroy']);
         });
+    Route::get('/download/{name}',  [AttachmentController::class, 'download']);
 });
 Route::prefix('/banner')->group(function () {
     //
@@ -81,24 +98,23 @@ Route::prefix('/user')->group(function () {
 
 Route::prefix('/categories')->group(function () {
     //
-    Route::get('/', [CategoryController::class,'index']);
-    Route::get('/{id}', [CategoryController::class,'show']);
+    Route::get('/', [CategoryController::class, 'index']);
+    Route::get('/{id}', [CategoryController::class, 'show']);
 
     Route::middleware('auth:sanctum')
         ->group(function () {
-            Route::post('/', [CategoryController::class,'store']);
-            Route::put('/{id}', [CategoryController::class,'update']);
-            Route::delete('/{id}', [CategoryController::class,'destroy']);
+            Route::post('/', [CategoryController::class, 'store']);
+            Route::put('/{id}', [CategoryController::class, 'update']);
+            Route::delete('/{id}', [CategoryController::class, 'destroy']);
         });
 });
 Route::prefix('/service')->group(function () {
-    Route::get('/', [ServiceController::class,'index']);
-    Route::get('/{id}', [ServiceController::class,'show']);
+    Route::get('/', [ServiceController::class, 'index']);
+    Route::get('/{id}', [ServiceController::class, 'show']);
     Route::middleware('auth:sanctum')
         ->group(function () {
-            Route::post('/', [ServiceController::class,'store']);
-            Route::put('/{id}', [ServiceController::class,'update']);
-            Route::delete('/{id}', [ServiceController::class,'destroy']);
+            Route::post('/', [ServiceController::class, 'store']);
+            Route::put('/{id}', [ServiceController::class, 'update']);
+            Route::delete('/{id}', [ServiceController::class, 'destroy']);
         });
-
 });

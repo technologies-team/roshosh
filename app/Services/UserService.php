@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Dtos\Result;
 use App\Models\User;
 use Exception as ExceptionAlias;
 use Illuminate\Support\Carbon;
@@ -55,10 +56,12 @@ class UserService extends ModelService
         return parent::prepare($operation, $attributes);
     }
 
+    /**
+     * @throws ExceptionAlias
+     */
     public function register($attributes)
     {
-        // disable registered clients
-        // default
+
         $attributes['status'] = User::status_active;
         if(!isset($attributes['password'])){
             $attributes['password']="welcome1";
@@ -95,35 +98,19 @@ class UserService extends ModelService
         return $record;
     }
 
-    /**
-     * @throws ExceptionAlias
-     */
-    public function update($id, array $attributes): User
-    {
-        $record = parent::update($id,$attributes);
-        // TODO: sites attribute value
-        if ($record instanceof User) {
-        //    $record->sites()->attach([1]);
-        }
-        return $record;
-    }
+
 
     /**
      * delete inner
      * @throws ExceptionAlias
      */
-    public function destroy( $id)
+    public function delete( $id=0): Result
     {
-        $record = $this->find($id);
-        if ($record instanceof User) {
-            $addresses = $record->addresses()->get()->all();
-            foreach ($addresses as $address) {
-                if ($address instanceof \App\Models\Address) {
-                    $address->delete();
-                }
-            }
+        if(!$id){
+            $id=auth()->id();
         }
-        return parent::destroy($id);
+        $record = $this->find($id);
+        return parent::delete($id);
     }
 
     /**
@@ -131,7 +118,7 @@ class UserService extends ModelService
      * @throws ExceptionAlias
      * @throws Throwable
      */
-    public function activate(int $id): \App\Dtos\Result
+    public function activate(int $id): Result
     {
         $user = $this->find($id);
         if (!in_array($user->status, [User::status_unverified, User::status_suspended])) {
@@ -147,7 +134,7 @@ class UserService extends ModelService
      * @throws ExceptionAlias
      * @throws Throwable
      */
-    public function suspend(int $id): \App\Dtos\Result
+    public function suspend(int $id): Result
     {
         $user = $this->find($id);
         if (!in_array($user->status, [User::status_active])) {

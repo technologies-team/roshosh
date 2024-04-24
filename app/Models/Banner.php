@@ -9,7 +9,16 @@ class Banner extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'title',
-        'photo_id','description'];
+        'photo_id', 'description'
+    ];
+    protected
+        $with = ['photo'];
+
+
+    public function photo(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Attachment::class);
+    }
 }

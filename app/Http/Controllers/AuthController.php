@@ -50,4 +50,8 @@ class AuthController extends Controller
     {
         return $this->ok($this->service->logout());
     }
+    public function delete( ): SuccessResponse
+    {
+        return $this->ok($this->service->destroy());
+    }
 }

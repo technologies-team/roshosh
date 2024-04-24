@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Dtos\Result;
 use App\Models\Banner;
 use Exception;
+
 class BannerService extends ModelService
 {
     /**
@@ -14,13 +15,16 @@ class BannerService extends ModelService
      */
     protected array $storables = [
         'title',
-        'photo_id','description'];
+        'photo_id', 'description'
+    ];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['title',
-        'photo_id','description'];
+    protected array $updatables = [
+        'title',
+        'photo_id', 'description'
+    ];
 
     /**
      * searchable field is a field which can be search for from keyword parameter in search method
@@ -29,7 +33,7 @@ class BannerService extends ModelService
     /**
      *
      */
-    protected array $with = [];
+    protected array $with = ['photo'];
 
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
@@ -48,6 +52,4 @@ class BannerService extends ModelService
     /**
      * @throws Exception
      */
-
-
 }

@@ -21,14 +21,17 @@ class AttachmentService extends ModelService
     protected array $storables = [
         'name',
         'mime_type',
-        'path'];
+        'path'
+    ];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = [ 'name',
+    protected array $updatables = [
+        'name',
         'mime_type',
-        'path',];
+        'path',
+    ];
 
     /**
      * searchable field is a field which can be search for from keyword parameter in search method
@@ -64,13 +67,12 @@ class AttachmentService extends ModelService
     {
         $upload = $attributes["attachment"];
         $attributes['mime_type'] = $upload->getMimeType();
-        $dir = 'files';
+        $dir = 'attachment';
 
         try {
             $attributes['path'] = $upload->store($dir);
             $name = explode('/', $attributes['path']);
             $attributes['name'] = last($name);
-
         } catch (Throwable $th) {
             throw new Exception('files:upload:errors:failed:' . $th->getMessage());
         }

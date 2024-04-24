@@ -99,6 +99,14 @@ class AttachmentService extends ModelService
         $file = Attachment::query()->where('name', $name)->first();
         if ($file instanceof Attachment) {
             return Storage::download($file->path);
+        }else{
+
+
+                $name="rbFOtu4Wmx3ieQ9cEU0WHYO2JZMwbQdV0TmRsE5n.jpg";
+            $file = Attachment::query()->where('name', $name)->first();
+            if ($file instanceof Attachment) {
+                return Storage::download($file->path);
+            }
         }
         throw new Exception('files:download:errors:not_found');
     }

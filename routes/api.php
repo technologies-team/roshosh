@@ -74,13 +74,13 @@ Route::prefix('/user')->group(function () {
     });
     Route::prefix('/vehicle')->group(function () {
         //
-        Route::get('/', [vehiclesController::class, 'index']);
-        Route::get('/{id}', [vehiclesController::class, 'show']);
+        Route::get('/', [VehiclesController::class, 'index']);
+        Route::get('/{id}', [VehiclesController::class, 'show']);
         Route::middleware('auth:sanctum')
             ->group(function () {
-                Route::post('/', [vehiclesController::class, 'store']);
-                Route::put('/{id}', [vehiclesController::class, 'update']);
-                Route::delete('/{id}', [vehiclesController::class, 'destroy']);
+                Route::post('/', [VehiclesController::class, 'store']);
+                Route::put('/{id}', [VehiclesController::class, 'update']);
+                Route::delete('/{id}', [VehiclesController::class, 'destroy']);
             });
     });
     Route::prefix('/location')->group(function () {

@@ -61,7 +61,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, int $id): SuccessResponse
     {
-        return $this->ok($this->service->update($id, $request->all()));
+        return $this->ok($this->service->save($id, $request->all()));
     }    /**
      * @throws Exception
      */

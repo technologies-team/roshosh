@@ -50,7 +50,7 @@ abstract class ModelService extends Service
     /**
      * search
      */
-    public function search(SearchQuery $q)
+    public function search(SearchQuery $q): SearchResult
     {
         $qb = $this->builder();
 

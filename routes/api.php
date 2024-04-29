@@ -109,12 +109,16 @@ Route::prefix('/categories')->group(function () {
         });
 });
 Route::prefix('/service')->group(function () {
-    Route::get('/', [ServiceController::class, 'index']);
-    Route::get('/{id}', [ServiceController::class, 'show']);
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('/{id}', [HomeController::class, 'show']);
     Route::middleware('auth:sanctum')
         ->group(function () {
-            Route::post('/', [ServiceController::class, 'store']);
-            Route::put('/{id}', [ServiceController::class, 'update']);
-            Route::delete('/{id}', [ServiceController::class, 'destroy']);
+            Route::post('/', [HomeController::class, 'store']);
+            Route::put('/{id}', [HomeController::class, 'update']);
+            Route::delete('/{id}', [HomeController::class, 'destroy']);
         });
+});
+
+Route::prefix('/home')->group(function () {
+    Route::get('/', [HomeController::class, 'index']);
 });

@@ -109,13 +109,13 @@ Route::prefix('/categories')->group(function () {
         });
 });
 Route::prefix('/service')->group(function () {
-    Route::get('/', [HomeController::class, 'index']);
-    Route::get('/{id}', [HomeController::class, 'show']);
+    Route::get('/', [serviceController::class, 'index']);
+    Route::get('/{id}', [serviceController::class, 'show']);
     Route::middleware('auth:sanctum')
         ->group(function () {
-            Route::post('/', [HomeController::class, 'store']);
-            Route::put('/{id}', [HomeController::class, 'update']);
-            Route::delete('/{id}', [HomeController::class, 'destroy']);
+            Route::post('/', [serviceController::class, 'store']);
+            Route::put('/{id}', [serviceController::class, 'update']);
+            Route::delete('/{id}', [serviceController::class, 'destroy']);
         });
 });
 

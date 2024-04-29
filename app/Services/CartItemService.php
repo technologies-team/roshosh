@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Dtos\Result;
 use App\Models\Banner;
 use App\Models\Cart;
-use App\Models\CartItem;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -35,7 +34,7 @@ class CartItemService extends ModelService
 
     public function builder(): Builder
     {
-        return CartService::query();
+        return Cart::query();
     }
 
     /**

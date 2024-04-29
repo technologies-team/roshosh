@@ -15,13 +15,13 @@ class VehicleService extends ModelService
      * storable field is a field which can be filled during creating the record
      */
     protected array $storables = [
-        'type',
+        'type','user_id',
         'color','make','model','license_plate','vehicle_type'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['type',
+    protected array $updatables = ['type','user_id',
         'color','make','model','license_plate','vehicle_type'];
 
     /**
@@ -50,6 +50,11 @@ class VehicleService extends ModelService
     /**
      * @throws Exception
      */
-
-
+    public function create(array $attributes): Result
+    {
+        if(!isset($attributes['user_id'])){
+            $attributes['user_id']=auth()->id();
+        }
+        return $this->ok($this->store($attributes), 'vehicle:saved:succeeded');
+    }
 }

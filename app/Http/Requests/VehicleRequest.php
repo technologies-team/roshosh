@@ -24,6 +24,7 @@ class VehicleRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id'=>"int|exists:users,id",
              'type' =>"required|string",
             'make'=>"required|string",
             'model'=>"string",

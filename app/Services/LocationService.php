@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Dtos\Result;
 use App\Models\Location;
 use Illuminate\Container\Container;
 use Illuminate\Validation\ValidationException;
@@ -42,5 +43,16 @@ class LocationService extends ModelService
     protected function prepare(string $operation, array $attributes): array
     {
         return parent::prepare($operation, $attributes);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function create(array $attributes): Result
+    {
+        if(!isset($attributes['user_id'])){
+        $attributes['user_id']=auth()->id();
+        }
+        return $this->ok($this->store($attributes), 'location:saved:succeeded');
     }
 }

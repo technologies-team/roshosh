@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class vehicle extends Model
 {
     protected $fillable=[
-        'type','color','make','model','license_plate','vehicle_type'
+        'type','color','make','model','license_plate','vehicle_type','user_id'
     ];
     use HasFactory;
     public function user()

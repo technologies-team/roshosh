@@ -14,7 +14,7 @@ class VehiclesTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('vehicles')->insert([
-            [
+            [   'vehicle_type'=>'car',
                 'type' => 'SUV',
                 'color' => 'Black',
                 'make' => 'Toyota',
@@ -24,6 +24,7 @@ class VehiclesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'vehicle_type'=>'car',
                 'type' => 'Sedan',
                 'color' => 'White',
                 'make' => 'Honda',

@@ -15,13 +15,13 @@ class VehicleService extends ModelService
      */
     protected array $storables = [
         'type',
-        'color','make','model','license_plate'];
+        'color','make','model','license_plate','vehicle_type'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
     protected array $updatables = ['type',
-        'color','make','model','license_plate'];
+        'color','make','model','license_plate','vehicle_type'];
 
     /**
      * searchable field is a field which can be search for from keyword parameter in search method

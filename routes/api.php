@@ -74,13 +74,13 @@ Route::prefix('/user')->group(function () {
     });
     Route::prefix('/vehicle')->group(function () {
         //
-        Route::get('/', [VehiclesController::class, 'index']);
-        Route::get('/{id}', [VehiclesController::class, 'show']);
+        Route::get('/', [ContactController::class, 'index']);
+        Route::get('/{id}', [ContactController::class, 'show']);
         Route::middleware('auth:sanctum')
             ->group(function () {
-                Route::post('/', [VehiclesController::class, 'store']);
-                Route::put('/{id}', [VehiclesController::class, 'update']);
-                Route::delete('/{id}', [VehiclesController::class, 'destroy']);
+                Route::post('/', [ContactController::class, 'store']);
+                Route::put('/{id}', [ContactController::class, 'update']);
+                Route::delete('/{id}', [ContactController::class, 'destroy']);
             });
     });
     Route::prefix('/location')->group(function () {
@@ -121,4 +121,11 @@ Route::prefix('/service')->group(function () {
 
 Route::prefix('/home')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
+});
+Route::prefix('/contact')->group(function () {
+    Route::get('/', [ContactController::class, 'index']);
+    Route::get('/{id}', [ContactController::class, 'show']);
+            Route::post('/', [ContactController::class, 'store']);
+            Route::put('/{id}', [ContactController::class, 'update']);
+            Route::delete('/{id}', [ContactController::class, 'destroy']);
 });

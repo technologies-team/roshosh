@@ -8,20 +8,19 @@ use App\Dtos\Result;
 use App\Models\Banner;
 use App\Models\Contact;
 use Exception;
-class VehicleService extends ModelService
+class ContactService extends ModelService
 {
     /**
      * storable field is a field which can be filled during creating the record
      */
     protected array $storables = [
-        'type',
-        'color','make','model','license_plate','vehicle_type'];
+      'name','email','phone','message'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['type',
-        'color','make','model','license_plate','vehicle_type'];
+    protected array $updatables = [
+        'name','email','phone','message'];
 
     /**
      * searchable field is a field which can be search for from keyword parameter in search method

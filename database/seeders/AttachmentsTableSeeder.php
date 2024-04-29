@@ -17,14 +17,14 @@ class AttachmentsTableSeeder extends Seeder
             [
                 'name' => 'V5rJO5f3Wesx1YlXsFImgkAkj6VcM1X90QJzwvdA.png',
                 'mime_type' => 'application/pdf',
-                'path' => 'attachment/V5rJO5f3Wesx1YlXsFImgkAkj6VcM1X90QJzwvdA.jpg',
+                'path' => 'attachment/V5rJO5f3Wesx1YlXsFImgkAkj6VcM1X90QJzwvdA.png',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'name' => 'V5rJO5f3Wesx1YlXsFImgkAkj6VcM1X90QJzwvdA.png',
                 'mime_type' => 'image/jpeg',
-                'path' => '/attachment/V5rJO5f3Wesx1YlXsFImgkAkj6VcM1X90QJzwvdA.jpg',
+                'path' => '/attachment/V5rJO5f3Wesx1YlXsFImgkAkj6VcM1X90QJzwvdA.png',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],   [

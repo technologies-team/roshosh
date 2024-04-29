@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Dtos\Result;
 use App\Models\Banner;
 use App\Models\Contact;
+use App\Models\vehicle;
 use Exception;
 class VehicleService extends ModelService
 {
@@ -34,7 +35,7 @@ class VehicleService extends ModelService
 
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
-        return Contact::query();
+        return Vehicle::query();
     }
 
     /**

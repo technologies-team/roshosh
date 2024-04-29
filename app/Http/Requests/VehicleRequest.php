@@ -26,9 +26,9 @@ class VehicleRequest extends FormRequest
         return [
              'type' =>"required|string",
             'make'=>"required|string",
-            'model'=>"required|string",
+            'model'=>"string",
             'color'=>"required|string",
-            'license_plate'=>"required|string",
+            'license_plate'=>"string",
         ];
     }
 }

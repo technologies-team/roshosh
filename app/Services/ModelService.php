@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Dtos\Result;
 use App\Dtos\SearchQuery;
 use App\Dtos\SearchResult;
 use Illuminate\Database\Eloquent\Builder;
@@ -108,8 +109,9 @@ abstract class ModelService extends Service
 
     /**
      * create
+     * @throws \Exception
      */
-    public function create(array $attributes)
+    public function create(array $attributes): Result
     {
        // dd("dfdfd");
         return $this->ok($this->store($attributes), 'records:create:done');

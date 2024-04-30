@@ -40,7 +40,6 @@ class Service extends Model
         'duration' => 'int',
         'rewards' => 'int',
         'category_id' => 'integer',
-        'avatar_id' => 'photo'
     ];
 
     protected $with = ['photo', 'category'];

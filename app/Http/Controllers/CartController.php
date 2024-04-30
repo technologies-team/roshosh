@@ -14,15 +14,14 @@ use App\Http\Responses\SuccessResponse;
 use App\Models\Cart;
 use App\Services\AuthService;
 use App\Services\BannerService;
-use App\Services\CartService;
-use App\Services\WishListService;
+use App\Services\CartServiceService;
 use Exception;
 
 class CartController extends Controller
 {
-    private CartService $service;
+    private CartServiceService $service;
 
-    public function __construct(CartService $service)
+    public function __construct(CartServiceService $service)
     {
         $this->service = $service;
     }
@@ -57,6 +56,9 @@ class CartController extends Controller
         return $this->ok($this->service->update($id, $request->all()));
     }
 
+    /**
+     * @throws Exception
+     */
     public function store(StoreCartRequest $request): SuccessResponse
     {
         return $this->ok($this->service->create($request->all()));

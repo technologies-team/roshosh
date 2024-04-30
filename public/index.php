@@ -7,12 +7,7 @@ define('LARAVEL_START', microtime(true));
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers:*");
 
-if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
-    return "";
-}
 // Register the Composer autoloader...
 require __DIR__.'/../vendor/autoload.php';
 

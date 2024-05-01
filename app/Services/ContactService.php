@@ -7,22 +7,20 @@ namespace App\Services;
 use App\Dtos\Result;
 use App\Models\Banner;
 use App\Models\Contact;
-use App\Models\vehicle;
 use Exception;
-class VehicleService extends ModelService
+class ContactService extends ModelService
 {
     /**
      * storable field is a field which can be filled during creating the record
      */
     protected array $storables = [
-        'type','user_id',
-        'color','make','model','license_plate','vehicle_type'];
+      'name','email','phone','message'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['type','user_id',
-        'color','make','model','license_plate','vehicle_type'];
+    protected array $updatables = [
+        'name','email','phone','message'];
 
     /**
      * searchable field is a field which can be search for from keyword parameter in search method
@@ -35,7 +33,7 @@ class VehicleService extends ModelService
 
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
-        return Vehicle::query();
+        return Contact::query();
     }
 
     /**
@@ -50,11 +48,6 @@ class VehicleService extends ModelService
     /**
      * @throws Exception
      */
-    public function create(array $attributes): Result
-    {
-        if(!isset($attributes['user_id'])){
-            $attributes['user_id']=auth()->id();
-        }
-        return $this->ok($this->store($attributes), 'vehicle:saved:succeeded');
-    }
+
+
 }

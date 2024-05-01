@@ -24,7 +24,9 @@ class VehicleUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'type' =>"string",
+            'user_id'=>"int|exists:users,id",
+
+            'type' =>"string",
             'make'=>"string",
             'model'=>"string",
             'color'=>"string",

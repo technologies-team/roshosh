@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
-            $table->string('vehicle_type');
-            $table->string('type');
-            $table->string('color');
-            $table->string('make');
-            $table->string('model');
-            $table->string('license_plate');
+            $table->unsignedBigInteger('user_id');
+            $table->string('vehicle_type')->nullable();
+            $table->string('type')->nullable();
+            $table->string('color')->nullable();
+            $table->string('make')->nullable();
+            $table->string('model')->nullable();
+            $table->string('license_plate')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+
         });
     }
 

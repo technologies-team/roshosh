@@ -29,11 +29,11 @@ class StoreCartRequest extends FormRequest
     public function rules()
     {
         return [
-            'session_id' => 'int',
-            'coupon_ids.*' => 'int|exists:coupons,id',
+            'coupon_id' => 'int|exists:coupons,id',
             'service_time' => 'required|date:Y-m-d\TH:i:sO',
-            'location_ids.*' => 'int|exists:locations,id',
-            'services_ids.*' => 'required|int|exists:services,id',
+            'location_id' => 'int|exists:locations,id',
+            'service_id' => 'required|int|exists:services,id',
+            'vehicle_id' => 'required|int|exists:vehicles,id',
         ];
     }
 }

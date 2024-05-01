@@ -24,7 +24,7 @@ class StoreLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'user_id' =>"required|exists:users,id",
+             'user_id' =>"int|exists:users,id",
              'title' =>"required|string",
              'parking_type' =>"required|string",
             'street1'=>'required|string',

@@ -4,24 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Dtos\SearchQuery;
 use App\Http\Requests\BannerRequest;
-use App\Http\Requests\CartRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SearchRequest;
-use App\Http\Requests\StoreCartRequest;
+use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\VehicleRequest;
+use App\Http\Requests\VehicleUpdateRequest;
 use App\Http\Responses\SuccessResponse;
-use App\Models\Cart;
 use App\Services\AuthService;
 use App\Services\BannerService;
-use App\Services\CartServiceService;
+use App\Services\ContactService;
+use App\Services\VehicleService;
 use Exception;
 
-class CartController extends Controller
+class ContactController extends Controller
 {
-    private CartServiceService $service;
+    private $service;
 
-    public function __construct(CartServiceService $service)
+    public function __construct(ContactService $service)
     {
         $this->service = $service;
     }
@@ -36,7 +37,6 @@ class CartController extends Controller
     {
         return $this->ok($this->service->search(SearchQuery::fromJson($request->all())));
     }
-
     /**
      * Display the specified resource.
      *
@@ -51,15 +51,12 @@ class CartController extends Controller
     /**
      * @throws Exception
      */
-    public function update(StoreCartRequest $request, int $id): SuccessResponse
+    public function update(VehicleUpdateRequest $request, int $id): SuccessResponse
     {
         return $this->ok($this->service->update($id, $request->all()));
     }
 
-    /**
-     * @throws Exception
-     */
-    public function store(StoreCartRequest $request): SuccessResponse
+    public function store(StoreContactRequest $request): SuccessResponse
     {
         return $this->ok($this->service->create($request->all()));
     }

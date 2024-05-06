@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Dtos\SearchQuery;
+use App\Http\Requests\SearchRequest;
+use App\Http\Requests\StoreBookRequest;
 
+use App\Http\Requests\UpdateBookRequest;
 use App\Http\Responses\SuccessResponse;
-use App\Models\BookService;
-use App\Services\UserService;
+use App\Services\BookService;
 use Exception;
 use Throwable;
 
@@ -20,7 +20,16 @@ class BookController extends Controller
     {
         $this->service = $service;
     }
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @param SearchRequest $request
+     * @return SuccessResponse
+     */
+    public function index(SearchRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->search(SearchQuery::fromJson($request->all())));
+    }
     /**
      * activate
      *
@@ -28,57 +37,14 @@ class BookController extends Controller
      * @return SuccessResponse
      * @throws Throwable
      */
-    public function confirm(int $id): SuccessResponse
+    public function update(UpdateBookRequest $request,int $id): SuccessResponse
     {
-        return $this->ok($this->service->confirm($id));
+        return $this->ok($this->service->save($id,$request->all()));
+    }
+    public function store(StoreBookRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->create($request->all()));
     }
 
-    public function cancel(int $id): SuccessResponse
-    {
-        return $this->ok($this->service->cancel($id));
-    }
-
-    public function reject(int $id): SuccessResponse
-    {
-        return $this->ok($this->service->reject($id));
-    }
-
-    /**
-     * suspend
-     *
-     * @param int $id
-     * @return SuccessResponse
-     * @throws Throwable
-     */
-    public function suspend(int $id): SuccessResponse
-    {
-        return $this->ok($this->service->suspend($id));
-    }
-
-    /**
-     * register
-     *
-     * @param RegisterRequest $request
-     * @return SuccessResponse
-     * @throws Exception
-     */
-    public function register(RegisterRequest $request): SuccessResponse
-    {
-        return $this->ok($this->service->register($request->all()));
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function update(UpdateUserRequest $request, int $id): SuccessResponse
-    {
-        return $this->ok($this->service->save($id, $request->all()));
-    }    /**
- * @throws Exception
- */
-    public function delete( ): SuccessResponse
-    {
-        return $this->ok($this->service->delete());
-    }
 
 }

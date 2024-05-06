@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('book_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("book_id");
-            $table->string("service_name");
-            $table->string("location");
-            $table->string('vehicle');
-            $table->string('coupon');
+            $table->text("service_name");
+            $table->text("location");
+            $table->text('vehicle');
+            $table->text('coupon');
             $table->timestamps();
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
         });
     }
 

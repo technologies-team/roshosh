@@ -27,10 +27,10 @@ class ServiceService extends ModelService
     /**
      *
      */
-    protected array $with = ['category','avatar'];
+    protected array $with = ['category','avatar','offers'];
 
 
-    private $categories;
+    private CategoryService $categories;
 
     public function __construct(CategoryService $categories)
     {

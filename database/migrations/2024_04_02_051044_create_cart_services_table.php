@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('coupon_id')->nullable();
             $table->decimal('price');
             $table->integer('quantity');
+            $table->decimal('total_price');
+
             $table->dateTime('service_time');
             $table->timestamps();
             $table->foreign('coupon_id')->references('id')->on('coupons')->onDelete('set null');

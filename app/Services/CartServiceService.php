@@ -21,12 +21,14 @@ class CartServiceService extends ModelService
     protected array $storables = ['cart_id','vehicle_id','location_id','service_id','service_time',
         'coupon_id',
         'price',
-        'quantity',     ];
+        'quantity',    'total_price' ];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['user_id'];
+    protected array $updatables = [    'coupon_id',
+        'price',
+        'quantity',    'total_price' ];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
@@ -52,6 +54,22 @@ public function __construct(CartsService $cartsService,UserService $userService,
     }
 
     /**
+     * @throws Exception
+     */
+    public function me(): Result
+    {
+        $id=auth()->user()->getAuthIdentifier();
+
+        $user=$this->userService->find($id);
+        if($user instanceof User) {
+            $cart = $user->carts()->first();
+            return $this->ok($cart, 'records:create:done');
+
+        }
+        throw new Exception('your cart is empty');
+    }
+
+    /**
      * prepare
      */
     protected function prepare(string $operation, array $attributes): array
@@ -65,32 +83,40 @@ public function __construct(CartsService $cartsService,UserService $userService,
      */
     public function store(array $attributes): Model
     {
-        $attributes["user_id"]=auth()->user()->getAuthIdentifier();
-
-        $user=$this->userService->find($attributes["user_id"]);
-        if($user instanceof User){
-            $cart=$user->carts()->first();
-             if($cart instanceof Cart){
-         $attributes["cart_id"]=$cart->id;
-}
-             else{
-                $cart= $this->cartsService->store($attributes);
-            if($cart instanceof Cart){
-                $attributes["cart_id"]=$cart->id;
-            }
-             }
-        }
+      $cart= $this->getUserCart();
+      $attributes["cart_id"]=$cart->id;
+        $cart->cartService()->delete();
         $attributes["quantity"]=1;
         $service=$this->service->find($attributes["service_id"]);
 
             $attributes["price"]=$service->price;
-        $record = parent::store($attributes);
+            $attributes["total_price"]=$service->price;
         // TODO: sites attribute value
-        if ($record instanceof Cart) {
-            return $record;
+        return parent::store($attributes);
+    }
 
+    /**
+     * @throws Exception
+     */
+    public function getUserCart():Cart
+    {
+        $user_id=auth()->user()->getAuthIdentifier();
+
+        $user=$this->userService->find($user_id);
+        if($user instanceof User){
+            $cart=$user->carts()->first();
+            if($cart instanceof Cart){
+                return $cart;
+                 }
+            else{
+$attributes["user_id"]=$user_id;
+                $cart= $this->cartsService->store($attributes);
+                if($cart instanceof Cart){
+                    return $cart;
+                }
+            }
         }
-        return $record;
+        throw new \Exception("there is user error");
     }
     public function create(array $attributes): Result
     {

@@ -63,10 +63,11 @@ Route::prefix('/banner')->group(function () {
 Route::prefix('/user')->group(function () {
     Route::prefix('/cart')->group(function () {
         //
-        Route::get('/', [CartController::class, 'index']);
         Route::get('/{id}', [CartController::class, 'show']);
         Route::middleware('auth:sanctum')
             ->group(function () {
+                Route::get('/', [CartController::class, 'index']);
+
                 Route::post('/', [CartController::class, 'store']);
                 Route::put('/{id}', [CartController::class, 'update']);
                 Route::delete('/{id}', [CartController::class, 'destroy']);
@@ -128,4 +129,35 @@ Route::prefix('/contact')->group(function () {
             Route::post('/', [ContactController::class, 'store']);
             Route::put('/{id}', [ContactController::class, 'update']);
             Route::delete('/{id}', [ContactController::class, 'destroy']);
+});
+Route::prefix('/book')->group(function () {
+    Route::middleware('auth:sanctum')
+        ->group(function () {
+
+            Route::get('/', [BookController::class, 'index']);
+            Route::get('/{id}', [BookController::class, 'show']);
+            Route::post('/', [BookController::class, 'store']);
+            Route::patch('/{id}', [BookController::class, 'update']);
+
+        });
+});
+Route::prefix('/offers')->group(function () {
+    Route::get('/', [OfferController::class, 'index']);
+
+    Route::middleware('auth:sanctum')
+        ->group(function () {
+
+            Route::get('/{id}', [OfferController::class, 'show']);
+            Route::post('/', [OfferController::class, 'store']);
+            Route::patch('/{id}', [OfferController::class, 'update']);
+
+        });
+});
+Route::prefix('/coupon')->group(function () {
+    Route::middleware('auth:sanctum')
+        ->group(function () {
+            Route::post('/', [CouponController::class, 'apply']);
+            Route::post('/remove', [CouponController::class, 'remove']);
+
+        });
 });

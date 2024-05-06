@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreCartRequest extends FormRequest
+class UpdateBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,7 +18,7 @@ class StoreCartRequest extends FormRequest
         $user = auth()->user();
         // TODO check for site
         if ($user instanceof \App\Models\User) {
-          return  true;
+            return  true;
         }
         return false;
     }
@@ -26,13 +28,10 @@ class StoreCartRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'service_time' => 'required|date:Y-m-d\TH:i:sO',
-            'location_id' => 'int|exists:locations,id',
-            'service_id' => 'required|int|exists:services,id',
-            'vehicle_id' => 'required|int|exists:vehicles,id',
+            'status' => ['required', 'string', Rule::in(Book::status)],
         ];
     }
 }

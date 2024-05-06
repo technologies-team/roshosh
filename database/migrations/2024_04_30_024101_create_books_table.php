@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('total_fee')->default(0);
             $table->unsignedBigInteger("user_id");
             $table->string('status')->default('initial');
+            $table->string('notes')->default('');
             $table->string('payment_method');
             $table->timestamps();
             $table->foreign("user_id")->references("id")->on("users")->onDelete('restrict');

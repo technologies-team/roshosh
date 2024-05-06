@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('type');
-            $table->decimal('value', 10, 2); // Assuming 'value' is a decimal field
+            $table->enum('type',['fixed','percent_limited','percent']);
+            $table->decimal('percent_limited',10, 2)->nullable();
+            $table->decimal('value', 10, 2)->nullable();
             $table->dateTime('start_at');
             $table->dateTime('expires_at');
             $table->boolean('enabled')->default(true);

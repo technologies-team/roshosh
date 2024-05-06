@@ -45,19 +45,6 @@ class BannerController extends Controller
     }
 
 
-    /**
-     * register
-     *
-     * @param RegisterRequest $request
-     * @return SuccessResponse
-     */
-    public function register(RegisterRequest $request): SuccessResponse
-    {
-        return $this->ok($this->service->register($request->all()));
-    }
-
-
-
     public function update(BannerRequest $request, int $id): SuccessResponse
     {
         return $this->ok($this->service->update2($id, $request->all()));

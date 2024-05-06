@@ -89,6 +89,7 @@ abstract class ModelService extends Service
 
     /**
      * create inner code
+     * @throws \Exception
      */
     public function store(array $attributes): Model
     {

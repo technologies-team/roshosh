@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             CategoriesTableSeeder::class,
             ServicesTableSeeder::class,
             CouponsTableSeeder::class,
+            OffersTableSeeder::class,
         ]);
     }
 }

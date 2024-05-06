@@ -32,9 +32,9 @@ class CartController extends Controller
      * @param SearchRequest $request
      * @return SuccessResponse
      */
-    public function index(SearchRequest $request): SuccessResponse
+    public function index(): SuccessResponse
     {
-        return $this->ok($this->service->search(SearchQuery::fromJson($request->all())));
+        return $this->ok($this->service->me());
     }
 
     /**
@@ -43,9 +43,9 @@ class CartController extends Controller
      * @param  int  $id
      * @return SuccessResponse
      */
-    public function show(int $id): SuccessResponse
+    public function show(): SuccessResponse
     {
-        return $this->ok($this->service->get($id));
+        return $this->ok($this->service->get(0));
     }
 
     /**

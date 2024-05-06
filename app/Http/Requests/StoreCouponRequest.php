@@ -39,13 +39,11 @@ class StoreCouponRequest extends FormRequest
         return [
             'name' => 'required|string|unique:coupons,name',
             'description' => 'required|string',
+
             'type' => 'required|string|in:cash,percent,percent_limited',
             'value.percent' => 'required_unless:type,cash|int|min:0|max:100',
             'value.limit' => 'required_unless:type,percent|int',
-            'clients' => 'array',
-            'clients.*' => 'required|int|exists:clients,id',
-            'clinics' => 'array',
-            'clinics.*' => 'required|int|exists:clinics,id',
+
             'services' => 'array',
             'services.*' => 'required|int|exists:clinic_services,id',
             'start_at'=>'required|date:Y-m-d\TH:i:sO',

@@ -13,6 +13,7 @@ class Coupon extends Model
     public const TYPE_PERCENT = 'percent';
     public const TYPE_PERCENT_LIMITED = 'percent_limited';
     public const TYPES = [
+        'name',
         'cash',
         'percent',
         'percent_limited',
@@ -39,9 +40,9 @@ class Coupon extends Model
             //
 
 
-                $builder->orWhereHas('users', function (Builder $qb) use ($user_id) {
-                    $qb->where('id', '=', $user_id);
-                });
+               // $builder->orWhereHas('users', function (Builder $qb) use ($user_id) {
+                 //   $qb->where('id', '=', $user_id);
+               // });
 
         });
     }

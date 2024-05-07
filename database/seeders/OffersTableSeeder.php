@@ -33,7 +33,7 @@ class OffersTableSeeder extends Seeder
                 'photo_id' => 2, // Assuming attachment ID 2 exists
                 'type' => 'percent_limited',
                 'percent_limited' => 10.00,
-                'value' => null,
+                'value' => 20,
                 'start_at' => now(),
                 'expires_at' => now()->addDays(60),
                 'enabled' => true,

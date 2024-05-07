@@ -147,8 +147,9 @@ abstract class ModelService extends Service
 
     /**
      * get address
+     * @throws \Exception
      */
-    public function get( $id)
+    public function get( $id): Result
     {
         return $this->ok($this->find($id), 'records:get:done');
     }

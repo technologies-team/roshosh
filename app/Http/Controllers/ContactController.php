@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dtos\Result;
 use App\Dtos\SearchQuery;
 use App\Http\Requests\BannerRequest;
 use App\Http\Requests\LoginRequest;
@@ -17,6 +18,7 @@ use App\Services\BannerService;
 use App\Services\ContactService;
 use App\Services\VehicleService;
 use Exception;
+use function MongoDB\BSON\toJSON;
 
 class ContactController extends Controller
 {
@@ -63,6 +65,9 @@ class ContactController extends Controller
     public function destroy( int $id): SuccessResponse
     {
         return $this->ok($this->service->delete($id));
+    }    public function terms( ): SuccessResponse
+{
+return $this->ok(new Result(["view"=>view('terms')->render()],"",200) );
     }
 }
 

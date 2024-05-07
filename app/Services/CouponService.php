@@ -60,6 +60,7 @@ class CouponService extends ModelService
         $cartService = $cart->cartService()->first();
 
       $newPrice=  $this->calcDiscount($cartService->price, $coupon->type,$coupon->value,$coupon->percent_limited);
+        $newPrice = number_format($newPrice, 2, '.', '');
         $newColumn["total_price"]= $newPrice;
         $newColumn["coupon_id"]= $coupon->id;
 

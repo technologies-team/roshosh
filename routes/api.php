@@ -60,6 +60,10 @@ Route::prefix('/banner')->group(function () {
             Route::delete('/{id}', [BannerController::class, 'destroy']);
         });
 });
+Route::prefix('/helper')->group(function () {
+
+    Route::get('/model', [VehiclesController::class, 'models']);
+});
 Route::prefix('/user')->group(function () {
     Route::prefix('/cart')->group(function () {
         //
@@ -125,7 +129,7 @@ Route::prefix('/home')->group(function () {
 });
 Route::prefix('/contact')->group(function () {
     Route::get('/', [ContactController::class, 'index']);
-    Route::get('/terms', [ContactController::class, 'terms']);
+    Route::get('/terms/{id}', [ContactController::class, 'terms']);
     Route::get('/{id}', [ContactController::class, 'show']);
             Route::post('/', [ContactController::class, 'store']);
             Route::put('/{id}', [ContactController::class, 'update']);

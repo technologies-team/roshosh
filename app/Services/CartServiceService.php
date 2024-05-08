@@ -85,13 +85,21 @@ class CartServiceService extends ModelService
         $price = $service->price;
         if (isset($attributes["offer_id"])) {
             $offer = $service->offers()->find($attributes["offer_id"]);
-            $discount = $this->calcDiscount($price, $offer->type, $offer->value, $offer->percent_limited);
-            $max = $discount;
+            if (isset($offer->min_amount) && $offer->min_amount < $price) {
+                $max = 0;
+
+            } else {
+                $discount = $this->calcDiscount($price, $offer->type, $offer->value, $offer->percent_limited);
+                $max = $discount;
+            }
         } else {
             if ($service instanceof \App\Models\Service) {
                 $offers = $service->offers()->get();
                 $max = 0;
                 foreach ($offers as $offer) {
+                    if (isset($offer->min_amount) && $offer->min_amount < $price) {
+                        continue;
+                    }
                     $discount = $this->calcDiscount($price, $offer->type, $offer->value, $offer->percent_limited);
                     $max = max($max, $discount);
                 }

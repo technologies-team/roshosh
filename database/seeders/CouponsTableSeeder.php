@@ -19,7 +19,9 @@ class CouponsTableSeeder extends Seeder
                 'description' => 'Description for Coupon 1',
                 'type' => 'percent', // or 'fixed'
                 'value' => 10.00, // value of the coupon
+                'min_amount' => 50.00, // value of the coupon
                 'start_at' => now(),
+
                 'expires_at' => now()->addDays(30), // expires in 30 days
                 'enabled' => true,
                 'count' => 0, // available count of the coupon

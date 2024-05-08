@@ -19,7 +19,8 @@ class OffersTableSeeder extends Seeder
                 'photo_id' => 1, // Assuming attachment ID 1 exists
                 'type' => 'fixed',
                 'percent_limited' => null,
-                'value' => 50.00,
+                'value' => 25.00,
+                'min_amount' => 100.00,
                 'start_at' => now(),
                 'expires_at' => now()->addDays(30),
                 'enabled' => true,

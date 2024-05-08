@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('photo_id');
             $table->enum('type',['fixed','percent_limited','percent']);
             $table->decimal('percent_limited',10, 2)->nullable();
+            $table->decimal('min_amount',10, 2)->nullable();
+
             $table->decimal('value', 10, 2)->nullable();
             $table->dateTime('start_at');
             $table->dateTime('expires_at');

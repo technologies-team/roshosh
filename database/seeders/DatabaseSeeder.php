@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Services\OfferService;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ServicesTableSeeder::class,
             CouponsTableSeeder::class,
             OffersTableSeeder::class,
+            ServiceOfferTableSeeder::class,
         ]);
     }
 }

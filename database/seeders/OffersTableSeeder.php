@@ -36,6 +36,8 @@ class OffersTableSeeder extends Seeder
                 'percent_limited' => 10.00,
                 'value' => 20,
                 'start_at' => now(),
+                'min_amount' => 00.00,
+
                 'expires_at' => now()->addDays(60),
                 'enabled' => true,
                 'count' => 0,
@@ -48,6 +50,8 @@ class OffersTableSeeder extends Seeder
                 'photo_id' => 3, // Assuming attachment ID 3 exists
                 'type' => 'percent',
                 'percent_limited' => null,
+                'min_amount' => 00.00,
+
                 'value' => 20.00,
                 'start_at' => now(),
                 'expires_at' => now()->addDays(90),

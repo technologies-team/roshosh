@@ -8,4 +8,10 @@ Route::get('/', function () {
 });Route::get('/terms', function () {
     return view('terms');
 });
+;Route::get('/terms/en', function () {
+    return view('terms');
+});
+Route::get('/terms/ar', function () {
+    return view('terms_ar');
+});
 Route::get('firebase-phone-authentication', [FirebaseController::class, 'index']);

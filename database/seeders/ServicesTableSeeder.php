@@ -17,77 +17,61 @@ class ServicesTableSeeder extends Seeder
             [
                 'title' => 'car wash',
                 'title_ar' => 'غسيل السيارة',
-                'description' => '
-                Several stages are involved: \n
-
-1- Opening the car.\n
-2- Cleaning the doors.\n
-3- Inquiring about the nature of the inquiry.',
+                'description' => 'Several stages are involved:
+    1- Opening the car.
+    2- Cleaning the doors.
+    3- Inquiring about the nature of the inquiry.',
                 'description_ar' => 'تكون على عدة مراحل
-                \n
-                1-فتح السيارة
-                \n
-                2- تنظيف الابواب
-                 \n
-                3- استعلام عن طبيعة الاستعلام
+     1-فتح السيارة
+     2- تنظيف الابواب
+     3- استعلام عن طبيعة الاستعلام
                 ',
                 'price' => 50.00,
-                'category_id' => 1, // ID of the category
-                'parent_id' => null, // No parent service
+                'category_id' => 1,
+                'parent_id' => null,
                 'rewards' => 10,
-                'photo_id' => 3, // ID of the photo attachment
+                'photo_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'title' => 'vip wash ',
                 'title_ar' => 'خدمة  vip',
-                'description' => '
-                Several stages are involved: \n
-
-1- Opening the car.\n
-2- Cleaning the doors.\n
-3- Inquiring about the nature of the inquiry.',
+                'description' => 'Several stages are involved:
+    1- Opening the car.
+    2- Cleaning the doors.
+    3- Inquiring about the nature of the inquiry.',
                 'description_ar' => 'تكون على عدة مراحل
-                \n
-                1-فتح السيارة
-                \n
-                2- تنظيف الابواب
-                 \n
-                3- استعلام عن طبيعة الاستعلام
+    1-فتح السيارة
+    2- تنظيف الابواب
+    3- استعلام عن طبيعة الاستعلام
                 ', 'price' => 100.00,
-                'category_id' => 2, // ID of the category
-                'parent_id' => null, // No parent service
+                'category_id' => 2,
+                'parent_id' => null,
                 'rewards' => 20,
-                'photo_id' => 4, // ID of the photo attachment
+                'photo_id' => 4,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'title' => 'Detailing',
                 'title_ar' => 'خدمة  تفصيل',
-                'description' => '
-                Several stages are involved: \n
-
-1- Opening the car.\n
-2- Cleaning the doors.\n
-3- Inquiring about the nature of the inquiry.',
+                'description' => 'Several stages are involved:
+    1- Opening the car.
+    2- Cleaning the doors.
+    3- Inquiring about the nature of the inquiry.',
                 'description_ar' => 'تكون على عدة مراحل
-                \n
-                1-فتح السيارة
-                \n
-                2- تنظيف الابواب
-                 \n
-                3- استعلام عن طبيعة الاستعلام
+    1-فتح السيارة
+    2- تنظيف الابواب
+    3- استعلام عن طبيعة الاستعلام
                 ', 'price' => 100.00,
-                'category_id' => 2, // ID of the category
-                'parent_id' => null, // No parent service
+                'category_id' => 2,
+                'parent_id' => null,
                 'rewards' => 20,
-                'photo_id' => 5, // ID of the photo attachment
+                'photo_id' => 5,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            // Add more service records as needed
         ]);
     }
 }

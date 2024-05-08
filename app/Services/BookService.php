@@ -62,7 +62,7 @@ class BookService extends ModelService
             $attributes["cart_id"] = $cart->id;
             $cart_details = $cart->cartService()->first();
             if ($cart_details instanceof CartService) {
-                $attributes['total_price'] = $cart_details->price;
+                $attributes['total_price'] = $cart_details->total_price;
             } else {
                 throw new Exception('your cart is empty');
             }

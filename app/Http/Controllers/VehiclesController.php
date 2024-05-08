@@ -3,18 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Dtos\SearchQuery;
-use App\Http\Requests\BannerRequest;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SearchRequest;
-use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\VehicleRequest;
 use App\Http\Requests\VehicleUpdateRequest;
 use App\Http\Responses\SuccessResponse;
-use App\Services\AuthService;
-use App\Services\BannerService;
 use App\Services\VehicleService;
-use App\Services\WishListService;
 use Exception;
 
 class VehiclesController extends Controller

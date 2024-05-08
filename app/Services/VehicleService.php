@@ -5,9 +5,7 @@ namespace App\Services;
 
 
 use App\Dtos\Result;
-use App\Models\Banner;
-use App\Models\Contact;
-use App\Models\vehicle;
+use App\Models\Vehicle;
 use Exception;
 class VehicleService extends ModelService
 {

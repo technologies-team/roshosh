@@ -65,9 +65,13 @@ class ContactController extends Controller
     public function destroy( int $id): SuccessResponse
     {
         return $this->ok($this->service->delete($id));
-    }    public function terms( ): SuccessResponse
-{
-return $this->ok(new Result(["view"=>view('terms')->render()],"",200) );
+    }    public function terms($id): SuccessResponse{
+    if($id=="ar"){
+        return $this->ok(new Result(["view"=>view('terms_ar')->render()],"",200) );
+    }
+    else
+        return $this->ok(new Result(["view"=>view('terms')->render()],"",200) );
+
     }
 }
 

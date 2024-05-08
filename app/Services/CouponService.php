@@ -56,14 +56,17 @@ class CouponService extends ModelService
         if (!$this->isValidCoupon($coupon)) {
             throw  new Exception('coupon code not valid try another code');
         }
+        $newColumn=[];
         $cart = $this->cartService->getUserCart();
         $cartService = $cart->cartService()->first();
-        if (isset($offer->min_amount) && $offer->min_amount < $cartService->price) {}
-      $newPrice=  $this->calcDiscount($cartService->price, $coupon->type,$coupon->value,$coupon->percent_limited);
-        $newPrice = number_format($newPrice, 2, '.', '');
-        $newColumn["total_price"]= $newPrice;
-        $newColumn["coupon_id"]= $coupon->id;
+        if (!($coupon->min_amount) || $coupon->min_amount < $cartService->price) {
 
+
+            $newPrice = $this->calcDiscount($cartService->price, $coupon->type, $coupon->value, $coupon->percent_limited);
+            $newPrice = number_format($newPrice, 2, '.', '');
+            $newColumn["total_price"] = $newPrice;
+            $newColumn["coupon_id"] = $coupon->id;
+        }
 
       return $this->ok($this->cartService->update($cartService->id,$newColumn), "coupon Applied  successful");
     }

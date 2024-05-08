@@ -129,8 +129,8 @@ Route::prefix('/home')->group(function () {
 });
 Route::prefix('/contact')->group(function () {
     Route::get('/', [ContactController::class, 'index']);
-    Route::get('/terms/{id}', [ContactController::class, 'terms']);
-    Route::get('/{id}', [ContactController::class, 'show']);
+    Route::get('/terms/{string}', [ContactController::class, 'terms']);
+    Route::get('/terms/', [ContactController::class, 'terms']);
             Route::post('/', [ContactController::class, 'store']);
             Route::put('/{id}', [ContactController::class, 'update']);
             Route::delete('/{id}', [ContactController::class, 'destroy']);

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Dtos\Result;
 use App\Dtos\SearchQuery;
 use App\Dtos\SearchResult;
+use App\Helpers\QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -50,6 +51,7 @@ abstract class ModelService extends Service
 
     /**
      * search
+     * @throws \Exception
      */
     public function search(SearchQuery $q): SearchResult
     {
@@ -58,7 +60,7 @@ abstract class ModelService extends Service
         //
         // handle fields
         foreach ($q->fields as $key => $field) {
-            $qb = \App\Helpers\QueryBuilder::onFilter($qb, $key, $field);
+            $qb =QueryBuilder::onFilter($qb, $key, $field);
         }
         //
         // handle keyword
@@ -71,13 +73,13 @@ abstract class ModelService extends Service
                         'operation' => 'LIKE',
                         'value' => '%' . $keyword . '%',
                     ];
-                    $qb = \App\Helpers\QueryBuilder::onFilter($qb, $field, $filter, 'or');
+                    $qb = QueryBuilder::onFilter($qb, $field, $filter, 'or');
                 }
             });
         }
         //
         // handle sort
-        if (!$q->sort) {
+        if ($q->sort) {
             $column = $q->sort['column'];
             $order = $q->sort['order'];
             $qb->getQuery()->orderBy($column, $order);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\EmailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
@@ -24,8 +25,11 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 Route::prefix('/auth')->group(function () {
 
-    //
+    Route::post('/reset-password', [EmailController::class, 'resetPassword']);
+    Route::post("/reset-password/confirm", [EmailController::class, 'confirmResetPassword']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/social-login', [AuthController::class, 'socialLogin']);
+    Route::post('/phone-login', [AuthController::class, 'phoneLogin']);
     Route::post('/register', [UserController::class, 'register']);
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -167,3 +171,4 @@ Route::prefix('/coupon')->group(function () {
 
         });
 });
+

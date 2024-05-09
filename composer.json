@@ -10,7 +10,8 @@
         "laravel/passport": "^12.1",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.13",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+      "ext-curl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

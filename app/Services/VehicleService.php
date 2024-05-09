@@ -5,8 +5,13 @@ namespace App\Services;
 
 
 use App\Dtos\Result;
+use App\Dtos\SearchQuery;
+use App\Models\CartService;
 use App\Models\Vehicle;
 use Exception;
+use Illuminate\Http\Client\ConnectionException;
+use JetBrains\PhpStorm\NoReturn;
+
 class VehicleService extends ModelService
 {
     /**
@@ -35,6 +40,10 @@ class VehicleService extends ModelService
     {
         return Vehicle::query();
     }
+    protected CarModelService $carModels;
+    public function __construct(CarModelService $carModels){
+        $this->carModels=$carModels;
+    }
 
     /**
      * prepare
@@ -54,5 +63,13 @@ class VehicleService extends ModelService
             $attributes['user_id']=auth()->id();
         }
         return $this->ok($this->store($attributes), 'vehicle:saved:succeeded');
+    }
+
+    /**
+     * @throws ConnectionException|Exception
+     */
+    #[NoReturn] public function cars(SearchQuery $q): Result
+    {
+        return $this->ok($this->carModels->search( $q));
     }
 }

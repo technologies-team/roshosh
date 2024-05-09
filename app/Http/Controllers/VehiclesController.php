@@ -9,10 +9,12 @@ use App\Http\Requests\VehicleUpdateRequest;
 use App\Http\Responses\SuccessResponse;
 use App\Services\VehicleService;
 use Exception;
+use Illuminate\Http\Client\ConnectionException;
+use JetBrains\PhpStorm\NoReturn;
 
 class VehiclesController extends Controller
 {
-    private $service;
+    private VehicleService $service;
 
     public function __construct(VehicleService $service)
     {
@@ -38,6 +40,14 @@ class VehiclesController extends Controller
     public function show(int $id): SuccessResponse
     {
         return $this->ok($this->service->get($id));
+    }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function models(SearchRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->cars(SearchQuery::fromJson($request->all())));
     }
 
     /**

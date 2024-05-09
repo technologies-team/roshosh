@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginNumberRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterNumberRequest;
+use App\Http\Requests\SocialLoginRequest;
 use App\Http\Responses\SuccessResponse;
 use App\Services\AuthService;
 use Exception;
@@ -27,6 +30,22 @@ class AuthController extends Controller
     public function login(LoginRequest $request): SuccessResponse
     {
         return $this->ok($this->service->login($request->all()));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function socialLogin(SocialLoginRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->socialLogin($request->all()));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function phoneLogin(LoginNumberRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->phoneLogin($request->all()));
     }
 
     /**

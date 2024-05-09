@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Dtos\Result;
+use App\Models\Coupon;
 use App\Models\User;
 use Exception as ExceptionAlias;
 use Illuminate\Support\Carbon;
@@ -31,10 +32,15 @@ class UserService extends ModelService
      */
     protected array $with = [];
 
-
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
         return User::query();
+    }
+
+    public function getUserBy(string $column, mixed $value)
+    {
+        return User::where($column, $value)->first();
+
     }
 
     /**
@@ -59,7 +65,7 @@ class UserService extends ModelService
     /**
      * @throws ExceptionAlias
      */
-    public function register($attributes)
+    public function register($attributes): Result
     {
 
         $attributes['status'] = User::status_active;
@@ -72,7 +78,7 @@ class UserService extends ModelService
             // $user = $client->user()->get()->first();
             $user = $this->ignoredFind($user->id);
             $token = $user->createToken('*');
-
+            (new EmailService($this))->sendWelcomeMail($user);
             $data = [
                 'user' => $user->toLightWeightArray(),
                 'token' => $token->plainTextToken,
@@ -85,6 +91,7 @@ class UserService extends ModelService
 
 
     }
+
     /**
      * create a new user
      */

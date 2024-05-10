@@ -106,7 +106,7 @@ class EmailService extends ModelService
             $meta = $user->resetToken()->get()->first();
             if ($meta instanceof PasswordResetToken) {
                 if ($meta->token == $attribute["reset_code"]) {
-                    return $this->ok($user, 'token is correct');
+                    return $this->ok( 'token is correct');
                 } else
                     throw new \Exception('code not found');
             } else

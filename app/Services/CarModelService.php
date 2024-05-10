@@ -54,8 +54,44 @@ class CarModelService extends Service
     /**
      * @throws GuzzleException
      */
+    public function model($model,$type=""): array
+    {
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->request('GET', 'https://car-data.p.rapidapi.com/cars?limit=50&page=0&make='.$model."&type=".$type, [
+            'headers' => [
+                'X-RapidAPI-Host' => 'car-data.p.rapidapi.com',
+                'X-RapidAPI-Key' => '28c02d99admsh9123df11a020de1p1f44f9jsn925f19d2d033',
+            ],
+        ]);
+        $responseData = $response->getBody();
+
+        $responseData = json_decode($responseData, true);;
+        $models = array();
+
+        if (isset($responseData)) {
+            foreach ($responseData as $key => $make) {
+                $models[$key]['id'] = $make['id'] ?? "0";
+                $models[$key]['name'] = $make['model'] ?? "";
+                $models[$key]['type'] = $make['type'] ?? "";
+                $models[$key]['make'] = $make['make'] ?? "";
+            }
+        }
+        return ($models);
+    }
+
+    /**
+     * @throws GuzzleException
+     */
     public function search(SearchQuery $q): array
-    {dd($q);
+    {
+        if(isset($q->fields["make"]["value"])){
+            $type="";
+            if(isset($q->fields["type"]["value"])){
+                $type=$q->fields["type"]["value"];
+            }
+            return $this->model($q->fields["make"]["value"],$type);
+        }
         return $this->make();
     }
 

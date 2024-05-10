@@ -54,71 +54,25 @@ public function __construct(UserService $userService)
     public function socialLogin($attributes): Result
     {
         $user=$this->userService->getUserBy("name",$attributes["name"]);
-        if($user instanceof User) {
-            $token = $user->createToken('*');
-            $data = [
-                'user' => $user,
-                'token' => $token->plainTextToken,
-            ];
-            return $this->ok($data, 'login succeed');
-        }
-        $attributes['status'] = User::status_active;
-        if(!isset($attributes['password'])){
-            $attributes['password']="welcome1";
-        }
-        $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
-        $user = $this->userService->store($attributes);
-        if ($user instanceof User) {
-            // $user = $client->user()->get()->first();
-            $user = $this->userService->ignoredFind($user->id);
-            $token = $user->createToken('*');
-            (new EmailService($this->userService))->sendWelcomeMail($user);
-            $data = [
-                'user' => $user->toLightWeightArray(),
-                'token' => $token->plainTextToken,
-            ];
-            if ($user instanceof User) {
-                return $this->ok($data, 'clients:register:step1:done');
-            }
-        }
-        throw new \Exception('clients:register:step1:errors:failed');
+        return $this->extracted($user, $attributes);
 
 
     }
+
+    /**
+     * @throws Exception
+     */
     public function phoneLogin($attributes): Result
     {
         $user=$this->userService->getUserBy("phone",$attributes["phone"]);
-        if($user instanceof User) {
-            $token = $user->createToken('*');
-            $data = [
-                'user' => $user,
-                'token' => $token->plainTextToken,
-            ];
-            return $this->ok($data, 'login succeed');
-        }
-        $attributes['status'] = User::status_active;
-        if(!isset($attributes['password'])){
-            $attributes['password']="welcome1";
-        }
-        $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
-        $user = $this->userService->store($attributes);
-        if ($user instanceof User) {
-            // $user = $client->user()->get()->first();
-            $user = $this->userService->ignoredFind($user->id);
-            $token = $user->createToken('*');
-            (new EmailService($this->userService))->sendWelcomeMail($user);
-            $data = [
-                'user' => $user->toLightWeightArray(),
-                'token' => $token->plainTextToken,
-            ];
-            if ($user instanceof User) {
-                return $this->ok($data, 'clients:register:step1:done');
-            }
-        }
-        throw new \Exception('clients:register:step1:errors:failed');
+        return $this->extracted($user, $attributes);
 
 
     }
+
+    /**
+     * @throws Exception
+     */
     public function me(): \App\Dtos\Result
     {
         $user = auth()->user();
@@ -138,5 +92,38 @@ public function __construct(UserService $userService)
             return $this->ok(true, 'done');
         }
         throw new Exception('unauthenticated');
+    }
+
+    /**
+     * @param $user
+     * @param $attributes
+     * @return Result
+     * @throws Exception
+     */
+    public function extracted($user, $attributes): Result
+    {
+        if ($user instanceof User) {
+            $token = $user->createToken('*');
+            $data = [
+                'user' => $user,
+                'token' => $token->plainTextToken,
+            ];
+            return $this->ok($data, 'login succeed');
+        }
+        $attributes['status'] = User::status_active;
+        if (!isset($attributes['password'])) {
+            $attributes['password'] = "welcome1";
+        }
+        $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
+        $user = $this->userService->store($attributes);
+        // $user = $client->user()->get()->first();
+        $user = $this->userService->ignoredFind($user->id);
+        $token = $user->createToken('*');
+        (new EmailService($this->userService))->sendWelcomeMail($user);
+        $data = [
+            'user' => $user->toLightWeightArray(),
+            'token' => $token->plainTextToken,
+        ];
+        return $this->ok($data, 'clients:register:step1:done');
     }
 }

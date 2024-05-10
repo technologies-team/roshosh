@@ -43,11 +43,17 @@ class OfferController extends Controller
     }
 
 
+    /**
+     * @throws \Exception
+     */
     public function update(BannerRequest $request, int $id): SuccessResponse
     {
-        return $this->ok($this->service->update2($id, $request->all()));
+        return $this->ok($this->service->save($id, $request->all()));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function store(BannerRequest $request): SuccessResponse
     {
         return $this->ok($this->service->create($request->all()));

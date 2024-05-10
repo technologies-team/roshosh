@@ -30,6 +30,7 @@ class LocationController extends Controller
      *
      * @param SearchRequest $request
      * @return SuccessResponse
+     * @throws \Exception
      */
     public function index(SearchRequest $request): SuccessResponse
     {
@@ -39,8 +40,9 @@ class LocationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return SuccessResponse
+     * @throws \Exception
      */
     public function show(int $id): SuccessResponse
     {
@@ -52,9 +54,12 @@ class LocationController extends Controller
      */
     public function update(updateLocationRequest $request, int $id): SuccessResponse
     {
-        return $this->ok($this->service->update($id, $request->all()));
+        return $this->ok($this->service->save($id, $request->all()));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function store(StoreLocationRequest $request): SuccessResponse
     {
         return $this->ok($this->service->create($request->all()));

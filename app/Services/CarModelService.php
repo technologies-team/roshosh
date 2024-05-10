@@ -55,7 +55,7 @@ class CarModelService extends Service
      * @throws GuzzleException
      */
     public function search(SearchQuery $q): array
-    {
+    {dd($q);
         return $this->make();
     }
 

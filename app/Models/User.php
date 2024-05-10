@@ -66,6 +66,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cart::class);
     }
+    public function locations(): HasMany
+    {
+        return $this->hasMany(Location::class);
+    }
     public function toLightWeightArray()
     {
 

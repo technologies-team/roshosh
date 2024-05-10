@@ -18,7 +18,7 @@ use App\Services\WishListService;
 
 class LocationController extends Controller
 {
-    private $service;
+    private LocationService $service;
 
     public function __construct(LocationService $service)
     {

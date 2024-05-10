@@ -53,7 +53,7 @@ class CartController extends Controller
      */
     public function update(StoreCartRequest $request, int $id): SuccessResponse
     {
-        return $this->ok($this->service->update($id, $request->all()));
+        return $this->ok($this->service->save($id, $request->all()));
     }
 
     /**

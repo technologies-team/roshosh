@@ -55,7 +55,7 @@ class VehiclesController extends Controller
      */
     public function update(VehicleUpdateRequest $request, int $id): SuccessResponse
     {
-        return $this->ok($this->service->update($id, $request->all()));
+        return $this->ok($this->service->save($id, $request->all()));
     }
 
     public function store(VehicleRequest $request): SuccessResponse

@@ -24,7 +24,7 @@ class UserService extends ModelService
     protected array $updatables = ['username', 'name', 'email', 'phone','password', 'status', 'language','cm_firebase_token'];
 
     /**
-     * searchable field is a field which can be search for from keyword parameter in search method
+     * searchable field is a field which can be searched for from keyword parameter in search method
      */
     protected array $searchables = ['username', 'name'];
 
@@ -109,8 +109,11 @@ class UserService extends ModelService
         if(isset($attributes["password"])){
             $user=auth()->user();
             if (Hash::check($attributes["current_password"], $user->password)) {
-                // Old password matches, update password
-                $attributes["password"] = Hash::make($attributes["password"]);}
+                $attributes["password"] = Hash::make($attributes["password"]);
+                $user->update(["password" => $attributes["password"]]);
+                unset($attributes["password"]);
+
+            }
            else{
            throw  new \Exception("current password uncorrected",403);
            }

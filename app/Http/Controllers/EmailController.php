@@ -44,6 +44,14 @@ class EmailController extends Controller
     {
         return $this->ok($this->service->getToken($request->all()));
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function checkOtp(ResetPasswordRequest $request): \App\Http\Responses\SuccessResponse
+    {
+        return $this->ok($this->service->checkOtp($request->all()));
+    }
 }
 
 

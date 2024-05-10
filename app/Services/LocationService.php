@@ -79,7 +79,8 @@ class LocationService extends ModelService
 
                 $attributes['user_id']=$user->id;
             }
-            $locations=$user->locations()->where("phone", $this->find($id)->phone)->get();
+            $locations=$user->locations()->get();
+            dd($locations,$this->find($id)->phone);
          foreach ($locations as $location){
             if($location instanceof Location){
                 $location->update(["verified"=> true]);

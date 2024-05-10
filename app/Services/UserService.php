@@ -7,6 +7,7 @@ use App\Models\Coupon;
 use App\Models\User;
 use Exception as ExceptionAlias;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Throwable;
 
@@ -20,7 +21,7 @@ class UserService extends ModelService
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['username', 'name', 'email', 'phone', 'status', 'language','cm_firebase_token'];
+    protected array $updatables = ['username', 'name', 'email', 'phone','password', 'status', 'language','cm_firebase_token'];
 
     /**
      * searchable field is a field which can be search for from keyword parameter in search method
@@ -103,6 +104,19 @@ class UserService extends ModelService
         //    $record->sites()->attach([1]);
         }
         return $record;
+    }    public function save($id,array $attributes): Result
+{
+        if(isset($attributes["password"])){
+            $user=auth()->user();
+            if (Hash::check($attributes["current_password"], $user->password)) {
+                // Old password matches, update password
+                $attributes["password"] = Hash::make($attributes["password"]);}
+           else{
+           throw  new \Exception("current password uncorrected",403);
+           }
+        }
+        return parent::save($id,$attributes);
+
     }
 
 

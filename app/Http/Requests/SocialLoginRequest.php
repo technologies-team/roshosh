@@ -24,7 +24,8 @@ class SocialLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|required',
+            'name' => 'string|required_without_all:user_id',
+            'user_id' => 'string|required_without_all:name',
         ];
     }
 }

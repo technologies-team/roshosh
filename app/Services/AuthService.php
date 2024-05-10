@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthService extends Service
 {
-protected UserService $userService;
-public function __construct(UserService $userService)
-{
-    $this->userService=$userService;
+    protected UserService $userService;
 
-}
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+
+    }
 
     /**
      * login
@@ -53,7 +54,17 @@ public function __construct(UserService $userService)
      */
     public function socialLogin($attributes): Result
     {
-        $user=$this->userService->getUserBy("name",$attributes["name"]);
+        if (isset($attributes["name"])) {
+            $user = $this->userService->getUserBy("name", $attributes["name"]);
+            if ($attributes["user_id"]) {
+                $attributes["remember_token"] = $attributes["user_id"];
+            }
+        } else if ($attributes["user_id"]) {
+            $user = $this->userService->getUserBy("remember_token", $attributes["user_id"]);
+
+        } else {
+            throw new Exception("user not found");
+        }
         return $this->extracted($user, $attributes);
 
 
@@ -64,7 +75,7 @@ public function __construct(UserService $userService)
      */
     public function phoneLogin($attributes): Result
     {
-        $user=$this->userService->getUserBy("phone",$attributes["phone"]);
+        $user = $this->userService->getUserBy("phone", $attributes["phone"]);
         return $this->extracted($user, $attributes);
 
 
@@ -81,6 +92,7 @@ public function __construct(UserService $userService)
         }
         throw new Exception('unauthenticated');
     }
+
     /**
      * @throws Exception
      */

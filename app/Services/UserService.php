@@ -16,12 +16,12 @@ class UserService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language','tap_customer_id','cm_firebase_token'];
+    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language','tap_customer_id','cm_firebase_token',"remember_token"];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['username', 'name', 'email', 'phone','password', 'status', 'language','cm_firebase_token'];
+    protected array $updatables = ['username', 'name', 'email', 'phone','password', 'status', 'language','cm_firebase_token',"remember_token"];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method

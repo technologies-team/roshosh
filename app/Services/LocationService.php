@@ -59,7 +59,7 @@ class LocationService extends ModelService
 
                 $attributes['user_id']=$user->id;
             }
-            $location=$user->locations()->where("number", $attributes['phone'])->get()->first();
+            $location=$user->locations()->where("phone", $attributes['phone'])->get()->first();
             if($location instanceof Location){
                 $attributes["verified"]=true;
             }

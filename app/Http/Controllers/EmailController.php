@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckOtpRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Mail\templates\ResetPasswordMail;
 use App\Mail\templates\WelcomeEmail;
@@ -48,7 +49,7 @@ class EmailController extends Controller
     /**
      * @throws \Exception
      */
-    public function checkOtp(ResetPasswordRequest $request): \App\Http\Responses\SuccessResponse
+    public function checkOtp(CheckOtpRequest $request): \App\Http\Responses\SuccessResponse
     {
         return $this->ok($this->service->checkOtp($request->all()));
     }

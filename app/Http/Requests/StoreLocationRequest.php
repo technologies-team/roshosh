@@ -31,7 +31,15 @@ class StoreLocationRequest extends FormRequest
             'city'=>'required|string',
             'country'=>'required|string',
             'phone'=>'required|string',
-            'type'=>'required|string'
+            'type'=>'required|string',
+            'longitude'=>'required|numeric',
+            'latitude'=>'required|numeric'
         ];
     }
+    /**
+     * Check if the given coordinates fall within the boundaries of Dubai.
+     *
+     * @return bool
+     */
+
 }

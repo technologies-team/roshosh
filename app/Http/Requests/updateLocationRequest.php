@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class updateLocationRequest extends FormRequest
@@ -13,6 +14,7 @@ class updateLocationRequest extends FormRequest
      */
     public function authorize(): bool
     {
+
         return true;
     }
 
@@ -27,11 +29,11 @@ class updateLocationRequest extends FormRequest
              'user_id' =>"exists:users,id",
              'title' =>"string",
              'parking_type' =>"string",
-            'street1'=>'string',
-            'city'=>'string',
-            'country'=>'string',
-            'phone'=>'string',
-            'type'=>'string'
+             'street1'=>'string',
+             'city'=>'string',
+             'country'=>'string',
+             'phone'=>'string',
+             'type'=>'string'
         ];
     }
 }

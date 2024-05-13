@@ -70,18 +70,18 @@ Route::prefix('/helper')->group(function () {
     Route::get('/model', [VehiclesController::class, 'models']);
 });
 Route::prefix('/user')->group(function () {
+
+    Route::middleware('auth:sanctum')
+        ->group(function () {
     Route::prefix('/cart')->group(function () {
         //
-        Route::get('/{id}', [CartController::class, 'show']);
-        Route::middleware('auth:sanctum')
-            ->group(function () {
+                Route::get('/{id}', [CartController::class, 'show']);
                 Route::get('/', [CartController::class, 'index']);
-
                 Route::post('/', [CartController::class, 'store']);
                 Route::put('/{id}', [CartController::class, 'update']);
                 Route::delete('/{id}', [CartController::class, 'destroy']);
             });
-    });
+
     Route::prefix('/vehicle')->group(function () {
         //
         Route::get('/', [VehiclesController::class, 'index']);
@@ -105,7 +105,7 @@ Route::prefix('/user')->group(function () {
             });
     });
 });
-
+});
 Route::prefix('/categories')->group(function () {
     //
     Route::get('/', [CategoryController::class, 'index']);

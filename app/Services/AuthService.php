@@ -57,10 +57,12 @@ class AuthService extends Service
         if (isset($attributes["name"])) {
             $user = $this->userService->getUserBy("name", $attributes["name"]);
             if (isset($attributes["user_id"])) {
+
                 $attributes["remember_token"] = $attributes["user_id"];
             }
         } else if (isset($attributes["user_id"])) {
             $user = $this->userService->getUserBy("remember_token", $attributes["user_id"]);
+            $attributes["remember_token"] = $attributes["user_id"];
 
         } else {
             throw new Exception("user not found");

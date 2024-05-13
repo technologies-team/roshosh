@@ -7,6 +7,7 @@ use App\Http\Requests\ResetPasswordRequest;
 use App\Models\PasswordResetToken;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -35,6 +36,7 @@ class User extends Authenticatable
         'phone',
         'status',
         'remember_token'
+
     ];
 
     /**
@@ -70,6 +72,15 @@ class User extends Authenticatable
     public function locations(): HasMany
     {
         return $this->hasMany(Location::class);
+    }
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole($role)
+    {
+        return $this->roles->contains('name', $role);
     }
     public function toLightWeightArray()
     {

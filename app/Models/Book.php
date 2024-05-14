@@ -16,7 +16,7 @@ class Book extends Model
     'total_price','total_discount','total_fee','user_id','status','payment_method','notes'
 ];
     protected  $with = ['details'];
-    protected static function booted()
+    protected static function booted(): void
     {
         static::addGlobalScope('accessDB', function (Builder $builder) {
             $user = auth()->user();

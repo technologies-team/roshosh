@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\CustomerController;
+use App\Http\Controllers\Auth\VendorController;
 use App\Services\EmailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,28 +20,37 @@ Route::get('/auth/callback', function () {
     // $user->token
 });
 
+/**
+ * @return void
+ */
+function Costumer($controller): void
+{
+    Route::prefix('/auth')->group(function () use ($controller) {
 
+        Route::post('/reset-password', [EmailController::class, 'resetPassword']);
+        Route::post("/reset-password/confirm", [EmailController::class, 'confirmResetPassword']);
+        Route::post("/reset-password/check-otp", [EmailController::class, 'checkOtp']);
+        Route::post('/login', [$controller, 'login']);
+        Route::post('/social-login', [$controller, 'socialLogin']);
+        Route::post('/phone-login', [$controller, 'phoneLogin']);
+        Route::post('/register', [UserController::class, 'register']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-Route::prefix('/auth')->group(function () {
-
-    Route::post('/reset-password', [EmailController::class, 'resetPassword']);
-    Route::post("/reset-password/confirm", [EmailController::class, 'confirmResetPassword']);
-    Route::post("/reset-password/check-otp", [EmailController::class, 'checkOtp']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/social-login', [AuthController::class, 'socialLogin']);
-    Route::post('/phone-login', [AuthController::class, 'phoneLogin']);
-    Route::post('/register', [UserController::class, 'register']);
-
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::put('/user/{id}', [UserController::class, 'update']);
-
-        Route::get('/me', [AuthController::class, 'me']);
-        Route::get('/delete', [UserController::class, 'delete']);
-        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::middleware('auth:sanctum')->group(function () use ($controller) {
+            Route::put('/user/{id}', [UserController::class, 'update']);
+            Route::get('/me', [$controller, 'me']);
+            Route::get('/delete', [$controller, 'delete']);
+            Route::post('/logout', [$controller, 'logout']);
+        });
     });
+}
+
+Costumer(CustomerController::class);
+Route::prefix('/vendor')->group(function () {
+
+    Costumer(VendorController::class);
+});
+Route::prefix('/customer')->group(function () {
+    Costumer(CustomerController::class);
 });
 
 Route::prefix('/attachment')->group(function () {
@@ -134,8 +145,7 @@ Route::prefix('/home')->group(function () {
 });
 Route::prefix('/contact')->group(function () {
     Route::get('/', [ContactController::class, 'index']);
-    Route::get('/terms/en', [ContactController::class, 'terms']);
-    Route::get('/terms/ar', [ContactController::class, 'terms']);
+    Route::get('/terms/{lang}', [ContactController::class, 'terms']);
     Route::get('/terms/', [ContactController::class, 'terms']);
             Route::post('/', [ContactController::class, 'store']);
             Route::put('/{id}', [ContactController::class, 'update']);

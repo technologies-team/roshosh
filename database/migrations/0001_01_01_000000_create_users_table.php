@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('phone')->unique()->nullable();
             $table->integer('rewards')->default(0);
             $table->enum('status', User::statuses)->default('NEW');
-            $table->string('photo_id')->nullable();
+            $table->unsignedBigInteger('photo_id')->nullable();
+            $table->string('role' )->default('customer');
 
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean("verified")->default(false);
@@ -28,7 +29,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign("photo_id")->references("id")->on("attachment")->nullOnDelete();
+            $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

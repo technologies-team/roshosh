@@ -46,13 +46,11 @@ function Costumer($controller): void
 
 Costumer(CustomerController::class);
 Route::prefix('/vendor')->group(function () {
-
     Costumer(VendorController::class);
 });
 Route::prefix('/customer')->group(function () {
     Costumer(CustomerController::class);
 });
-
 Route::prefix('/attachment')->group(function () {
     //
     Route::get('/', [AttachmentController::class, 'index']);

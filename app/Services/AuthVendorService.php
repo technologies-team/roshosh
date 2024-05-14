@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class AuthService extends Service
+class AuthVendorService extends Service
 {
     protected UserService $userService;
 
@@ -35,18 +35,13 @@ class AuthService extends Service
             $user = $user[0];
             if ($user instanceof User && $user->status == User::status_active) {
                 if (Auth::attempt($credentials)) {
-if($user->hasRole(User::ROLE_CUSTOMER)){
+
                     $token = $user->createToken('*');
                     $data = [
                         'user' => $user,
                         'token' => $token->plainTextToken,
                     ];
                     return $this->ok($data, 'login succeed');
-                }
-                else{
-                    throw new Exception('unauthorized');
-
-                }
                 }
                 throw new Exception('email or password not correct');
             }
@@ -122,19 +117,21 @@ if($user->hasRole(User::ROLE_CUSTOMER)){
     public function extracted($user, $attributes): Result
     {
         if ($user instanceof User) {
-            if($user->hasRole(User::ROLE_CUSTOMER)){
+            if($user->hasRole(User::ROLE_VENDOR)){
             $token = $user->createToken('*');
             $data = [
                 'user' => $user,
                 'token' => $token->plainTextToken,
             ];
             return $this->ok($data, 'login succeed');
-        }else{
+        }
+            else{
                 throw new Exception("unauthorized");
             }
         }
         $attributes['status'] = User::status_active;
-        if (!isset($attributes['password'])) {
+        $attributes['role'] = User::ROLE_VENDOR;
+         if (!isset($attributes['password'])) {
             $attributes['password'] = "welcome1";
         }
         $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
@@ -149,4 +146,23 @@ if($user->hasRole(User::ROLE_CUSTOMER)){
         ];
         return $this->ok($data, 'clients:register:step1:done');
     }
+
+    /**
+     * @throws Exception
+     */
+    public function register($attributes): Result
+    {
+        $attributes["role"]=User::ROLE_VENDOR;
+        return $this->userService->register($attributes);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function delete($id): Result
+    {
+        return $this->userService->delete($id);
+    }
+
+
 }

@@ -22,9 +22,15 @@ class AttachmentsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'V5rJO5f3Wesx1YlXsFImgkAkj6VcM1X90QJzwvdA.png',
+                'name' => '5Latwef1AdHZOET8p4c8UXx8dRmrwwZ08bA48DUF.jpg',
                 'mime_type' => 'image/jpeg',
-                'path' => '/attachment/V5rJO5f3Wesx1YlXsFImgkAkj6VcM1X90QJzwvdA.png',
+                'path' => '/attachment/5Latwef1AdHZOET8p4c8UXx8dRmrwwZ08bA48DUF.jpg',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],   [
+                'name' => 'Auo4R9hDIECV378BohF4DQQiWJ0eEEYjOElekhzZ.jpg',
+                'mime_type' => 'image/jpeg',
+                'path' => '/attachment/Auo4R9hDIECV378BohF4DQQiWJ0eEEYjOElekhzZ.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],   [
@@ -39,7 +45,15 @@ class AttachmentsTableSeeder extends Seeder
                 'path' => '/attachment/HwrSFp81LtNzk4fz6PUiTIDeehQrgkfoQOjyU6r6.png',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],   [
+            ],
+            [
+                'name' => 'tnwbu3EnH0BABqvsDtjn8xV94PwSC0TCfKqdNZua.png',
+                'mime_type' => 'image/jpeg',
+                'path' => '/attachment/tnwbu3EnH0BABqvsDtjn8xV94PwSC0TCfKqdNZua.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'tnwbu3EnH0BABqvsDtjn8xV94PwSC0TCfKqdNZua.png',
                 'mime_type' => 'image/jpeg',
                 'path' => '/attachment/tnwbu3EnH0BABqvsDtjn8xV94PwSC0TCfKqdNZua.png',

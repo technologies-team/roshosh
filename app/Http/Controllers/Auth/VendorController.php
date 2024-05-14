@@ -5,18 +5,19 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginNumberRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterNumberRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SocialLoginRequest;
 use App\Http\Responses\SuccessResponse;
 use App\Services\AuthService;
+use App\Services\AuthVendorService;
 use Exception;
 use Illuminate\Http\Response;
 
 class VendorController extends Controller
 {
-    private AuthService $service;
+    private AuthVendorService $service;
 
-    public function __construct(AuthService $service)
+    public function __construct(AuthVendorService $service)
     {
         $this->service = $service;
     }
@@ -70,8 +71,20 @@ class VendorController extends Controller
     {
         return $this->ok($this->service->logout());
     }
-    public function delete( ): SuccessResponse
+
+    /**
+     * @throws Exception
+     */
+    public function delete($id ): SuccessResponse
     {
-        return $this->ok($this->service->destroy());
+        return $this->ok($this->service->delete($id));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function register(RegisterRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->register($request->all()));
     }
 }

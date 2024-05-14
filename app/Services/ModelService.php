@@ -178,10 +178,7 @@ abstract class ModelService extends Service
     {
         return $this->ok($this->update($id, $attributes), 'records:save:done');
     }
-    public function saveInvoice( $id, array $attributes)
-    {
-        return $this->ok($this->storeInvoice($id, $attributes), 'records:save:done');
-    }
+
     /**
      * delete inner
      */
@@ -196,8 +193,9 @@ abstract class ModelService extends Service
 
     /**
      * delete
+     * @throws \Exception
      */
-    public function delete( $id)
+    public function delete( $id): Result
     {
         return $this->ok($this->destroy($id), 'records:delete:done');
     }

@@ -11,22 +11,23 @@ class Book extends Model
 {
     use HasFactory;
 
-    const status = ['waiting','inProgress','complete','cancel','reject','schedule'];
-    protected $fillable=[
-    'total_price','total_discount','total_fee','user_id','status','payment_method','notes'
-];
-    protected  $with = ['details'];
+    const status = ['waiting', 'inProgress', 'complete', 'cancel', 'reject', 'schedule'];
+    protected $fillable = [
+        'total_price', 'total_discount', 'total_fee', 'user_id', 'status', 'payment_method', 'notes'
+    ];
+    protected $with = ['details'];
+
     protected static function booted(): void
     {
         static::addGlobalScope('accessDB', function (Builder $builder) {
             $user = auth()->user();
             if ($user instanceof User) {
-
-               $builder->where("user_id","=",$user->id);
-
+                if ($user->hasRole("customer"))
+                    $builder->where("user_id", "=", $user->id);
             }
         });
     }
+
     public function details(): HasMany
     {
         return $this->hasMany(BookDetail::class);

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('photo_id')->nullable();
             $table->text('description')->nullable();
             $table->string('title');
+            $table->string('language')->default("en");
             $table->timestamps();
 
             $table->foreign('photo_id')->references('id')->on('attachments')->onDelete('restrict');

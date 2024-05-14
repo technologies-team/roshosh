@@ -17,7 +17,9 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens,HasFactory, Notifiable;
-
+    const ROLE_CUSTOMER = 'customer';
+    const ROLE_VENDOR = 'vendor';
+    const ROLE_ADMIN = 'admin';
     public const statuses = ['NEW', 'UNVERIFIED', 'ACTIVE', 'SUSPENDED'];
     public const status_new = 'NEW';
     public const status_unverified = 'UNVERIFIED';
@@ -35,7 +37,8 @@ class User extends Authenticatable
         'password',
         'phone',
         'status',
-        'remember_token'
+        'remember_token',
+        'role'
 
     ];
 
@@ -80,7 +83,7 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        return $this->roles->contains('name', $role);
+        return $this->role === $role;
     }
     public function toLightWeightArray()
     {
@@ -89,4 +92,5 @@ class User extends Authenticatable
         // $customer = $this->isCustomer();
         return $result;
     }
+
 }

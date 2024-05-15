@@ -32,7 +32,7 @@ class WelcomeEmail extends Mailable
      */
     public function build(): static
     {
-        $subject = "Welcome to our Theme API App";
+        $subject = "Welcome to roshosh App";
         return $this->subject($subject)->view('emails.register_welcome_mail');
     }
 }

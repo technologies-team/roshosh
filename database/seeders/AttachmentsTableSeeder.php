@@ -79,9 +79,9 @@ class AttachmentsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'tnwbu3EnH0BABqvsDtjn8xV94PwSC0TCfKqdNZua.png',
+                'name' => 'tnwbu3EnH0BABqvsDtjn8xV94PwSC0TCfKqdNZua1.png',
                 'mime_type' => 'image/jpeg',
-                'path' => '/attachment/tnwbu3EnH0BABqvsDtjn8xV94PwSC0TCfKqdNZua.png',
+                'path' => '/attachment/tnwbu3EnH0BABqvsDtjn8xV94PwSC0TCfKqdNZua1.png',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

@@ -16,14 +16,15 @@ class BannersTableSeeder extends Seeder
         DB::table('banners')->insert([
             [
                 'photo_id' => 1,
+                'language'=>"en",
                 'description' => 'Banner 1 description',
                 'title' => 'Banner 1',
-                'language'=>"en",
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'photo_id' => 2,
+                'language'=>"en",
                 'description' => 'Banner 2 description',
                 'title' => 'Banner 2',
                 'created_at' => now(),
@@ -31,8 +32,8 @@ class BannersTableSeeder extends Seeder
             ],
             [
                 'photo_id' => 3,
-                'description' => 'Banner 2 description',
                 'language'=>"en",
+                'description' => 'Banner 2 description',
                 'title' => 'Banner 2',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -47,18 +48,21 @@ class BannersTableSeeder extends Seeder
             ],
             [
                 'photo_id' => 5,
+                'language'=>"ar",
                 'description' => 'Banner 2 description',
                 'title' => 'Banner 2',
+
                 'created_at' => now(),
-                'language'=>"ar",
+
                 'updated_at' => now(),
             ],
             [
                 'photo_id' => 6,
+                'language'=>"ar",
                 'description' => 'Banner 2 description',
                 'title' => 'Banner 2',
                 'created_at' => now(),
-                'language'=>"ar",
+
                 'updated_at' => now(),
             ],
 

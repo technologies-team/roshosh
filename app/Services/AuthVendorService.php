@@ -35,13 +35,17 @@ class AuthVendorService extends Service
             $user = $user[0];
             if ($user instanceof User && $user->status == User::status_active) {
                 if (Auth::attempt($credentials)) {
-
-                    $token = $user->createToken('*');
-                    $data = [
-                        'user' => $user,
-                        'token' => $token->plainTextToken,
-                    ];
-                    return $this->ok($data, 'login succeed');
+                    if($user->hasRole(User::ROLE_VENDOR)){
+                        $token = $user->createToken('*');
+                        $data = [
+                            'user' => $user,
+                            'token' => $token->plainTextToken,
+                        ];
+                        return $this->ok($data, 'login succeed');
+                    }
+                    else{
+                        throw new Exception("unauthorized");
+                    }
                 }
                 throw new Exception('email or password not correct');
             }

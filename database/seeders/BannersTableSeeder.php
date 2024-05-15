@@ -18,6 +18,7 @@ class BannersTableSeeder extends Seeder
                 'photo_id' => 1,
                 'description' => 'Banner 1 description',
                 'title' => 'Banner 1',
+                'language'=>"en",
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -27,13 +28,40 @@ class BannersTableSeeder extends Seeder
                 'title' => 'Banner 2',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],     [
+            ],
+            [
                 'photo_id' => 3,
+                'description' => 'Banner 2 description',
+                'language'=>"en",
+                'title' => 'Banner 2',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'photo_id' => 4,
+                'language'=>"ar",
                 'description' => 'Banner 2 description',
                 'title' => 'Banner 2',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'photo_id' => 5,
+                'description' => 'Banner 2 description',
+                'title' => 'Banner 2',
+                'created_at' => now(),
+                'language'=>"ar",
+                'updated_at' => now(),
+            ],
+            [
+                'photo_id' => 6,
+                'description' => 'Banner 2 description',
+                'title' => 'Banner 2',
+                'created_at' => now(),
+                'language'=>"ar",
+                'updated_at' => now(),
+            ],
+
             // Add more banner records as needed
         ]);
     }

@@ -27,13 +27,38 @@ class AttachmentsTableSeeder extends Seeder
                 'path' => '/attachment/5Latwef1AdHZOET8p4c8UXx8dRmrwwZ08bA48DUF.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],   [
+            ],
+            [
                 'name' => 'Auo4R9hDIECV378BohF4DQQiWJ0eEEYjOElekhzZ.jpg',
                 'mime_type' => 'image/jpeg',
                 'path' => '/attachment/Auo4R9hDIECV378BohF4DQQiWJ0eEEYjOElekhzZ.jpg',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],   [
+            ],
+            [
+                'name' => 'aHPTAeLR9XRDmdP2ws0kMnZvChPZN2CTXbstYEdv.jpg',
+                'mime_type' => 'image/jpeg',
+                'path' => '/attachment/aHPTAeLR9XRDmdP2ws0kMnZvChPZN2CTXbstYEdv.jpg',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'name' => 'FhKHLLi9wvz2z33OgRanE20WmRApSR5MlbHryVnr.jpg',
+                'mime_type' => 'image/jpeg',
+                'path' => '/attachment/FhKHLLi9wvz2z33OgRanE20WmRApSR5MlbHryVnr.jpg',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'eWMCbFcklOTfSZNXO44t5NFgfQGZx39sIWDFnBXR.jpg',
+                'mime_type' => 'image/jpeg',
+                'path' => '/attachment/eWMCbFcklOTfSZNXO44t5NFgfQGZx39sIWDFnBXR.jpg',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
                 'name' => 'EsjgKDQW6RrNSllXyXVvGVkkZmtVUqkuHq6HjDb9.png',
                 'mime_type' => 'image/jpeg',
                 'path' => '/attachment/EsjgKDQW6RrNSllXyXVvGVkkZmtVUqkuHq6HjDb9.png',

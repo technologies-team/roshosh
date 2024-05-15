@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->string('name_ar')->nullable();
+            $table->text('description_ar')->nullable();
             $table->unsignedBigInteger('photo_id');
             $table->enum('type',['fixed','percent_limited','percent']);
             $table->decimal('percent_limited',10, 2)->nullable();

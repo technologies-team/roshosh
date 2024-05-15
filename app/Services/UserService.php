@@ -6,6 +6,7 @@ use App\Dtos\Result;
 use App\Models\Coupon;
 use App\Models\User;
 use Exception as ExceptionAlias;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,12 +17,12 @@ class UserService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language','tap_customer_id','cm_firebase_token',"remember_token"];
+    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language','tap_customer_id','cm_firebase_token',"remember_token","role"];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['username', 'name', 'email', 'phone','password', 'status', 'language','cm_firebase_token',"remember_token"];
+    protected array $updatables = ['username', 'name', 'email', 'phone','password', 'status', 'language','cm_firebase_token',"remember_token",'role'];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
@@ -95,15 +96,12 @@ class UserService extends ModelService
 
     /**
      * create a new user
+     * @throws ExceptionAlias
      */
-    public function store(array $attributes): User
+    public function store(array $attributes): Model
     {
-        $record = parent::store($attributes);
         // TODO: sites attribute value
-        if ($record instanceof User) {
-        //    $record->sites()->attach([1]);
-        }
-        return $record;
+        return parent::store($attributes);
     }    public function save($id,array $attributes): Result
 {
         if(isset($attributes["password"])){

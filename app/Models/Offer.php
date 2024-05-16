@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Offer extends Model
 {
@@ -26,6 +27,23 @@ class Offer extends Model
         'count',
     ];
     protected $with = ['services','photo'];
+protected $hidden=["start_at",'expires_at','type','percent_limited','enabled','count','pivot'];
+    protected static function booted(): void
+    {
+        static::addGlobalScope('accessDB', function (Builder $builder) {
+            $now = Carbon::now();
+            $user = auth()->user();
+            if ($user instanceof User) {
+                if( $user->hasRole("customer")){
+                $builder->where('start_at', '<=', $now)
+                    ->where('expires_at', '>=', $now)->where("enabled","=",true);
+            }}
+            else{
+                $builder->where('start_at', '<=', $now)
+                    ->where('expires_at', '>=', $now)->where("enabled","=",true);
+            }
+        });
+    }
 
 
     public function services(): BelongsToMany

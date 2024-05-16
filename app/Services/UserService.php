@@ -100,6 +100,7 @@ class UserService extends ModelService
      */
     public function store(array $attributes): Model
     {
+        unset($attributes["fcm"]);
         // TODO: sites attribute value
         return parent::store($attributes);
     }    public function save($id,array $attributes): Result

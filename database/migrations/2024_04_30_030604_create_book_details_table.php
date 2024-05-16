@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text("location");
             $table->text('vehicle');
             $table->text('coupon');
+            $table->text('service_time');
             $table->timestamps();
             $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
         });

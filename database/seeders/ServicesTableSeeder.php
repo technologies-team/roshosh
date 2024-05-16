@@ -17,12 +17,12 @@ class ServicesTableSeeder extends Seeder
             [
                 'title' => 'Standard Wash',
                 'title_ar' => 'غسيل عادي',
-                'description' => 'Several stages are involved:
-1- Interior Cleaning With Deep Vacuum and Shine.
+                'description' => 'Several stages are involved:|
+1- Interior Cleaning With Deep Vacuum and Shine.|
 2- Exterior Wash with high Pressure with Shampoo Tyers Clean.',
-                'description_ar' => 'تكون على عدة مراحل
-     1-تنظيف داخلي  للسيارة مع شفط الأتربة والتلميع
-     2-غسيل خارجي للسيارة بالضغط العالي بالشامبو وتنظيف الإطارات
+                'description_ar' => 'تكون على عدة مراحل|
+1-تنظيف داخلي  للسيارة مع شفط الأتربة والتلميع|
+2-غسيل خارجي للسيارة بالضغط العالي بالشامبو وتنظيف الإطارات|
                 ',
                 'price' => 50.00,
                 'category_id' => 1,
@@ -35,17 +35,16 @@ class ServicesTableSeeder extends Seeder
             [
                 'title' => 'Premium Wash',
                 'title_ar' => 'غسيل ممتاز',
-                'description' => 'Several stages are involved:
-1- High Pressure Washing With Shampoo.
-2- Engine Cleaning v Interior Deep Vacuum v Tyer and Rim Cleaning& Shining .
-3- Glass Cleaning v Dashboard Shine .
+                'description' => 'Several stages are involved:|
+1- High Pressure Washing With Shampoo.|
+2- Engine Cleaning v Interior Deep Vacuum v Tyer and Rim Cleaning& Shining .|
+3- Glass Cleaning v Dashboard Shine .|
 4- AC duct steam Cleaning
     ',
-                'description_ar' => 'تكون على عدة مراحل
-    1-غسيل السيارة بالضغط العالي بالشامبو
-    2-تنظيف المحرك تنظيف داخلي عميق بالشفاط وتنظيف وتلميع الإطارات والعجلات
-    3- تنظيف الزجاج وتلميع لوحة القيادة
-    4- تنظيف منافذ وفتحات التكييف بالبخار
+                'description_ar' => 'تكون على عدة مراحل|غسيل السيارة بالضغط العالي بالشامبو|
+تنظيف المحرك تنظيف داخلي عميق بالشفاط وتنظيف وتلميع الإطارات والعجلات|
+ تنظيف الزجاج وتلميع لوحة القيادة|
+ تنظيف منافذ وفتحات التكييف بالبخار|
                 ', 'price' => 100.00,
                 'category_id' => 2,
                 'parent_id' => null,

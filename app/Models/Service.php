@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\CartsService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -46,7 +47,12 @@ class Service extends Model
     ];
 
     protected $with = ['photo', 'category'];
+    protected $appends = ['new_price'];
 
+    public function getNewPriceAttribute(): int
+    {
+        return 0;
+    }
 
     public function avatar(): BelongsTo
     {

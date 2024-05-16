@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('vehicle_type')->nullable();
             $table->string('type')->nullable();
+            $table->boolean('default')->default(false);
+
             $table->string('color')->nullable();
             $table->string('make')->nullable();
             $table->string('model')->nullable();

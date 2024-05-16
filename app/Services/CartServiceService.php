@@ -7,7 +7,9 @@ namespace App\Services;
 use App\Dtos\Result;
 use App\Models\Cart;
 use App\Models\CartService;
+use App\Models\Location;
 use App\Models\User;
+use App\Models\Vehicle;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -80,14 +82,13 @@ class CartServiceService extends ModelService
         $attributes["cart_id"] = $cart->id;
         $cart->cartService()->delete();
         $attributes["quantity"] = 1;
-        $service = $this->service->find($attributes["service_id"]);
 
+        $service = $this->service->find($attributes["service_id"]);
         $price = $service->price;
         if (isset($attributes["offer_id"])) {
             $offer = $service->offers()->find($attributes["offer_id"]);
             if (isset($offer->min_amount) && $offer->min_amount > $price) {
                 $max = 0;
-
             } else {
                 $discount = $this->calcDiscount($price, $offer->type, $offer->value, $offer->percent_limited);
                 $max = $discount;
@@ -143,6 +144,7 @@ class CartServiceService extends ModelService
             default => 0,
         };
     }
+
 
     /**
      * prepare

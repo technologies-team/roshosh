@@ -19,7 +19,7 @@ Route::get('/auth/callback', function () {
 
     // $user->token
 });
-
+Route::get('/send-notification', [PushNotificationController::class, 'sendPushNotification']);
 /**
  * @return void
  */
@@ -130,6 +130,8 @@ Route::prefix('/categories')->group(function () {
 Route::prefix('/service')->group(function () {
     Route::get('/', [ServiceController::class, 'index']);
     Route::get('/{id}', [ServiceController::class, 'show']);
+    Route::get('/calc-price/{id}/{offer_id}', [ServiceController::class, 'calcPrice']);
+
     Route::middleware('auth:sanctum')
         ->group(function () {
             Route::post('/', [ServiceController::class, 'store']);
@@ -138,6 +140,10 @@ Route::prefix('/service')->group(function () {
         });
 });
 
+Route::prefix('/time')->group(function () {
+
+    Route::post('/', [TimeController::class, 'index']);
+});
 Route::prefix('/home')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
 });

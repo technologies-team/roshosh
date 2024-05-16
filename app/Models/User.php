@@ -76,22 +76,34 @@ class User extends Authenticatable
     public function locations(): HasMany
     {
         return $this->hasMany(Location::class);
+    }  public function vehicles(): HasMany
+    {
+        return $this->hasMany(Vehicle::class);
     }
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
-    public function hasRole($role)
+    public function hasRole($role): bool
     {
         return $this->role === $role;
     }
-    public function toLightWeightArray()
+    public function fcm(): HasMany
+    {
+        return $this->hasMany(UserFcm::class);
+    }
+    public function toLightWeightArray(): array
     {
 
-        $result = $this->toArray();
         // $customer = $this->isCustomer();
-        return $result;
+        return $this->toArray();
     }
+    public function routeNotificationForFcm(): string
+    {
+      $token=$this->fcm()->first();
+       return $token->fcm;
+    }
+
 
 }

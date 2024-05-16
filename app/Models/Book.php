@@ -32,4 +32,8 @@ class Book extends Model
     {
         return $this->hasMany(BookDetail::class);
     }
+  public function logs(): HasMany
+    {
+        return $this->hasMany(BookLog::class);
+    }
 }

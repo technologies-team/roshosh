@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('street1');
             $table->string('street2')->nullable();
+            $table->boolean('default')->default(false);
             $table->string('country');
             $table->string('phone');
             $table->boolean('verified')->default(0);

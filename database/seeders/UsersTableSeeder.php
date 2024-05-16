@@ -51,7 +51,7 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'customer',
-                'email' => 'custome@roshosh.ae',
+                'email' => 'customer@roshosh.ae',
                 'phone' => '02020202020200',
                 'rewards' => 0,
                 'role'=>'customer',

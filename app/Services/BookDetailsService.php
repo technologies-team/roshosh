@@ -17,7 +17,7 @@ class BookDetailsService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['service_name','location','vehicle','coupon'];
+    protected array $storables = ['service_name','location','vehicle','coupon','service_time'];
 
     /**
      * updatable field is a field which can be filled during updating the record

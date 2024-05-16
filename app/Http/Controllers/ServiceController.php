@@ -20,7 +20,6 @@ use App\Services\BannerService;
 use App\Services\CategoryService;
 use App\Services\LocationService;
 use App\Services\ServiceService;
-use App\Services\WishListService;
 
 class ServiceController extends Controller
 {
@@ -58,7 +57,7 @@ class ServiceController extends Controller
      */
     public function update(updateServiceRequest $request, int $id): SuccessResponse
     {
-        return $this->ok($this->service->update($id, $request->all()));
+        return $this->ok($this->service->save($id, $request->all()));
     }
 
     public function store(StoreServiceRequest $request): SuccessResponse
@@ -68,6 +67,14 @@ class ServiceController extends Controller
     public function destroy( int $id): SuccessResponse
     {
         return $this->ok($this->service->delete($id));
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function calcPrice(int $id, int $offer_id): SuccessResponse
+    {
+        return $this->ok($this->service->calcPrice($id,$offer_id));
     }
 }
 

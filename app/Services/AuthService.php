@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Services;
+use App\Models\AccountActivated;
+use Kawankoding\Fcm\Fcm;
 
 use App\Dtos\Result;
-use App\Http\Responses\SuccessResponse;
 use App\Models\User;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Kreait\Laravel\Firebase\Facades\Firebase;
+use NotificationChannels\Fcm\FcmMessage;
 
 class AuthService extends Service
 {
@@ -23,35 +27,53 @@ class AuthService extends Service
      * login
      * @throws Exception
      */
-    public function login(array $credentials): \App\Dtos\Result
+    public function login(array $credentials): Result
     {
         try {
-            $user = User::query()->where('email', '=', $credentials['email'])->get();
+            $user = User::where('email', $credentials['email'])->first();
 
-        } catch (Exception $exception) {
-            dd($exception->getMessage());
-        }
-        if (isset($user[0])) {
-            $user = $user[0];
-            if ($user instanceof User && $user->status == User::status_active) {
-                if (Auth::attempt($credentials)) {
-if($user->hasRole(User::ROLE_CUSTOMER)){
-                    $token = $user->createToken('*');
-                    $data = [
-                        'user' => $user,
-                        'token' => $token->plainTextToken,
-                    ];
-                    return $this->ok($data, 'login succeed');
-                }
-                else{
-                    throw new Exception('unauthorized');
-
-                }
-                }
+            if (!$user) {
                 throw new Exception('email or password not correct');
             }
+
+            if ($user->status !== User::status_active) {
+                throw new Exception('User account is not active');
+            }
+            if(isset($credentials["fcm"])){
+                try {
+                    $user->fcm()->create($credentials);
+                } catch (QueryException $e) {
+                    if ($e->errorInfo[1] != 1062) {
+                        throw new \Exception($e->getMessage());
+                    }
+                }
+                try {
+                    $user->notify(new AccountActivated);
+
+                }
+                catch (\Exception $e){
+                    dd($e->getMessage());
+                }
+                unset($credentials["fcm"]);}
+            if (!Auth::attempt($credentials)) {
+                throw new Exception('Email or password not correct');
+            }
+
+            if (!$user->hasRole(User::ROLE_CUSTOMER)) {
+                throw new Exception('Unauthorized');
+            }
+
+            $token = $user->createToken('*');
+            $data = [
+                'user' => $user,
+                'token' => $token->plainTextToken,
+            ];
+
+            return $this->ok($data, 'Login successful');
+
+        } catch (Exception $exception) {
+             throw new \Exception($exception->getMessage());
         }
-        throw new Exception('email or password not correct');
     }
 
     /**
@@ -148,5 +170,13 @@ if($user->hasRole(User::ROLE_CUSTOMER)){
             'token' => $token->plainTextToken,
         ];
         return $this->ok($data, 'clients:register:step1:done');
+    }
+    public function sendPushNotification()
+    {
+        $notification = Firebase::withTarget('token', 'device_registration_token')
+            ->withNotification([
+                'title' => 'Notification Title',
+                'body' => 'Notification Body',
+            ]);
     }
 }

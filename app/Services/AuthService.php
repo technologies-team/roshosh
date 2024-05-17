@@ -23,7 +23,8 @@ class AuthService extends Service
      */
     public function login(array $credentials): Result
     {
-        $user = User::where('email', $credentials['email'])->firstOrFail();
+
+        $user = User::where('email', $credentials['email'])->first();
         if (!$user instanceof User) {
             throw new Exception('Email or password not correct');
         }

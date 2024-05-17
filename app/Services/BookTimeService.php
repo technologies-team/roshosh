@@ -24,7 +24,7 @@ class BookTimeService extends Service
 
         if ($currentDate->gt(now()->addWeek())) {
             throw new Exception("The date cannot be more than one week from today.", 400);
-        }   if ($currentDate->lt(now()->format('d/m/y'))) {
+        }   if ($currentDate->lt(now()->format('d-m-y'))) {
             throw new Exception("The date cannot be  less than now", 400);
         }
         $startTime = Carbon::parse($currentDate)->startOfDay()->hour(10)->minute(0)->second(0);

@@ -162,7 +162,7 @@ Route::prefix('/book')->group(function () {
             Route::get('/', [BookController::class, 'index']);
             Route::get('/{id}', [BookController::class, 'show']);
             Route::post('/', [BookController::class, 'store']);
-            Route::patch('/{id}', [BookController::class, 'update']);
+            Route::put('/{id}', [BookController::class, 'update']);
 
         });
 });

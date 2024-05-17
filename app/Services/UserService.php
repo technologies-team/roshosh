@@ -95,11 +95,12 @@ class UserService extends ModelService
      */
     public function loginRegister($user, $attributes,$role): Result
     {
-        if (isset($credentials["fcm"])) {
-            $this->fcmSave($user, $credentials["fcm"]);
-            unset($credentials["fcm"]);
-        }
+
         if ($user instanceof User) {
+            if (isset($credentials["fcm"])) {
+                $this->fcmSave($user, $credentials["fcm"]);
+                unset($credentials["fcm"]);
+            }
             if($user->hasRole($role)){
                 $token = $user->createToken('*');
                 $data = [
@@ -111,6 +112,12 @@ class UserService extends ModelService
                 throw new Exception("unauthorized");
             }
         }
+        if (isset($credentials["fcm"])) {
+            $this->fcmSave($user, $credentials["fcm"]);
+            unset($credentials["fcm"]);
+        }
+
+
         $attributes['status'] = User::status_active;
         if (!isset($attributes['password'])) {
             $attributes['password'] = "welcome1";

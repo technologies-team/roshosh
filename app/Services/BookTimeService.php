@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Dtos\Result;
 use App\Models\BookDetail;
 use Carbon\Carbon;
+use PHPUnit\Logging\Exception;
 
 class BookTimeService extends Service
 {
@@ -21,7 +22,10 @@ class BookTimeService extends Service
     public function bookTime($attributes): Result
     {
         $currentDate = $attributes["date"] ?? now();
-
+        if ($currentDate->gt(now()->addWeek())) {
+            throw new Exception("The date cannot be more than one week from today.", 400);
+        }
+$lastAvailabelDate=
         $startTime = Carbon::parse($currentDate)->startOfDay()->hour(10)->minute(0)->second(0);
         $endTime = Carbon::parse($currentDate)->endOfDay()->hour(22)->minute(0)->second(0);
 

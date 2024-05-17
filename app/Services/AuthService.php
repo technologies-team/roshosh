@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Services;
+
 use App\Dtos\Result;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+
 class AuthService extends Service
 {
     protected UserService $userService;
@@ -22,7 +24,9 @@ class AuthService extends Service
     public function login(array $credentials): Result
     {
         $user = User::where('email', $credentials['email'])->firstOrFail();
-
+        if (!$user instanceof User) {
+            throw new Exception('Email or password not correct');
+        }
         if ($user->status !== User::status_active) {
             throw new Exception('User account is not active');
         }
@@ -41,10 +45,7 @@ class AuthService extends Service
         }
 
         $token = $user->createToken('*');
-        $data = [
-            'user' => $user,
-            'token' => $token->plainTextToken,
-        ];
+        $data = ['user' => $user, 'token' => $token->plainTextToken,];
 
         return $this->ok($data, 'Login successful');
     }
@@ -62,7 +63,7 @@ class AuthService extends Service
         } else {
             throw new Exception("user not found");
         }
-        return $this->userService->loginRegister($user, $attributes,User::ROLE_CUSTOMER);
+        return $this->userService->loginRegister($user, $attributes, User::ROLE_CUSTOMER);
     }
 
     /**
@@ -71,12 +72,13 @@ class AuthService extends Service
     public function phoneLogin($attributes): Result
     {
         $user = $this->userService->getUserBy("phone", $attributes["phone"]);
-        return  $this->userService->loginRegister($user, $attributes,User::ROLE_CUSTOMER);
+        return $this->userService->loginRegister($user, $attributes, User::ROLE_CUSTOMER);
     }
+
     /**
      * @throws Exception
      */
-    public function me(): \App\Dtos\Result
+    public function me(): Result
     {
         $user = auth()->user();
         if ($user instanceof User) {
@@ -88,7 +90,7 @@ class AuthService extends Service
     /**
      * @throws Exception
      */
-    public function logout(): \App\Dtos\Result
+    public function logout(): Result
     {
         $user = auth()->user();
         if ($user instanceof User) {

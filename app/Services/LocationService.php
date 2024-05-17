@@ -21,7 +21,7 @@ class LocationService extends ModelService
     protected array $updatables = ['street1', 'street2', 'country_id', 'phone', 'verified', 'city_id', 'zip_code', 'longitude', 'latitude'];
 
     /**
-     * searchable field is a field which can be search for from keyword parameter in search method
+     * searchable field is a field which can be searched for from keyword parameter in search method
      */
     protected array $searchables = [];
 

@@ -67,8 +67,6 @@ class AuthVendorService extends Service
             throw new Exception("user not found");
         }
         return $this->userService->loginRegister($user, $attributes,User::ROLE_VENDOR);
-
-
     }
 
     /**

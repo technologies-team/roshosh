@@ -67,7 +67,10 @@ class LocationService extends ModelService
             if($location instanceof Location){
                 $attributes["verified"]=true;
             }
+            if ($user->phone== $attributes['phone']){
+                $attributes["verified"]=true;
 
+            }
         }
 
         return $this->ok($this->store($attributes), 'location:saved:succeeded');

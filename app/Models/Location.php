@@ -25,28 +25,4 @@ class Location extends Model
             }
         });
     }
-    /**
-     * Check if the given coordinates fall within the boundaries of Dubai.
-     *
-     * @return bool
-     */
-    public function isLocationInDubai(): bool
-    {
-        $latitude = $this->input('lat');
-        $longitude = $this->input('lng');
-
-        // Define the boundaries of Dubai (approximate values)
-        $dubaiBounds = [
-            'min_latitude' => 24.75,
-            'max_latitude' => 25.35,
-            'min_longitude' => 55.10,
-            'max_longitude' => 56.50,
-        ];
-
-        // Check if the coordinates fall within the boundaries of Dubai
-        return $latitude >= $dubaiBounds['min_latitude'] &&
-            $latitude <= $dubaiBounds['max_latitude'] &&
-            $longitude >= $dubaiBounds['min_longitude'] &&
-            $longitude <= $dubaiBounds['max_longitude'];
-    }
 }

@@ -12,9 +12,7 @@ class AuthService extends Service
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-
     }
-
     /**
      * login
      * @throws Exception
@@ -48,7 +46,6 @@ class AuthService extends Service
 
         return $this->ok($data, 'Login successful');
     }
-
     /**
      * @throws Exception
      */
@@ -73,7 +70,6 @@ class AuthService extends Service
         $user = $this->userService->getUserBy("phone", $attributes["phone"]);
         return $this->userService->loginRegister($user, $attributes, User::ROLE_CUSTOMER);
     }
-
     /**
      * @throws Exception
      */
@@ -85,7 +81,6 @@ class AuthService extends Service
         }
         throw new Exception('unauthenticated');
     }
-
     /**
      * @throws Exception
      */
@@ -98,5 +93,4 @@ class AuthService extends Service
         }
         throw new Exception('unauthenticated');
     }
-
 }

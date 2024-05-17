@@ -11,7 +11,7 @@ class Book extends Model
 {
     use HasFactory;
 
-    const status = ['waiting', 'inProgress', 'complete', 'cancel', 'reject', 'schedule'];
+    const status = ['waiting', 'schedule', 'inProgress', 'complete', 'cancel', 'reject'];
     protected $fillable = [
         'total_price', 'total_discount', 'total_fee', 'user_id', 'status', 'payment_method', 'notes','service_time'
     ];

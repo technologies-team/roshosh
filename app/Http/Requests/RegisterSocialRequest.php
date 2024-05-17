@@ -27,6 +27,7 @@ class RegisterSocialRequest extends FormRequest
             'name' => 'string|required',
             'phone'=>'number',
             'email' => 'email',
+            'remember_token' => 'string',
         ];
     }
 }

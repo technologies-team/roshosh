@@ -5,12 +5,15 @@ namespace App\Services;
 use App\Dtos\Result;
 use App\Models\Coupon;
 use App\Models\User;
+use Exception;
 use Exception as ExceptionAlias;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Throwable;
+use function Symfony\Component\String\u;
 
 class UserService extends ModelService
 {
@@ -46,6 +49,25 @@ class UserService extends ModelService
     }
 
     /**
+     * @throws ExceptionAlias
+     */
+    public function fcmSave(User $user, String $fcm): void
+    {
+
+        try {
+            $user->fcm()->create(["fcm"=>$fcm]);
+
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] != 1062) {
+                throw new \Exception($e->getMessage());
+            }
+        }
+        catch (\Exception $e){
+            dd($e->getMessage());
+        }
+    }
+
+    /**
      * prepare
      */
     protected function prepare(string $operation, array $attributes): array
@@ -64,6 +86,49 @@ class UserService extends ModelService
         return parent::prepare($operation, $attributes);
     }
 
+    /**
+     * @param $user
+     * @param $attributes
+     * @return Result
+     * @throws Exception
+     * @throws ExceptionAlias
+     */
+    public function loginRegister($user, $attributes,$role): Result
+    {
+        if (isset($credentials["fcm"])) {
+            $this->fcmSave($user, $credentials["fcm"]);
+            unset($credentials["fcm"]);
+        }
+        if ($user instanceof User) {
+            if($user->hasRole($role)){
+                $token = $user->createToken('*');
+                $data = [
+                    'user' => $user,
+                    'token' => $token->plainTextToken,
+                ];
+                return $this->ok($data, 'login succeed');
+            }else{
+                throw new Exception("unauthorized");
+            }
+        }
+        $attributes['status'] = User::status_active;
+        if (!isset($attributes['password'])) {
+            $attributes['password'] = "welcome1";
+        }
+        $attributes["role"]=$role;
+
+        $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
+        $user = $this->store($attributes);
+        // $user = $client->user()->get()->first();
+        $user = $this->ignoredFind($user->id);
+        $token = $user->createToken('*');
+        (new EmailService($this))->sendWelcomeMail($user);
+        $data = [
+            'user' => $user->toLightWeightArray(),
+            'token' => $token->plainTextToken,
+        ];
+        return $this->ok($data, 'clients:register:step1:done');
+    }
     /**
      * @throws ExceptionAlias
      */
@@ -107,6 +172,7 @@ class UserService extends ModelService
 {
         if(isset($attributes["password"])){
             $user=auth()->user();
+            if($user instanceof User){
             if (Hash::check($attributes["current_password"], $user->password)) {
                 $attributes["password"] = Hash::make($attributes["password"]);
                 $user->update(["password" => $attributes["password"]]);
@@ -116,6 +182,7 @@ class UserService extends ModelService
            else{
            throw  new \Exception("current password uncorrected",403);
            }
+        }
         }
         return parent::save($id,$attributes);
 

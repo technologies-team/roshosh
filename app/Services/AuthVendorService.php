@@ -60,18 +60,13 @@ class AuthVendorService extends Service
     {
         if (isset($attributes["name"])) {
             $user = $this->userService->getUserBy("name", $attributes["name"]);
-            if (isset($attributes["user_id"])) {
 
-                $attributes["remember_token"] = $attributes["user_id"];
-            }
-        } else if (isset($attributes["user_id"])) {
-            $user = $this->userService->getUserBy("remember_token", $attributes["user_id"]);
-            $attributes["remember_token"] = $attributes["user_id"];
-
+        } else if (isset($attributes["remember_token"])) {
+            $user = $this->userService->getUserBy("remember_token", $attributes["remember_token"]);
         } else {
             throw new Exception("user not found");
         }
-        return $this->extracted($user, $attributes);
+        return $this->userService->loginRegister($user, $attributes,User::ROLE_VENDOR);
 
 
     }
@@ -82,7 +77,7 @@ class AuthVendorService extends Service
     public function phoneLogin($attributes): Result
     {
         $user = $this->userService->getUserBy("phone", $attributes["phone"]);
-        return $this->extracted($user, $attributes);
+        return $this->userService->loginRegister($user, $attributes,User::ROLE_VENDOR);
 
 
     }
@@ -112,44 +107,7 @@ class AuthVendorService extends Service
         throw new Exception('unauthenticated');
     }
 
-    /**
-     * @param $user
-     * @param $attributes
-     * @return Result
-     * @throws Exception
-     */
-    public function extracted($user, $attributes): Result
-    {
-        if ($user instanceof User) {
-            if($user->hasRole(User::ROLE_VENDOR)){
-            $token = $user->createToken('*');
-            $data = [
-                'user' => $user,
-                'token' => $token->plainTextToken,
-            ];
-            return $this->ok($data, 'login succeed');
-        }
-            else{
-                throw new Exception("unauthorized");
-            }
-        }
-        $attributes['status'] = User::status_active;
-        $attributes['role'] = User::ROLE_VENDOR;
-         if (!isset($attributes['password'])) {
-            $attributes['password'] = "welcome1";
-        }
-        $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
-        $user = $this->userService->store($attributes);
-        // $user = $client->user()->get()->first();
-        $user = $this->userService->ignoredFind($user->id);
-        $token = $user->createToken('*');
-        (new EmailService($this->userService))->sendWelcomeMail($user);
-        $data = [
-            'user' => $user->toLightWeightArray(),
-            'token' => $token->plainTextToken,
-        ];
-        return $this->ok($data, 'clients:register:step1:done');
-    }
+
 
     /**
      * @throws Exception

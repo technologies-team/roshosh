@@ -10,6 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BookDetail extends Model
 {
-protected $fillable=['service_name','location','vehicle','coupon','service_time'];
+protected $fillable=['service_name','location','vehicle','coupon','service_time','finished_at'];
     use HasFactory;
 }

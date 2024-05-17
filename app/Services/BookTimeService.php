@@ -17,32 +17,34 @@ class BookTimeService extends Service
     {
         $this->bookDetailsService = $bookDetailsService;
     }
-
     public function bookTime($attributes): Result
     {
-        $currentDate = $attributes["date"] ?Carbon::parse($attributes["date"]): now();
+        $currentDate = isset($attributes["date"]) ? Carbon::parse($attributes["date"]) :  Carbon::today();
 
-        if ($currentDate->gt(now()->addWeek())) {
+        // Check if the date is more than one week from today
+        // Get the date one week from today
+
+        if ($currentDate->gt(Carbon::today()->addWeek())) {
             throw new Exception("The date cannot be more than one week from today.", 400);
-        }   if ($currentDate->lt(now()->format('d-m-y'))) {
-            throw new Exception("The date cannot be  less than now", 400);
         }
-        $startTime = Carbon::parse($currentDate)->startOfDay()->hour(10)->minute(0)->second(0);
-        $endTime = Carbon::parse($currentDate)->endOfDay()->hour(22)->minute(0)->second(0);
 
-        $bookDetails = BookDetail::whereDate('service_time', $currentDate)->get();
+        // Check if the date is less than now
+        if ($currentDate->lt( Carbon::today())) {
+            throw new Exception("The date cannot be less than today.", 400);
+        }
+
+        $startTime = $currentDate->copy()->startOfDay()->hour(10);
+        $endTime = $currentDate->copy()->endOfDay()->hour(22);
+
+        // Retrieve booked times directly from the database
+        $bookedTimes = BookDetail::whereDate('service_time', $currentDate)->pluck('service_time');
 
         $availability = [];
-        $currentTime = clone $startTime;
+        $currentTime = $startTime->copy();
 
         while ($currentTime->lte($endTime)) {
-            $availability[$currentTime->format("H:i")] = true;
+            $availability[$currentTime->format("H:i")] = !$bookedTimes->contains($currentTime->toDateTimeString());
             $currentTime->addHour();
-        }
-
-        foreach ($bookDetails as $bookDetail) {
-            $bookTime = Carbon::parse($bookDetail->service_time)->format("H:i");
-            $availability[$bookTime] = false;
         }
 
         ksort($availability);
@@ -54,6 +56,7 @@ class BookTimeService extends Service
 
         return $this->ok($data, "available time");
     }
+
 
 
 

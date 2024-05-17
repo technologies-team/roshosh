@@ -37,8 +37,7 @@ class BookTimeService extends Service
         $endTime = $currentDate->copy()->endOfDay()->hour(22);
 
         // Retrieve booked times directly from the database
-        $bookedTimes = BookDetail::whereDate('service_time', $currentDate)->pluck('service_time');
-
+        $bookedTimes = BookDetail::whereDate('service_time', $currentDate)->whereHas('book', function ($query) {$query->whereIn('status', ['waiting', 'schedule', 'inProgress']);})->pluck('service_time');
         $availability = [];
         $currentTime = $startTime->copy();
 

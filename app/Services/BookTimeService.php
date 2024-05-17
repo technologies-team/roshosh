@@ -5,13 +5,8 @@ namespace App\Services;
 
 
 use App\Dtos\Result;
-use App\Models\Book;
 use App\Models\BookDetail;
-use App\Models\Cart;
-use App\Models\CartService;
 use Carbon\Carbon;
-use Exception;
-use Illuminate\Database\Eloquent\Builder;
 
 class BookTimeService extends Service
 {
@@ -22,43 +17,39 @@ class BookTimeService extends Service
     {
         $this->bookDetailsService = $bookDetailsService;
     }
+
     public function bookTime($attributes): Result
     {
-        $date=$attributes["date"];
-        $startTime = Carbon::parse($date)->startOfDay()->hour(10)->minute(0)->second(0);
+        $currentDate = $attributes["date"] ?? now();
 
-        $endTime = Carbon::parse($date)->endOfDay()->hour(22)->minute(0)->second(0);
-        // Fetch records from BookDetail where service_time falls within the specified time range
-        $bookDetails = BookDetail::where('service_time', '>=', $startTime)
-            ->where('service_time', '<=', $endTime)
-            ->get();
-            $date = Carbon::parse($attributes["date"])->startOfDay();
-            $bookDetails = BookDetail::whereDate('service_time', $date)->get();
-$date= array($startTime->toDateTime()->format("H:i")=>false);
-        $currentTime = Carbon::parse($startTime);
+        $startTime = Carbon::parse($currentDate)->startOfDay()->hour(10)->minute(0)->second(0);
+        $endTime = Carbon::parse($currentDate)->endOfDay()->hour(22)->minute(0)->second(0);
 
-        while ($currentTime->lt($endTime)) {
-            $date[$currentTime->format("H:i")] =true;
-            $currentTime->addHour(); // Add one hour to current time
+        $bookDetails = BookDetail::whereDate('service_time', $currentDate)->get();
+
+        $availability = [];
+        $currentTime = clone $startTime;
+
+        while ($currentTime->lte($endTime)) {
+            $availability[$currentTime->format("H:i")] = true;
+            $currentTime->addHour();
         }
 
-        $date[$endTime->toDateTime()->format("H:i")]=false;
-
-            foreach($bookDetails as $bookDetail ){
-                $bookTime=$bookDetail->service_time;
-              $date[Carbon::parse($bookTime)->toDateTime()->format("H:i")]= false ;
-
-            }
-
-       ;
-        ksort($date);
-        $data=array();
-        foreach ($date as $time=>$available) {
-            $data[]=["time"=>$time,"available"=>$available];
+        foreach ($bookDetails as $bookDetail) {
+            $bookTime = Carbon::parse($bookDetail->service_time)->format("H:i");
+            $availability[$bookTime] = false;
         }
-        return $this->ok($data,"available time ");
 
+        ksort($availability);
+
+        $data = [];
+        foreach ($availability as $time => $available) {
+            $data[] = ["time" => $time, "available" => $available];
+        }
+
+        return $this->ok($data, "available time");
     }
+
 
 
 }

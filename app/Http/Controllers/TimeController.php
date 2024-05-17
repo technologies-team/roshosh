@@ -29,7 +29,7 @@ class TimeController extends Controller
      */
     public function index(Request $request): SuccessResponse
     {
-        $this->service->bookTime($request->all());
-        return $this->ok();
+
+        return $this->ok($this->service->bookTime($request->all()));
     }
 }

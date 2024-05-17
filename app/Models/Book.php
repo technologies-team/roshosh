@@ -13,7 +13,7 @@ class Book extends Model
 
     const status = ['waiting', 'inProgress', 'complete', 'cancel', 'reject', 'schedule'];
     protected $fillable = [
-        'total_price', 'total_discount', 'total_fee', 'user_id', 'status', 'payment_method', 'notes'
+        'total_price', 'total_discount', 'total_fee', 'user_id', 'status', 'payment_method', 'notes','service_time'
     ];
     protected $with = ['details'];
 

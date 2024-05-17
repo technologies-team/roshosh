@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Dtos\Result;
-use App\Models\Coupon;
 use App\Models\User;
 use Exception;
 use Exception as ExceptionAlias;
@@ -13,7 +12,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Throwable;
-use function Symfony\Component\String\u;
 
 class UserService extends ModelService
 {
@@ -67,6 +65,37 @@ class UserService extends ModelService
         }
     }
 
+    /**
+     * @throws ExceptionAlias
+     */
+    public function login(array $credentials): \App\Dtos\Result
+    {
+        $user = $this->getUserBy('email', $credentials['email']);
+        if (!$user instanceof User) {
+            throw new Exception('Email or password not correct');
+        }
+        if ($user->status !== User::status_active) {
+            throw new Exception('User account is not active');
+        }
+
+        if (isset($credentials["fcm"])) {
+            $this->fcmSave($user, $credentials["fcm"]);
+            unset($credentials["fcm"]);
+        }
+
+        if (!Auth::attempt($credentials)) {
+            throw new Exception('Email or password not correct');
+        }
+
+        if (!$user->hasRole(User::ROLE_CUSTOMER)) {
+            throw new Exception('Unauthorized');
+        }
+
+        $token = $user->createToken('*');
+        $data = ['user' => $user, 'token' => $token->plainTextToken,];
+
+        return $this->ok($data, 'Login successful');
+    }
     /**
      * prepare
      */

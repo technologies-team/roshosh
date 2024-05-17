@@ -19,32 +19,7 @@ class AuthService extends Service
      */
     public function login(array $credentials): Result
     {
-
-        $user = $this->userService->getUserBy('email', $credentials['email']);
-        if (!$user instanceof User) {
-            throw new Exception('Email or password not correct');
-        }
-        if ($user->status !== User::status_active) {
-            throw new Exception('User account is not active');
-        }
-
-        if (isset($credentials["fcm"])) {
-            $this->userService->fcmSave($user, $credentials["fcm"]);
-            unset($credentials["fcm"]);
-        }
-
-        if (!Auth::attempt($credentials)) {
-            throw new Exception('Email or password not correct');
-        }
-
-        if (!$user->hasRole(User::ROLE_CUSTOMER)) {
-            throw new Exception('Unauthorized');
-        }
-
-        $token = $user->createToken('*');
-        $data = ['user' => $user, 'token' => $token->plainTextToken,];
-
-        return $this->ok($data, 'Login successful');
+        return $this->userService->login($credentials);
     }
     /**
      * @throws Exception

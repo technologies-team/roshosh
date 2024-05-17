@@ -25,32 +25,7 @@ class AuthVendorService extends Service
      */
     public function login(array $credentials): \App\Dtos\Result
     {
-        try {
-            $user = User::query()->where('email', '=', $credentials['email'])->get();
-
-        } catch (Exception $exception) {
-            dd($exception->getMessage());
-        }
-        if (isset($user[0])) {
-            $user = $user[0];
-            if ($user instanceof User && $user->status == User::status_active) {
-                if (Auth::attempt($credentials)) {
-                    if($user->hasRole(User::ROLE_VENDOR)){
-                        $token = $user->createToken('*');
-                        $data = [
-                            'user' => $user,
-                            'token' => $token->plainTextToken,
-                        ];
-                        return $this->ok($data, 'login succeed');
-                    }
-                    else{
-                        throw new Exception("unauthorized");
-                    }
-                }
-                throw new Exception('email or password not correct');
-            }
-        }
-        throw new Exception('email or password not correct');
+        return $this->userService->login($credentials);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Dtos\Result;
 use App\Dtos\SearchQuery;
 use App\Dtos\SearchResult;
 use App\Helpers\QueryBuilder;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,14 +45,13 @@ abstract class ModelService extends Service
         $fillables = $operation === 'store' ? $this->storables : $this->updatables;
         $result = array_merge([], $attributes);
         $result = $result ? $result : [];
-        $result = array_filter($result, fn ($key) => array_search($key, $fillables) !== false, ARRAY_FILTER_USE_KEY);
-        return $result;
+        return array_filter($result, fn ($key) => in_array($key, $fillables), ARRAY_FILTER_USE_KEY);
     }
 
 
     /**
      * search
-     * @throws \Exception
+     * @throws Exception
      */
     public function search(SearchQuery $q): SearchResult
     {
@@ -91,7 +91,7 @@ abstract class ModelService extends Service
 
     /**
      * create inner code
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(array $attributes): Model
     {
@@ -99,39 +99,39 @@ abstract class ModelService extends Service
         try {
         $record = $this->builder()->create($fields);
 
-        }catch (\Exception $exception){
-            throw new \Exception($exception->getMessage());
+        }catch (Exception $exception){
+            throw new Exception($exception->getMessage());
 
         }
 
         if (!$record instanceof Model) {
-            throw new \Exception('records:store:errors:not_stored');
+            throw new Exception('records:store:errors:not_stored');
         }
         return $record;
     }
 
     /**
      * create
-     * @throws \Exception
+     * @throws Exception
      */
     public function create(array $attributes): Result
     {
-       // dd("dfdfd");
         return $this->ok($this->store($attributes), 'records:create:done');
     }
 
     /**
      * find
+     * @throws Exception
      */
     public function find( $id): Model
     {
         $qb = $this->builder();
 
         if ($id == null) {
-            throw new \Exception('records:find:errors:not_found');
+            throw new Exception('records:find:errors:not_found');
         } else if (is_array($id)) {
             if (!count($id)) {
-                throw new \Exception('records:find:errors:not_found');
+                throw new Exception('records:find:errors:not_found');
             }
             foreach ($id as $k => $value) {
                 $qb = $qb->where($k, '=', $value);
@@ -142,14 +142,14 @@ abstract class ModelService extends Service
         $qb = $qb->with($this->with);
         $qb = $qb->first();
         if (!$qb instanceof Model) {
-            throw new \Exception('records:find:errors:not_found');
+            throw new Exception('records:find:errors:not_found');
         }
         return $qb;
     }
 
     /**
      * get address
-     * @throws \Exception
+     * @throws Exception
      */
     public function get( $id): Result
     {
@@ -158,13 +158,14 @@ abstract class ModelService extends Service
 
     /**
      * save inner
+     * @throws Exception
      */
     public function update( $id, array $attributes): Model
     {
         $fields = $this->prepare('update', $attributes);
         $record = $this->find($id);
         if (!$record->update($fields)) {
-            throw new \Exception('records:update:errors:not_updated');
+            throw new Exception('records:update:errors:not_updated');
         }
         return ($record);
 
@@ -172,28 +173,29 @@ abstract class ModelService extends Service
 
     /**
      * save
-     * @throws \Exception
+     * @throws Exception
      */
-    public function save( $id, array $attributes)
+    public function save( $id, array $attributes): Result
     {
         return $this->ok($this->update($id, $attributes), 'records:save:done');
     }
 
     /**
      * delete inner
+     * @throws Exception
      */
     public function destroy( $id)
     {
         $record = $this->find($id);
         if (!$record->delete()) {
-            throw new \Exception('records:destroy:errors:not_destroyed');
+            throw new Exception('records:destroy:errors:not_destroyed');
         }
         return $id;
     }
 
     /**
      * delete
-     * @throws \Exception
+     * @throws Exception
      */
     public function delete( $id): Result
     {

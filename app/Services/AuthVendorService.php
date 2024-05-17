@@ -25,7 +25,7 @@ class AuthVendorService extends Service
      */
     public function login(array $credentials): \App\Dtos\Result
     {
-        return $this->userService->login(User::ROLE_CUSTOMER,$credentials);
+        return $this->userService->login(User::ROLE_VENDOR,$credentials);
     }
 
     /**

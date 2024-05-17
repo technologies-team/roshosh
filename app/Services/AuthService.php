@@ -19,7 +19,7 @@ class AuthService extends Service
      */
     public function login(array $credentials): Result
     {
-        return $this->userService->login($credentials);
+        return $this->userService->login(User::ROLE_CUSTOMER,$credentials);
     }
     /**
      * @throws Exception

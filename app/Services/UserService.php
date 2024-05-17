@@ -72,7 +72,7 @@ class UserService extends ModelService
     /**
      * @throws ExceptionAlias
      */
-    public function login(array $credentials): \App\Dtos\Result
+    public function login($role,array $credentials): \App\Dtos\Result
     {
         $user = $this->getUserBy('email', $credentials['email']);
         if (!$user instanceof User) {
@@ -91,7 +91,7 @@ class UserService extends ModelService
             throw new Exception('Email or password not correct');
         }
 
-        if (!$user->hasRole(User::ROLE_CUSTOMER)) {
+        if (!$user->hasRole($role)) {
             throw new Exception('Unauthorized');
         }
 

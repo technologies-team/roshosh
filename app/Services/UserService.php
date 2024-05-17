@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Dtos\Result;
 use App\Models\User;
+use App\Models\UserFcm;
 use Exception;
 use Exception as ExceptionAlias;
 use Illuminate\Database\Eloquent\Model;
@@ -58,6 +59,9 @@ class UserService extends ModelService
         } catch (QueryException $e) {
             if ($e->errorInfo[1] != 1062) {
                 throw new \Exception($e->getMessage());
+            }
+            else{
+                UserFcm::where('fcm', $fcm)->update(['user_id' => $user->id]);
             }
         }
         catch (\Exception $e){

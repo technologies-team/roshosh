@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Services;
-
 use App\Dtos\Result;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-
 class AuthService extends Service
 {
     protected UserService $userService;

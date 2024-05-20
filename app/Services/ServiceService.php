@@ -106,7 +106,7 @@ class ServiceService extends ModelService
             $offers = $service->offers()->get();
             $prices = array();
             foreach ($offers as $offer) {
-                $prices[$offer->id] = $this->calcPrice($service->id, $offer->id);
+                $prices[] =["id"=>$offer->id,"price"=> $this->calcPrice($service->id, $offer->id)];
             }
         }
         $data = [$service];

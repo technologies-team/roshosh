@@ -30,7 +30,7 @@ class ServiceService extends ModelService
     /**
      *
      */
-    protected array $with = ['category', 'avatar', 'offers'];
+    protected array $with = ['category', 'offers'];
 
 
     private CategoryService $categories;
@@ -109,7 +109,7 @@ class ServiceService extends ModelService
                 $prices[] =["id"=>$offer->id,"price"=> $this->calcPrice($service->id, $offer->id)];
             }
         }
-        $data = [$service];
+        $data = $service;
         $data["prices"] = $prices;
         return $this->ok($data, "record fetch success");
     }

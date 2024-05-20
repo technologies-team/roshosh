@@ -77,5 +77,6 @@ class Service extends Model
     public function offers(): BelongsToMany
     {
         return $this->belongsToMany(Offer::class);
+
     }
 }

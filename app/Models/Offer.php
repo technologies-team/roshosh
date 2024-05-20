@@ -48,8 +48,8 @@ protected $hidden=["start_at",'expires_at','type','percent_limited','enabled','c
 
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(Service::class);
-    }
+        return $this->belongsToMany(Service::class);    }
+
     public function photo(): BelongsTo
     {
         return $this->belongsTo(Attachment::class);

@@ -93,7 +93,8 @@ class CartServiceService extends ModelService
                 $discount = $this->calcDiscount($price, $offer->type, $offer->value, $offer->percent_limited);
                 $max = $discount;
             }
-        } else {
+        }
+ /*       else {
             if ($service instanceof \App\Models\Service) {
                 $offers = $service->offers()->get();
                 $max = 0;
@@ -105,7 +106,7 @@ class CartServiceService extends ModelService
                     $max = max($max, $discount);
                 }
             }
-        }
+        }*/
         $price = number_format($price - $max, 2, '.', '');
         $attributes["price"] = $price;
         $attributes["total_price"] = $price;

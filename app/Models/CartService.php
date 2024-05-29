@@ -16,6 +16,7 @@ class CartService extends Model
         'service_id',
         'location_id',
         'coupon_id',
+        'offer_id',
         'price',
         'quantity',
         'service_time',

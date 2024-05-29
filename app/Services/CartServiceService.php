@@ -19,7 +19,7 @@ class CartServiceService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['cart_id', 'vehicle_id', 'location_id', 'service_id', 'service_time', 'coupon_id', 'price', 'quantity', 'total_price'];
+    protected array $storables = ['cart_id', 'vehicle_id', 'location_id', 'service_id', 'service_time', 'coupon_id', 'price', 'quantity', 'total_price','offer_id'];
 
     /**
      * updatable field is a field which can be filled during updating the record
@@ -85,6 +85,8 @@ class CartServiceService extends ModelService
 
         $service = $this->service->find($attributes["service_id"]);
         $price = $service->price;
+        $max = 0;
+
         if (isset($attributes["offer_id"])) {
             $offer = $service->offers()->find($attributes["offer_id"]);
             if (isset($offer->min_amount) && $offer->min_amount > $price) {

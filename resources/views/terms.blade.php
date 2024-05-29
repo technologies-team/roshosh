@@ -10,6 +10,7 @@
             color: #000000;
             font-size: 12px; /* Base font size */
         }
+
         p, li {
             font-size: 12px; /* Increase font size for paragraphs and list items */
             line-height: 1.5;

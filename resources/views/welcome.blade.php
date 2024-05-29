@@ -1,4 +1,5 @@
-<html lang="">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>Laravel 8 Mobile Number (OTP) Authentication using Firebase - websolutionstuff.com</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -6,7 +7,6 @@
 </head>
 <body>
 <div class="container">
-    <h3 style="margin-top: 30px;">Laravel 8 Mobile Number (OTP) Authentication using Firebase - websolutionstuff.com</h3><br>
     <div class="alert alert-danger" id="error" style="display: none;"></div>
     <div class="card">
         <div class="card-header">
@@ -15,10 +15,10 @@
         <div class="card-body">
             <div class="alert alert-success" id="sentSuccess" style="display: none;"></div>
             <form>
-                <label>Phone Number:</label>
-                <label for="number"></label><input type="text" id="number" class="form-control" placeholder="+91 9876543210"><br>
+                <label for="number">Phone Number:</label>
+                <input type="text" id="number" class="form-control" placeholder="+91 9876543210"><br>
                 <div id="recaptcha-container"></div><br>
-                <button type="button" class="btn btn-success" onclick="SendCode();">Send Code</button>
+                <button type="button" class="btn btn-success" onclick="sendCode();">Send Code</button>
             </form>
         </div>
     </div>
@@ -28,20 +28,18 @@
             Enter Verification code
         </div>
         <div class="card-body">
-            <div class="alert alert-success" id="successRegsiter" style="display: none;"></div>
+            <div class="alert alert-success" id="successRegister" style="display: none;"></div>
             <form>
-                <label for="verificationCode"></label><input type="text" id="verificationCode" class="form-control" placeholder="Enter Verification Code"><br>
-                <button type="button" class="btn btn-success" onclick="VerifyCode();">Verify Code</button>
+                <label for="verificationCode">Verification Code:</label>
+                <input type="text" id="verificationCode" class="form-control" placeholder="Enter Verification Code"><br>
+                <button type="button" class="btn btn-success" onclick="verifyCode();">Verify Code</button>
             </form>
         </div>
     </div>
-
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
-
 <script>
-
     var firebaseConfig = {
         apiKey: "AIzaSyDJNIRybUbppceXoAu-0fPp2k5yIFjvH5Y",
         authDomain: "roshosh-438ce.firebaseapp.com",
@@ -54,55 +52,49 @@
     };
 
     firebase.initializeApp(firebaseConfig);
-</script>
 
-<script type="text/javascript">
-
-    window.onload=function () {
+    window.onload = function () {
         render();
     };
 
     function render() {
-        window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container');
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+            'size': 'invisible',
+            'callback': function (response) {
+                // reCAPTCHA solved, allow sendCode
+                sendCode();
+            }
+        });
         recaptchaVerifier.render();
     }
 
-    function SendCode() {
-
+    function sendCode() {
         var number = $("#number").val();
 
-        firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier).then(function (confirmationResult) {
-
-            window.confirmationResult=confirmationResult;
-            coderesult=confirmationResult;
+        firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier).then(function (confirmationResult) {
+            window.confirmationResult = confirmationResult;
 
             $("#sentSuccess").text("Message Sent Successfully.");
             $("#sentSuccess").show();
-
         }).catch(function (error) {
             $("#error").text(error.message);
             $("#error").show();
         });
-
     }
 
-    function VerifyCode() {
-
+    function verifyCode() {
         var code = $("#verificationCode").val();
 
-        coderesult.confirm(code).then(function (result) {
-            var user=result.user;
+        window.confirmationResult.confirm(code).then(function (result) {
+            var user = result.user;
 
-            $("#successRegsiter").text("You Are Register Successfully.");
-            $("#successRegsiter").show();
-
+            $("#successRegister").text("You Are Registered Successfully.");
+            $("#successRegister").show();
         }).catch(function (error) {
             $("#error").text(error.message);
             $("#error").show();
         });
     }
-
 </script>
-
 </body>
 </html>

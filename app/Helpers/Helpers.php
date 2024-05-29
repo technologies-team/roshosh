@@ -2,17 +2,20 @@
 
 namespace App\Helpers;
 
+use Exception;
+
 class Helpers
 {
     /**
      * send_push_notif_to_device
+     * @throws Exception
      */
 
-    public static function send_push_notif_to_device($fcm_token, $data)
+    public static function send_push_notify_to_device($fcm_token, $data): mixed
     {
         $key = env('PUSH_NOTIFICATION_KEY');
         $url = "https://fcm.googleapis.com/fcm/send";
-        $header = array("authorization: key=" . $key . "",
+        $header = array("authorization: key=" . $key,
             "content-type: application/json"
         );
 
@@ -34,8 +37,6 @@ class Helpers
             "sound" => "default",
         ];
 
-        $response = Curl::make($url, "POST", $request, $header);
-
-        return $response;
+        return Curl::make($url, "POST", $request, $header);
     }
 }

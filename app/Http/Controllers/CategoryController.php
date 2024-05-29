@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dtos\SearchQuery;
+use App\DTOs\SearchQuery;
 use App\Http\Requests\BannerRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -17,7 +17,6 @@ use App\Services\AuthService;
 use App\Services\BannerService;
 use App\Services\CategoryService;
 use App\Services\LocationService;
-use App\Services\WishListService;
 
 class CategoryController extends Controller
 {
@@ -55,7 +54,7 @@ class CategoryController extends Controller
      */
     public function update(updateCategoryRequest $request, int $id): SuccessResponse
     {
-        return $this->ok($this->service->update($id, $request->all()));
+        return $this->ok($this->service->save($id, $request->all()));
     }
 
     public function store(StoreCategoryRequest $request): SuccessResponse

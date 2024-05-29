@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dtos\SearchQuery;
+use App\DTOs\SearchQuery;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BannerRequest;
 use App\Http\Requests\CouponRequest;
@@ -26,6 +26,7 @@ class CouponController extends Controller
      *
      * @param SearchRequest $request
      * @return SuccessResponse
+     * @throws \Exception
      */
     public function index(SearchRequest $request): SuccessResponse
     {
@@ -35,8 +36,9 @@ class CouponController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return SuccessResponse
+     * @throws \Exception
      */
     public function show(int $id): SuccessResponse
     {
@@ -44,11 +46,17 @@ class CouponController extends Controller
     }
 
 
+    /**
+     * @throws \Exception
+     */
     public function update(BannerRequest $request, int $id): SuccessResponse
     {
-        return $this->ok($this->service->update2($id, $request->all()));
+        return $this->ok($this->service->save($id, $request->all()));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function apply(CouponRequest $request): SuccessResponse
     {
         return $this->ok($this->service->apply($request->all()));
@@ -61,7 +69,11 @@ class CouponController extends Controller
     {
         return $this->ok($this->service->removeCoupon());
     }
-    public function destroy( int $id): SuccessResponse
+
+    /**
+     * @throws \Exception
+     */
+    public function destroy(int $id): SuccessResponse
     {
         return $this->ok($this->service->delete($id));
     }

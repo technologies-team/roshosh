@@ -2,7 +2,7 @@
 
 namespace App\Http\Responses;
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use Illuminate\Http\JsonResponse;
 
 /**

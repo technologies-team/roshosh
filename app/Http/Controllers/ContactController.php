@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Dtos\Result;
-use App\Dtos\SearchQuery;
+use App\DTOs\Result;
+use App\DTOs\SearchQuery;
 use App\Http\Requests\BannerRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -18,11 +18,10 @@ use App\Services\BannerService;
 use App\Services\ContactService;
 use App\Services\VehicleService;
 use Exception;
-use function MongoDB\BSON\toJSON;
 
 class ContactController extends Controller
 {
-    private $service;
+    private ContactService $service;
 
     public function __construct(ContactService $service)
     {
@@ -34,16 +33,19 @@ class ContactController extends Controller
      *
      * @param SearchRequest $request
      * @return SuccessResponse
+     * @throws Exception
      */
     public function index(SearchRequest $request): SuccessResponse
     {
         return $this->ok($this->service->search(SearchQuery::fromJson($request->all())));
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return SuccessResponse
+     * @throws Exception
      */
     public function show(int $id): SuccessResponse
     {
@@ -55,14 +57,21 @@ class ContactController extends Controller
      */
     public function update(VehicleUpdateRequest $request, int $id): SuccessResponse
     {
-        return $this->ok($this->service->update($id, $request->all()));
+        return $this->ok($this->service->save($id, $request->all()));
     }
 
+    /**
+     * @throws Exception
+     */
     public function store(StoreContactRequest $request): SuccessResponse
     {
         return $this->ok($this->service->create($request->all()));
     }
-    public function destroy( int $id): SuccessResponse
+
+    /**
+     * @throws Exception
+     */
+    public function destroy(int $id): SuccessResponse
     {
         return $this->ok($this->service->delete($id));
     }    public function terms($lang="en"): SuccessResponse{

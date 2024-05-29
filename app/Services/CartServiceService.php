@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use App\Models\Cart;
 use App\Models\CartService;
 use App\Models\Location;

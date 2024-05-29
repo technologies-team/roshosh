@@ -32,39 +32,10 @@ class ServiceService extends ModelService
      */
     protected array $with = ['category', 'offers'];
 
-
-    private CategoryService $categories;
-
-    public function __construct(CategoryService $categories)
-    {
-        $this->categories = $categories;
-    }
-
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
         return Service::query();
     }
-
-    /**
-     * prepare
-     */
-    protected function prepare(string $operation, array $attributes): array
-    {
-        if (isset($attributes['category_id']) && isset($attributes['sub_category_id'])) {
-            $category = $this->categories->find($attributes['category_id']);
-            if ($category instanceof Category) {
-                throw ValidationException::withMessages(['sub_category_id' => 'clinicsservices:sub_category_id:invalid']);
-
-            }
-        }
-        return parent::prepare($operation, $attributes);
-    }
-
-    public function show()
-    {
-        return;
-    }
-
     public function rewards(array $services)
     {
         $services = $this->builder()->whereIn('id', $services)->get();
@@ -99,7 +70,7 @@ class ServiceService extends ModelService
     /**
      * @throws Exception
      */
-    public function get($id): \App\Dtos\Result
+    public function get($id): \App\DTOs\Result
     {
         $service = $this->find($id);
         if ($service instanceof Service) {
@@ -113,5 +84,4 @@ class ServiceService extends ModelService
         $data["prices"] = $prices;
         return $this->ok($data, "record fetch success");
     }
-
 }

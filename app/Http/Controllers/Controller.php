@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use App\Http\Responses\ErrorResponse;
 use App\Http\Responses\SuccessResponse;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

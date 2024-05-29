@@ -4,8 +4,8 @@
 namespace App\Services;
 
 
-use App\Dtos\Result;
-use App\Dtos\SearchQuery;
+use App\DTOs\Result;
+use App\DTOs\SearchQuery;
 use App\Models\CartService;
 use App\Models\Vehicle;
 use Exception;

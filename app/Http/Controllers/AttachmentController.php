@@ -3,20 +3,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Dtos\SearchQuery;
-use App\Dtos\Result;
+use App\DTOs\SearchQuery;
+use App\DTOs\Result;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SearchRequest;
-use App\Http\Requests\UpdateAttachmentRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Responses\SuccessResponse;
 use App\Services\AuthService;
 use App\Services\AttachmentService;
-use App\Services\WishListService;
 use App\Http\Requests\AttachmentRequest;
 use Exception;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AttachmentController extends Controller
 {
@@ -32,16 +31,19 @@ class AttachmentController extends Controller
      *
      * @param SearchRequest $request
      * @return SuccessResponse
+     * @throws Exception
      */
     public function index(SearchRequest $request): SuccessResponse
     {
         return $this->ok($this->service->search(SearchQuery::fromJson($request->all())));
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return SuccessResponse
+     * @throws Exception
      */
     public function show(int $id): SuccessResponse
     {
@@ -56,19 +58,18 @@ class AttachmentController extends Controller
         return $this->ok(new Result($this->service->create($request->all())));
     }
 
-
-
-
-    public function update(UpdateAttachmentRequest $request, int $id): SuccessResponse
-    {
-        return $this->ok($this->service->update2($id, $request->all()));
-    }
-
+    /**
+     * @throws Exception
+     */
     public function destroy(int $id): SuccessResponse
     {
         return $this->ok($this->service->delete($id));
     }
-    public function download(string $name)
+
+    /**
+     * @throws Exception
+     */
+    public function download(string $name): StreamedResponse
     {
         return $this->service->download($name);
     }

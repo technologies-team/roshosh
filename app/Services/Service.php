@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 
 abstract class Service
 {

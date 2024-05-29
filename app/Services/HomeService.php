@@ -4,9 +4,9 @@
 namespace App\Services;
 
 
-use App\Dtos\Result;
-use App\Dtos\SearchQuery;
-use App\Dtos\SearchResult;
+use App\DTOs\Result;
+use App\DTOs\SearchQuery;
+use App\DTOs\SearchResult;
 use App\Models\Banner;
 use Exception;
 

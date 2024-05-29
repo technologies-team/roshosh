@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use App\Models\Location;
 use App\Models\User;
 use Exception;

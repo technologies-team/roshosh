@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use App\Models\Attachment;
 use App\Models\User;
 use Exception;
@@ -54,8 +54,7 @@ class AttachmentService extends ModelService
      */
     protected function prepare(string $operation, array $attributes): array
     {
-        if ($operation === 'store') {
-        }
+
         return parent::prepare($operation, $attributes);
     }
 
@@ -86,7 +85,7 @@ class AttachmentService extends ModelService
      */
     public function upload(HttpFile $upload): Result
     {
-        return $this->ok($this->store($upload), 'files:upload:succeeded');
+        return $this->ok($this->store((array)$upload), 'files:upload:succeeded');
     }
 
 

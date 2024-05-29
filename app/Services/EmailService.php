@@ -3,13 +3,12 @@
 
 namespace App\Services;
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use App\Mail\templates\ResetPasswordMail;
 use App\Mail\templates\WelcomeEmail;
 use App\Models\PasswordResetToken;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use PHPUnit\Exception;
 
 class EmailService extends ModelService
@@ -23,7 +22,7 @@ class EmailService extends ModelService
 
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
-        return UserResetToken::query();
+        return PasswordResetToken::query();
     }
 
 
@@ -98,6 +97,10 @@ class EmailService extends ModelService
         } else
             throw new \Exception('user email not found');
     }
+
+    /**
+     * @throws \Exception
+     */
     public function checkOtp(array $attribute): Result
     {
         $email = $attribute['email'];

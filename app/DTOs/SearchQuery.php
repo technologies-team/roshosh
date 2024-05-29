@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Dtos;
+namespace App\DTOs;
 
 class SearchQuery
 {
 
     public static function fromJson(array $json): SearchQuery
     {
-        $keyword = isset($json['keyword']) ? $json['keyword'] : null;
-        $fields = isset($json['fields']) ? $json['fields'] : [];
-        $offset = isset($json['offset']) ? $json['offset'] : 0;
-        $limit = isset($json['limit']) ? $json['limit'] : 10;
-        $sort = isset($json['sort']) ? $json['sort'] : null;
+        $keyword = $json['keyword'] ?? null;
+        $fields = $json['fields'] ?? [];
+        $offset = $json['offset'] ?? 0;
+        $limit = $json['limit'] ?? 10;
+        $sort = $json['sort'] ?? null;
         return new SearchQuery($keyword, $fields, $offset, $limit, $sort);
     }
-
 
     /**
      *
      */
-    public  $keyword=null;
+    public mixed $keyword=null;
 
     /**
      *
@@ -39,7 +38,7 @@ class SearchQuery
     /**
      *
      */
-    public  $sort;
+    public mixed $sort;
 
 
     public function __construct( $keyword, array $fields = [], int $offset = 0, int $limit = 10,  $sort = null)
@@ -47,8 +46,6 @@ class SearchQuery
 
         if ($keyword)
             $this->keyword = $keyword;
-           // dd($keyword, $fields ,$offset , $limit ,  $sort );
-
         $this->fields = $fields;
         $this->offset = $offset;
         $this->limit = $limit;

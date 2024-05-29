@@ -6,7 +6,8 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Container\Container;
 use Carbon\Carbon;
-use DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
 class AdministratorService extends UserService
@@ -33,8 +34,9 @@ class AdministratorService extends UserService
 
     /**
      * find administrator
+     * @throws \Exception
      */
-    public function find( $id): User
+    public function find( $id): Model
     {
         $user = parent::find($id);
         if ($user->role_id !== Role::administrator) {
@@ -42,7 +44,7 @@ class AdministratorService extends UserService
         }
         return $user;
     }
-    public function create(array $attributes): \App\Dtos\Result|User
+    public function create(array $attributes): \App\DTOs\Result
     {
         $file = $attributes['file'];
         $user = auth()->user();
@@ -59,36 +61,20 @@ class AdministratorService extends UserService
           ];
 
 
-        $record = $this->store($attachment);
-        return $record;
+        return $this->ok($this->store($attachment));
     }
-    public function statistic()
+    public function statistic(): \App\DTOs\Result
     {
         $managers_count = Container::getInstance()->get(UserService::class)->builder()->where('role_id', Role::manager)->count();
-        $clinics_count = Container::getInstance()->get(UserService::class)->builder()->where('role_id', Role::clinic)->count();
-        $clients_count = Container::getInstance()->get(UserService::class)->builder()->where('role_id', Role::client)->count();
-        $doctors_count = Container::getInstance()->get(UserService::class)->builder()->where('role_id', Role::doctor)->count();
+        $clients_count = Container::getInstance()->get(UserService::class)->builder()->where('role_id', Role::customer)->count();
         $coupons_count = Container::getInstance()->get(CouponService::class)->builder()->count();
-
         $from = Carbon::now()->startOfYear()->format('Y-m-d');
         $to = Carbon::now()->endOfYear()->format('Y-m-d');
-
-        $clinics_per_month_data = Container::getInstance()->get(UserService::class)->builder()->where('role_id', Role::clinic)
-        ->select(
-            DB::raw('COUNT(users.id) as count'),
-            DB::raw('YEAR(created_at) year, MONTH(created_at) month')
-        )->whereBetween('created_at', [$from, $to])->groupby('year', 'month')->get()->toArray();
-
         for ($inc = 1; $inc <= 12; $inc++) {
             $clinics_per_month[$inc] = 0;
-            foreach ($clinics_per_month_data as $match) {
-                if ($match['month'] == $inc) {
-                    $clinics_per_month[$inc] = $match['count'];
-                }
-            }
         }
 
-        $clients_per_month_data = Container::getInstance()->get(UserService::class)->builder()->where('role_id', Role::client)
+        $clients_per_month_data = Container::getInstance()->get(UserService::class)->builder()->where('role_id', Role::customer)
         ->select(
             DB::raw('COUNT(users.id) as count'),
             DB::raw('YEAR(created_at) year, MONTH(created_at) month')
@@ -105,22 +91,13 @@ class AdministratorService extends UserService
 
         $from_week = Carbon::now()->subWeek(1)->format('Y-m-d');
         $today = Carbon::now()->format('Y-m-d');
-
-        $clinics_per_week_data = Container::getInstance()->get(UserService::class)->builder()->where('role_id', Role::clinic)
-        ->select(
-            DB::raw('COUNT(users.id) as count'),
-            DB::raw('YEAR(created_at) year, DAY(created_at) day')
-        )->whereBetween('created_at', [$from_week, $today])->groupby('year', 'day')->get()->toArray();
-
         for ($inc = 1; $inc <= 7; $inc++) {
             $clinics_per_week[$inc] = $clinics_per_week_data[$inc-1]['count'] ?? 0;
         }
 
         $data = [
             "managers_count"    =>  $managers_count,
-            "clinics_count"     =>  $clinics_count,
             "clients_count"     =>  $clients_count,
-            "doctors_count"     =>  $doctors_count,
             "coupons_count"     =>  $coupons_count,
             "clinics_per_month" =>  $clinics_per_month,
             "clients_per_month" =>  $clients_per_month,

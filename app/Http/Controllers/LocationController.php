@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dtos\SearchQuery;
+use App\DTOs\SearchQuery;
 use App\Http\Requests\BannerRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -14,7 +14,6 @@ use App\Http\Responses\SuccessResponse;
 use App\Services\AuthService;
 use App\Services\BannerService;
 use App\Services\LocationService;
-use App\Services\WishListService;
 
 class LocationController extends Controller
 {

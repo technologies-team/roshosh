@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Dtos;
+namespace App\DTOs;
 
 class Result
 {
     /**
      *
      */
-    public $statusCode;
+    public int $statusCode;
 
     /**
      *
      */
-    public $message;
+    public string $message;
 
     /**
      *
      */
-    public $data;
+    public mixed $data;
 
     public function __construct( $data, string $message = '', int $statusCode = 0)
     {

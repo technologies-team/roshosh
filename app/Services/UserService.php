@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use App\Models\User;
 use App\Models\UserFcm;
 use Exception;
@@ -72,7 +72,7 @@ class UserService extends ModelService
     /**
      * @throws ExceptionAlias
      */
-    public function login($role,array $credentials): \App\Dtos\Result
+    public function login($role,array $credentials): \App\DTOs\Result
     {
         $user = $this->getUserBy('email', $credentials['email']);
         if (!$user instanceof User) {

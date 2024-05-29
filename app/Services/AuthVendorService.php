@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use App\Http\Responses\SuccessResponse;
 use App\Models\User;
 use Exception;
@@ -23,7 +23,7 @@ class AuthVendorService extends Service
      * login
      * @throws Exception
      */
-    public function login(array $credentials): \App\Dtos\Result
+    public function login(array $credentials): \App\DTOs\Result
     {
         return $this->userService->login(User::ROLE_VENDOR,$credentials);
     }
@@ -58,7 +58,7 @@ class AuthVendorService extends Service
     /**
      * @throws Exception
      */
-    public function me(): \App\Dtos\Result
+    public function me(): \App\DTOs\Result
     {
         $user = auth()->user();
         if ($user instanceof User) {
@@ -70,7 +70,7 @@ class AuthVendorService extends Service
     /**
      * @throws Exception
      */
-    public function logout(): \App\Dtos\Result
+    public function logout(): \App\DTOs\Result
     {
         $user = auth()->user();
         if ($user instanceof User) {

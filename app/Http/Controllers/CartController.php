@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dtos\SearchQuery;
+use App\DTOs\SearchQuery;
 use App\Http\Requests\BannerRequest;
 use App\Http\Requests\CartRequest;
 use App\Http\Requests\LoginRequest;

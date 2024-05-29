@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use App\Models\AccountActivated;
 use App\Models\Book;
 use App\Models\BookLog;

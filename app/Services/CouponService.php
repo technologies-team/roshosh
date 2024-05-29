@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Dtos\Result;
+use App\DTOs\Result;
 use App\Models\Coupon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use phpseclib3\Math\PrimeField\Integer;
 
 class CouponService extends ModelService
@@ -119,19 +120,14 @@ class CouponService extends ModelService
      * create a new coupon
      * @throws Exception
      */
-    public function store(array $attributes): Coupon
+    public function store(array $attributes): Model
     {
-        $record = parent::store($attributes);
         //
         //
-        $this->attachRelations($record, $attributes);
+       // $this->attachRelations($record, $attributes);
         // TODO: sites attribute value
-        if ($record instanceof Coupon) {
-            //
-            // TODO: sites attribute value
-            $record->sites()->attach([1]);
-        }
-        return $record;
+
+        return parent::store($attributes);
     }
 
     private function attachRelations(Coupon $coupon, array $attributes): void
@@ -142,28 +138,28 @@ class CouponService extends ModelService
         //  dd($attributes);
         if (isset($attributes['users'])) {
             $users = (array)$attributes['users'];
-            $coupon->users()->detach();
+           // $coupon->users()->detach();
             // TODO: sites attribute value
-            $coupon->users()->attach($users, ['site_id' => 1]);
+          //  $coupon->users()->attach($users, ['site_id' => 1]);
         }
         //
         // 2. store or update services
         //
         if (isset($attributes['services'])) {
             $services = (array)$attributes['services'];
-            $coupon->services()->detach();
-            $coupon->services()->attach($services);
+          //  $coupon->services()->detach();
+        //    $coupon->services()->attach($services);
         }
     }
 
     /**
      * save coupon
+     * @throws Exception
      */
-    public function update($id, array $attributes): Coupon
+    public function update($id, array $attributes): Model
     {
-        $record = parent::update($id, $attributes);
         //
-        $this->attachRelations($record, $attributes);
-        return $record;
+      //  $this->attachRelations($record, $attributes);
+        return parent::update($id, $attributes);
     }
 }

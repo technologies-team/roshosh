@@ -8,10 +8,10 @@
         body {
             font-family: Arial, sans-serif;
             color: #000000;
-            font-size: 16px; /* Base font size */
+            font-size: 14px; /* Base font size */
         }
         p, li {
-            font-size: 16px; /* Increase font size for paragraphs and list items */
+            font-size: 14px; /* Increase font size for paragraphs and list items */
             line-height: 1.5;
         }
     </style>

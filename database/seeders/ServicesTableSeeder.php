@@ -52,7 +52,7 @@ class ServicesTableSeeder extends Seeder
                 'updated_at' => now(),
             ],[
                 'title' => 'Car Detailing',
-                'title_ar' => 'خدمات التنظيف الداخلي والخارجي للسيارات (تنفيض السيارات)',
+                'title_ar' => 'خدمات التنظيف الداخلي والخارجي للسيارات',
                 'description' => 'Several stages are involved:|Two Layer body wash(steam water)|Steps body polishing with high quality products|Full interior detailing with high pressure steam|Seat polishing shampooing engine compartment cleaning|AC duct cleaning with hot steam|Leather protection coating|Trunk vacuum|Truck mat cleaning and stain removal|Exterior Shampoo|Washing & Interior',
                 'description_ar' => 'تكون على عدة مراحل:|غسيل السيارة على مرحلتين باستخدام البخار|تلميع هيكل السيارة بست خطوات باستخدام منتجات عالية الجودة|تنظيف كامل للمقصورة الداخلية للسيارة باستخدام البخار عالي الضغط|تنظيف وتلميع المقاعد وغسيل شامل للمحركً|تنظيف مجاري ومنافذ التكييف بالبخار الساخن|طلاء أغطية الكراسي الجلدية| تنظيف صندوق الأمتعة باستخدام الشفاط|تنظيف شامل لسجادات السيارة وإزالة أي بقع|غسيل خارجي للسيارة بالشامبو|غسيل وتنظيف داخلي للسيارة بعمق', 'price' => 200.00,
                 'category_id' => 2,

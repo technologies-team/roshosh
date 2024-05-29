@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Role extends Model
 {
     use HasFactory;
+
+    const administrator = "Admin";
+    const manager = "manager";
+    const customer = "customer";
     protected $fillable = ['name'];
 
     public function users(): BelongsToMany

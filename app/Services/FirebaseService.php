@@ -13,7 +13,7 @@ class FirebaseService
     public function __construct()
     {
         $firebase = (new Factory)
-            ->withServiceAccount(storage_path('app\\firebase-auth.json'));
+            ->withServiceAccount(storage_path('app/firebase-auth.json'));
 
         $this->auth = $firebase->createAuth();
     }

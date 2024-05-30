@@ -45,7 +45,8 @@ class User extends Authenticatable
         'phone',
         'status',
         'remember_token',
-        'role'
+        'role',
+        'vendor'
 
     ];
 

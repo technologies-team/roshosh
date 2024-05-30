@@ -38,6 +38,7 @@ function Costumer($controller): void
         Route::middleware('auth:sanctum')->group(function () use ($controller) {
             Route::put('/user/{id}', [UserController::class, 'update']);
             Route::get('/me', [$controller, 'me']);
+            Route::get('/verify', [$controller, 'verify']);
             Route::get('/delete', [$controller, 'delete']);
             Route::post('/logout', [$controller, 'logout']);
         });

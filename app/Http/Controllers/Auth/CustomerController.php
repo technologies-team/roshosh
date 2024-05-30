@@ -7,9 +7,11 @@ use App\Http\Requests\LoginNumberRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterNumberRequest;
 use App\Http\Requests\SocialLoginRequest;
+use App\Http\Requests\verifyRequest;
 use App\Http\Responses\SuccessResponse;
 use App\Services\AuthService;
 use Exception;
+use Google\Rpc\Context\AttributeContext\Request;
 use Illuminate\Http\Response;
 
 class CustomerController extends Controller
@@ -58,6 +60,9 @@ class CustomerController extends Controller
     public function me(): SuccessResponse
     {
         return $this->ok($this->service->me());
+    }    public function verify(verifyRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->verify($request->all()));
     }
 
     /**

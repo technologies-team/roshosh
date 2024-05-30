@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Auth;
 class AuthService extends Service
 {
     protected UserService $userService;
+    protected FirebaseService $firebaseService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService,FirebaseService $firebaseService)
     {
         $this->userService = $userService;
+        $this->firebaseService = $firebaseService;
     }
     /**
      * login
@@ -55,6 +57,9 @@ class AuthService extends Service
             return $this->ok($user, 'auth:me:done');
         }
         throw new Exception('unauthenticated');
+    }    public function verify($attributes): Result
+    {
+     return $this->ok($this->firebaseService->verifyIdToken($attributes['verify']));
     }
     /**
      * @throws Exception

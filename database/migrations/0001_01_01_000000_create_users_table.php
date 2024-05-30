@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('status', User::statuses)->default('NEW');
             $table->unsignedBigInteger('photo_id')->nullable();
             $table->string('role' )->default('customer');
-
+            $table->string('vendor' )->default('local');
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean("verified")->default(false);
             $table->string('password');

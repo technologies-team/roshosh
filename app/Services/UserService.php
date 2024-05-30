@@ -19,7 +19,7 @@ class UserService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language','tap_customer_id','cm_firebase_token',"remember_token","role"];
+    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language','tap_customer_id','cm_firebase_token',"remember_token","role","vendor"];
 
     /**
      * updatable field is a field which can be filled during updating the record
@@ -128,7 +128,6 @@ class UserService extends ModelService
      */
     public function loginRegister($user, $attributes,$role): Result
     {
-
         if ($user instanceof User) {
             if (isset($credentials["fcm"])) {
                 $this->fcmSave($user, $credentials["fcm"]);
@@ -151,6 +150,7 @@ class UserService extends ModelService
         }
 
 
+        $attributes['vendor'] = "social";
         $attributes['status'] = User::status_active;
         if (!isset($attributes['password'])) {
             $attributes['password'] = "welcome1";

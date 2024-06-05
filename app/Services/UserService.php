@@ -247,7 +247,7 @@ class UserService extends ModelService
         }
         $record = $this->find($id);
         $record->forceDelete();
-        return $this->ok(0,"user delete success");
+        return $this->ok(1,"user delete success");
     }
 
     /**

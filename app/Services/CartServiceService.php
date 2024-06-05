@@ -39,14 +39,12 @@ class CartServiceService extends ModelService
     private CartsService $cartsService;
     private ServiceService $service;
     private UserService $userService;
-    private CouponService $couponService;
 
-    public function __construct(CartsService $cartsService, UserService $userService, ServiceService $service, CouponService $couponService)
+    public function __construct(CartsService $cartsService, UserService $userService, ServiceService $service)
     {
         $this->cartsService = $cartsService;
         $this->userService = $userService;
         $this->service = $service;
-        $this->couponService = $couponService;
     }
 
     public function builder(): Builder

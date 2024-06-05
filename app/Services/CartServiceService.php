@@ -107,27 +107,6 @@ class CartServiceService extends ModelService
 
         }
         $price = number_format($price - $max, 2, '.', '');
-
-        if(isset($attributes["coupon_id"])){
-          $coupon=  $this->couponService->find($attributes["coupon_id"]);
-       if($coupon instanceof Coupon){
-           if (isset($coupon->min_amount) && $coupon->min_amount > $price) {
-               $max=0;
-           }
-           else{
-               $discount= $this->calcDiscount($price,$coupon->type,$coupon->value,$coupon->percent_limited);
-               $max = $discount;
-
-           }
-       }
-
-            $price = number_format($price - $max, 2, '.', '');
-
-        }
-        else{
-            unset($attributes["coupon_id"]);
-        }
-
         $attributes["price"] = $price;
         $attributes["total_price"] = $price;
         // TODO: sites attribute value

@@ -61,9 +61,7 @@ class CouponService extends ModelService
         $cart = $this->cartService->getUserCart();
         $cartService = $cart->cartService()->first();
         if (!($coupon->min_amount) || $coupon->min_amount < $cartService->price) {
-
-
-            $newPrice = $this->calcDiscount($cartService->price, $coupon->type, $coupon->value, $coupon->percent_limited);
+            $newPrice = $this->cartService->calcDiscount($cartService->price, $coupon->type, $coupon->value, $coupon->percent_limited);
             $newPrice = number_format($newPrice, 2, '.', '');
             $newColumn["total_price"] = $newPrice;
             $newColumn["coupon_id"] = $coupon->id;
@@ -109,10 +107,10 @@ class CouponService extends ModelService
     private function calcDiscount($price, $type, $value, $max)
     {
         return match ($type) {
-            "percent_limited" =>$price- max(($price * $value) / 100, $price - $max),
-            "fixed" =>$price- max($price - $value, $price - $max),
-            "percent" => $price-($price * $value) / 100,
-            default => $price,
+            "percent_limited" => max(($price * $value) / 100, $price - $max),
+            "fixed" =>$price- max( $value,  $max),
+            "percent" => ($price * $value) / 100,
+            default => 0,
         };
     }
 

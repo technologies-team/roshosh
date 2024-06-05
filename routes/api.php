@@ -21,6 +21,7 @@ Route::get('/auth/callback', function () {
 });
 Route::get('/send-notification', [PushNotificationController::class, 'sendPushNotification']);
 /**
+ * @param $controller
  * @return void
  */
 function Costumer($controller): void
@@ -39,7 +40,7 @@ function Costumer($controller): void
             Route::put('/user/{id}', [UserController::class, 'update']);
             Route::get('/me', [$controller, 'me']);
             Route::get('/verify', [$controller, 'verify']);
-            Route::get('/delete', [$controller, 'delete']);
+            Route::get('/delete', [UserController::class, 'delete']);
             Route::post('/logout', [$controller, 'logout']);
         });
     });

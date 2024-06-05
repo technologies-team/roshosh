@@ -109,7 +109,7 @@ class CartServiceService extends ModelService
         $price = number_format($price - $max, 2, '.', '');
 
         if(isset($attributes["coupon_id"])){
-          $coupon=  $this->cartsService->find($attributes["coupon_id"]);
+          $coupon=  $this->couponService->find($attributes["coupon_id"]);
        if($coupon instanceof Coupon){
            if (isset($coupon->min_amount) && $coupon->min_amount > $price) {
                $max=0;

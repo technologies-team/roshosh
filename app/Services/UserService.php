@@ -245,8 +245,16 @@ class UserService extends ModelService
         if(!$id){
             $id=auth()->id();
         }
-        $record = $this->find($id);
-        $record->forceDelete();
+        $user = $this->find($id);
+
+            if($user instanceof User){
+                $user->vehicles()->delete();
+                $user->locations()->delete();
+                $user->carts()->delete();
+                $user->fcm()->delete();
+                $user->resetToken()->delete();
+        }
+        $user->forceDelete();
         return $this->ok(1,"user delete success");
     }
 

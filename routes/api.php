@@ -34,7 +34,7 @@ function Costumer($controller): void
         Route::post('/login', [$controller, 'login']);
         Route::post('/social-login', [$controller, 'socialLogin']);
         Route::post('/phone-login', [$controller, 'phoneLogin']);
-        Route::post('/register', [UserController::class, 'register']);
+        Route::post('/register', [$controller, 'register']);
 
         Route::middleware('auth:sanctum')->group(function () use ($controller) {
             Route::put('/user/{id}', [UserController::class, 'update']);

@@ -174,7 +174,6 @@ class UserService extends ModelService
      */
     public function register($attributes): Result
     {
-
         $attributes['status'] = User::status_active;
         if(!isset($attributes['password'])){
             $attributes['password']="welcome1";
@@ -187,10 +186,8 @@ class UserService extends ModelService
             $token = $user->createToken('*');
             try{
                 (new EmailService($this))->sendWelcomeMail($user);
-
             }
              catch (Exception $e){
-
              }
             $data = [
                 'user' => $user->toLightWeightArray(),
@@ -201,10 +198,7 @@ class UserService extends ModelService
             }
         }
         throw new \Exception('clients:register:step1:errors:failed');
-
-
     }
-
     /**
      * create a new user
      * @throws ExceptionAlias
@@ -233,9 +227,6 @@ class UserService extends ModelService
         return parent::save($id,$attributes);
 
     }
-
-
-
     /**
      * delete inner
      * @throws ExceptionAlias
@@ -258,7 +249,6 @@ class UserService extends ModelService
         $user->forceDelete();
         return $this->ok(1,"user delete success");
     }
-
     /**
      * activate user
      * @throws ExceptionAlias

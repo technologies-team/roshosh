@@ -100,6 +100,9 @@ class User extends Authenticatable
     public function fcm(): HasMany
     {
         return $this->hasMany(UserFcm::class);
+    }    public function book(): HasMany
+    {
+        return $this->hasMany(Book::class);
     }
     public function toLightWeightArray(): array
     {

@@ -7,6 +7,7 @@ namespace App\Services;
 use App\DTOs\Result;
 use App\Models\Cart;
 use App\Models\CartService;
+use App\Models\Coupon;
 use App\Models\Location;
 use App\Models\Offer;
 use App\Models\User;
@@ -38,12 +39,14 @@ class CartServiceService extends ModelService
     private CartsService $cartsService;
     private ServiceService $service;
     private UserService $userService;
+    private CouponService $couponService;
 
-    public function __construct(CartsService $cartsService, UserService $userService, ServiceService $service)
+    public function __construct(CartsService $cartsService, UserService $userService, ServiceService $service, CouponService $couponService)
     {
         $this->cartsService = $cartsService;
         $this->userService = $userService;
         $this->service = $service;
+        $this->couponService = $couponService;
     }
 
     public function builder(): Builder
@@ -115,8 +118,28 @@ class CartServiceService extends ModelService
                        }
                    }*/
         }
-
         $price = number_format($price - $max, 2, '.', '');
+
+        if(isset($attributes["coupon_id"])){
+          $coupon=  $this->cartsService->find($attributes["coupon_id"]);
+       if($coupon instanceof Coupon){
+           if (isset($coupon->min_amount) && $coupon->min_amount > $price) {
+               $max=0;
+           }
+           else{
+               $discount= $this->calcDiscount($price,$coupon->type,$coupon->value,$coupon->percent_limited);
+               $max = $discount;
+
+           }
+       }
+
+            $price = number_format($price - $max, 2, '.', '');
+
+        }
+        else{
+            unset($attributes["coupon_id"]);
+        }
+
         $attributes["price"] = $price;
         $attributes["total_price"] = $price;
         // TODO: sites attribute value

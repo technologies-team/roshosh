@@ -246,7 +246,8 @@ class UserService extends ModelService
             $id=auth()->id();
         }
         $record = $this->find($id);
-        return parent::delete($id);
+        $record->forceDelete();
+        return $this->ok("","user delete success");
     }
 
     /**

@@ -253,6 +253,7 @@ class UserService extends ModelService
                 $user->carts()->forceDelete();
                 $user->fcm()->forceDelete();
                 $user->resetToken()->forceDelete();
+                $user->book()->forceDelete();
         }
         $user->forceDelete();
         return $this->ok(1,"user delete success");

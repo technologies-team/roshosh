@@ -61,10 +61,10 @@ class CouponService extends ModelService
         $cart = $this->cartService->getUserCart();
         $cartService = $cart->cartService()->first();
         if (!($coupon->min_amount) || $coupon->min_amount < $cartService->price) {
-            if (isset($offer->min_amount) && $offer->min_amount > $cartService->price) {
+            if (isset($coupon->min_amount) && $coupon->min_amount > $cartService->price) {
                 $max = 0;
             } else {
-                $discount = $this->cartService->calcDiscount($cartService->price, $offer->type, $offer->value, $offer->percent_limited);
+                $discount = $this->cartService->calcDiscount($cartService->price, $coupon->type, $coupon->value, $coupon->percent_limited);
                 $max = $discount;
             }
             $price = number_format($cartService->price - $max, 2, '.', '');

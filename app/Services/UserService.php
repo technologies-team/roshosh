@@ -185,7 +185,13 @@ class UserService extends ModelService
             // $user = $client->user()->get()->first();
             $user = $this->ignoredFind($user->id);
             $token = $user->createToken('*');
-            (new EmailService($this))->sendWelcomeMail($user);
+            try{
+                (new EmailService($this))->sendWelcomeMail($user);
+
+            }
+             catch (Exception $e){
+
+             }
             $data = [
                 'user' => $user->toLightWeightArray(),
                 'token' => $token->plainTextToken,

@@ -156,8 +156,6 @@ class UserService extends ModelService
             $this->fcmSave($user, $credentials["fcm"]);
             unset($credentials["fcm"]);
         }
-
-
         $attributes['vendor'] = "social";
         $attributes['status'] = User::status_active;
         if (!isset($attributes['password'])) {
@@ -170,7 +168,12 @@ class UserService extends ModelService
         // $user = $client->user()->get()->first();
         $user = $this->ignoredFind($user->id);
         $token = $user->createToken('*');
-        (new EmailService($this))->sendWelcomeMail($user);
+        try{
+            (new EmailService($this))->sendWelcomeMail($user);
+        }
+        catch (Exception $exception){
+
+        }
         $data = [
             'user' => $user->toLightWeightArray(),
             'token' => $token->plainTextToken,

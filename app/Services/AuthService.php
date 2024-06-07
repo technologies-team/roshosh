@@ -28,6 +28,7 @@ class AuthService extends Service
      */
     public function socialLogin($attributes): Result
     {
+
         if (isset($attributes["name"])) {
             $user = $this->userService->getUserBy("name", $attributes["name"]);
 

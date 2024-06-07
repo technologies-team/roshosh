@@ -108,8 +108,9 @@ class BookService extends ModelService
             $details['location'] = $location;
             $details['vehicle'] = $vehicle;
             $details['coupon'] = "";
-            $rewards = $user->rewards + 15;
         }
+        $rewards = $user->rewards + 15;
+
         if (isset($attributes["rewards"])) {
             if ($rewards < $attributes["rewards"]) {
                 throw new Exception("rewards not enugh");

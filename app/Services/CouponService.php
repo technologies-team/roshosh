@@ -14,12 +14,12 @@ class CouponService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['name', 'description', 'type', 'value', 'start_at', 'expires_at', 'enabled', 'clinic_id', 'count'];
+    protected array $storables = ['name', 'description', 'type', 'value', 'start_at', 'expires_at', 'enabled', 'clinic_id','count'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['description', 'type', 'value', 'start_at', 'expires_at', 'enabled', 'clinic_id', 'count'];
+    protected array $updatables = ['description', 'type', 'value', 'start_at', 'expires_at', 'enabled', 'clinic_id','count'];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
@@ -55,7 +55,7 @@ class CouponService extends ModelService
         if (!$this->isValidCoupon($coupon)) {
             throw  new Exception('coupon code not valid try another code');
         }
-        $newColumn = [];
+        $newColumn=[];
         $cart = $this->cartService->getUserCart();
         $cartService = $cart->cartService()->first();
         if (!($coupon->min_amount) || $coupon->min_amount < $cartService->price) {
@@ -67,41 +67,36 @@ class CouponService extends ModelService
             }
             $price = number_format($cartService->price - $max, 2, '.', '');
 
-            $newRewards =($price - $max)*100;
-            $newRewards  = number_format( $newRewards , 2, '.', '');
-
             $newPrice = number_format($price, 2, '.', '');
-            $newColumn["total_rewards"] = $newRewards;
+            $newColumn["total_rewards"] = $newPrice*100;
             $newColumn["total_price"] = $newPrice;
             $newColumn["coupon_id"] = $coupon->id;
-            $coupon->update(["count" => $coupon->count - 1]);
+            $coupon->update(["count"=>$coupon->count-1]);
 
-            return $this->ok($this->cartService->update($cartService->id, $newColumn), "coupon Applied  successful");
+            return $this->ok($this->cartService->update($cartService->id,$newColumn), "coupon Applied  successful");
 
         }
-        throw new Exception("coupon code not valid try another code");
+      throw new Exception("coupon code not valid try another code");
     }
-
     /**
      * @throws Exception
      */
     public function removeCoupon(): Result
-    {
-        $cart = $this->cartService->getUserCart();
-        $cartService = $cart->cartService()->first();
-        if (isset($cartService->coupon_id)) {
-            $coupon = $this->find($cartService->coupon_id);
-            if (isset($coupon->count)) {
-                $coupon->update(["count" => $coupon->count + 1]);
-            }
-        }
-        $newColumn["total_price"] = $cartService->price;
-        $newColumn["total_rewards"] = $cartService->price * 100;
-        $newColumn["coupon_id"] = Null;
-        return $this->ok($this->cartService->update($cartService->id, $newColumn), "coupon removed  successful");
-
+{
+    $cart = $this->cartService->getUserCart();
+    $cartService = $cart->cartService()->first();
+if(isset($cartService->coupon_id)){
+    $coupon=$this->find($cartService->coupon_id);
+    if(isset($coupon->count)){
+        $coupon->update(["count"=>$coupon->count+1]);
     }
+}
+    $newColumn["total_price"]= $cartService->price;
+    $newColumn["total_rewards"]= $cartService->price*100;
+    $newColumn["coupon_id"]= Null;
+    return $this->ok($this->cartService->update($cartService->id,$newColumn), "coupon removed  successful");
 
+}
     public function getCouponByName($name)
     {
         return Coupon::where('name', $name)->first();
@@ -127,7 +122,7 @@ class CouponService extends ModelService
     {
         return match ($type) {
             "percent_limited" => max(($price * $value) / 100, $price - $max),
-            "fixed" => $price - max($value, $max),
+            "fixed" =>$price- max( $value,  $max),
             "percent" => ($price * $value) / 100,
             default => 0,
         };
@@ -141,7 +136,7 @@ class CouponService extends ModelService
     {
         //
         //
-        // $this->attachRelations($record, $attributes);
+       // $this->attachRelations($record, $attributes);
         // TODO: sites attribute value
 
         return parent::store($attributes);
@@ -155,17 +150,17 @@ class CouponService extends ModelService
         //  dd($attributes);
         if (isset($attributes['users'])) {
             $users = (array)$attributes['users'];
-            // $coupon->users()->detach();
+           // $coupon->users()->detach();
             // TODO: sites attribute value
-            //  $coupon->users()->attach($users, ['site_id' => 1]);
+          //  $coupon->users()->attach($users, ['site_id' => 1]);
         }
         //
         // 2. store or update services
         //
         if (isset($attributes['services'])) {
             $services = (array)$attributes['services'];
-            //  $coupon->services()->detach();
-            //    $coupon->services()->attach($services);
+          //  $coupon->services()->detach();
+        //    $coupon->services()->attach($services);
         }
     }
 
@@ -176,7 +171,7 @@ class CouponService extends ModelService
     public function update($id, array $attributes): Model
     {
         //
-        //  $this->attachRelations($record, $attributes);
+      //  $this->attachRelations($record, $attributes);
         return parent::update($id, $attributes);
     }
 }

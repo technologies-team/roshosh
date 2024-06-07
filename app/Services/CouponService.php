@@ -14,12 +14,12 @@ class CouponService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['name', 'description', 'type', 'value', 'start_at', 'expires_at', 'enabled', 'clinic_id'];
+    protected array $storables = ['name', 'description', 'type', 'value', 'start_at', 'expires_at', 'enabled', 'clinic_id','count'];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['description', 'type', 'value', 'start_at', 'expires_at', 'enabled', 'clinic_id'];
+    protected array $updatables = ['description', 'type', 'value', 'start_at', 'expires_at', 'enabled', 'clinic_id','count'];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
@@ -29,7 +29,7 @@ class CouponService extends ModelService
     /**
      *
      */
-    protected array $with = ['users', 'services', 'sites', 'clinic'];
+    protected array $with = ['users', 'services',];
     protected CartServiceService $cartService;
 
     public function __construct(CartServiceService $cartService)
@@ -86,15 +86,15 @@ class CouponService extends ModelService
 {
     $cart = $this->cartService->getUserCart();
     $cartService = $cart->cartService()->first();
-
+if(isset($cartService->coupon_id)){
     $coupon=$this->find($cartService->coupon_id);
+    if(isset($coupon->count)){
+        $coupon->update(["count"=>$coupon->count+1]);
+    }
+}
     $newColumn["total_price"]= $cartService->price;
     $newColumn["total_rewards"]= $cartService->price*100;
     $newColumn["coupon_id"]= Null;
-    if(isset($coupon->count)){
-        $coupon->update(["count"=>$coupon->count+1]);
-
-    }
     return $this->ok($this->cartService->update($cartService->id,$newColumn), "coupon removed  successful");
 
 }

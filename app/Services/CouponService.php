@@ -29,7 +29,6 @@ class CouponService extends ModelService
     /**
      *
      */
-    protected array $with = ['users', 'services',];
     protected CartServiceService $cartService;
 
     public function __construct(CartServiceService $cartService)

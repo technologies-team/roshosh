@@ -87,8 +87,14 @@ class CouponService extends ModelService
     $cart = $this->cartService->getUserCart();
     $cartService = $cart->cartService()->first();
 
+    $coupon=$this->find($cartService->coupon_id);
     $newColumn["total_price"]= $cartService->price;
+
     $newColumn["coupon_id"]= Null;
+    if(isset($coupon->count)){
+        $coupon->update(["count"=>$coupon->count+1]);
+
+    }
     return $this->ok($this->cartService->update($cartService->id,$newColumn), "coupon removed  successful");
 
 }

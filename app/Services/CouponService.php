@@ -73,10 +73,12 @@ class CouponService extends ModelService
             $newColumn["total_rewards"] = $newPrice*100;
             $newColumn["total_price"] = $newPrice;
             $newColumn["coupon_id"] = $coupon->id;
-        }
-        $coupon->update(["count"=>$coupon->count-1]);
+            $coupon->update(["count"=>$coupon->count-1]);
 
-      return $this->ok($this->cartService->update($cartService->id,$newColumn), "coupon Applied  successful");
+            return $this->ok($this->cartService->update($cartService->id,$newColumn), "coupon Applied  successful");
+
+        }
+      throw new Exception("coupon code not valid try another code");
     }
 
     /**

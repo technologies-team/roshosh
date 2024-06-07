@@ -66,7 +66,10 @@ class CouponService extends ModelService
                 $max = $discount;
             }
             $price = number_format($cartService->price - $max, 2, '.', '');
-            $newRewards = number_format(($price-$max) * 100, 2, '.', '');
+
+            $newRewards =($price - $max)*100;
+            $newRewards  = number_format( $newRewards , 2, '.', '');
+
             $newPrice = number_format($price, 2, '.', '');
             $newColumn["total_rewards"] = $newRewards;
             $newColumn["total_price"] = $newPrice;

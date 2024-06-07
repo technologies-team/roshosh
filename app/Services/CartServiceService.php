@@ -21,7 +21,7 @@ class CartServiceService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['cart_id', 'vehicle_id', 'location_id', 'service_id', 'service_time', 'coupon_id', 'price', 'quantity', 'total_price', 'offer_id'];
+    protected array $storables = ['cart_id', 'vehicle_id', 'location_id', 'service_id', 'service_time', 'coupon_id', 'price','rewards', 'quantity', 'total_price','total_rewards', 'offer_id'];
 
     /**
      * updatable field is a field which can be filled during updating the record
@@ -87,6 +87,7 @@ class CartServiceService extends ModelService
 
         $service = $this->service->find($attributes["service_id"]);
         $price = $service->price;
+        $rewards = $service->rewards??0;
         $max = 0;
         if (isset($attributes["offer_id"])) {
             $max = $this->applayOffere($attributes["offer_id"], $service, $price);
@@ -96,6 +97,13 @@ class CartServiceService extends ModelService
         }
         $price = number_format($price - $max, 2, '.', '');
         $attributes["price"] = $price;
+        if($rewards){
+            $rewards = number_format($rewards - $max*100, 2, '.', '');
+
+            $attributes["rewards"] = $rewards;
+
+            $attributes["total_rewards"] = $rewards;
+        }
         $attributes["total_price"] = $price;
         // TODO: sites attribute value
         return parent::store($attributes);

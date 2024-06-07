@@ -46,7 +46,8 @@ class User extends Authenticatable
         'status',
         'remember_token',
         'role',
-        'vendor'
+        'vendor',
+        'rewards'
 
     ];
 

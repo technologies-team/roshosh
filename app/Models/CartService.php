@@ -18,9 +18,11 @@ class CartService extends Model
         'coupon_id',
         'offer_id',
         'price',
+        'rewards',
         'quantity',
         'service_time',
-        'total_price'
+        'total_price',
+        'total_rewards'
     ];
     public function service(): BelongsTo
     {

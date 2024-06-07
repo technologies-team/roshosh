@@ -52,7 +52,6 @@ class CouponService extends ModelService
      */
     public function apply(array $attribute): Result
     {
-
         $coupon = $this->getCouponByName($attribute['name']);
         if (!$this->isValidCoupon($coupon)) {
             throw  new Exception('coupon code not valid try another code');
@@ -80,7 +79,6 @@ class CouponService extends ModelService
         }
       throw new Exception("coupon code not valid try another code");
     }
-
     /**
      * @throws Exception
      */
@@ -91,7 +89,7 @@ class CouponService extends ModelService
 
     $coupon=$this->find($cartService->coupon_id);
     $newColumn["total_price"]= $cartService->price;
-
+    $newColumn["total_rewards"]= $cartService->price*100;
     $newColumn["coupon_id"]= Null;
     if(isset($coupon->count)){
         $coupon->update(["count"=>$coupon->count+1]);

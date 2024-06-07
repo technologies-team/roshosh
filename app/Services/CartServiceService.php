@@ -26,7 +26,7 @@ class CartServiceService extends ModelService
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['coupon_id', 'price', 'quantity', 'total_price'];
+    protected array $updatables = ['coupon_id', 'price', 'quantity', 'total_price','rewards','total_rewards',];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method

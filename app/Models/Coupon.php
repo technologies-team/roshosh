@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(string $string, $name)
+ */
 class Coupon extends Model
 {
     public const TYPE_CASH = 'cash';

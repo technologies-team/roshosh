@@ -96,7 +96,10 @@ class CouponService extends ModelService
             }
         }
         $newColumn["total_price"] = $cartService->price;
-        $newColumn["total_rewards"] = $cartService->price * 100;
+        $newRewards =($cartService->price )*100;
+        $newRewards= number_format( $newRewards , 2, '.', '');
+
+        $newColumn["total_rewards"] =$newRewards;
         $newColumn["coupon_id"] = Null;
         return $this->ok($this->cartService->update($cartService->id, $newColumn), "coupon removed  successful");
 

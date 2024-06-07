@@ -98,7 +98,7 @@ class CartServiceService extends ModelService
         $price = number_format($price - $max, 2, '.', '');
         $attributes["price"] = $price;
         if($rewards){
-            $rewards = number_format($rewards - $max*100, 2, '.', '');
+            $rewards = number_format(($rewards - $max)*100, 2, '.', '');
 
             $attributes["rewards"] = $rewards;
 

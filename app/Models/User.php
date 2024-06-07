@@ -65,6 +65,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(PasswordResetToken::class, 'email', 'email');    }
 
+    public function routeNotificationForFirebase()
+    {
+        $token=$this->fcm()->first();
+        return $token->fcm;
+    }
+
     /**
      * Get the attributes that should be cast.
      *

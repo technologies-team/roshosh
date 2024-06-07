@@ -21,7 +21,7 @@ class CartServiceService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['cart_id', 'vehicle_id', 'location_id', 'service_id', 'service_time', 'coupon_id', 'price', 'quantity', 'total_price','offer_id'];
+    protected array $storables = ['cart_id', 'vehicle_id', 'location_id', 'service_id', 'service_time', 'coupon_id', 'price', 'quantity', 'total_price', 'offer_id'];
 
     /**
      * updatable field is a field which can be filled during updating the record
@@ -88,21 +88,11 @@ class CartServiceService extends ModelService
         $service = $this->service->find($attributes["service_id"]);
         $price = $service->price;
         $max = 0;
-
         if (isset($attributes["offer_id"])) {
-            $offer = $service->offers()->find($attributes["offer_id"]);
-            if ($offer instanceof Offer) {
-                if (isset($offer->min_amount) && $offer->min_amount > $price) {
-                    $max = 0;
-                } else {
-                    $discount = $this->calcDiscount($price, $offer->type, $offer->value, $offer->percent_limited);
-                    $max = $discount;
-                }
-            }
-            else{
-                unset($attributes["offer_id"]);
-            }
-
+            $max = $this->applayOffere($attributes["offer_id"], $service, $price);
+        }
+        if ($max == 0) {
+            unset($attributes["offer_id"]);
         }
         $price = number_format($price - $max, 2, '.', '');
         $attributes["price"] = $price;
@@ -153,5 +143,16 @@ class CartServiceService extends ModelService
         return parent::prepare($operation, $attributes);
     }
 
+    private function applayOffere(mixed $offer_id, $service, $price): int
+    {
+        $offer = $service->offers()->find($offer_id);
+        if ($offer instanceof Offer) {
+            if (isset($offer->min_amount) && $offer->min_amount > $price) {
+                return 0;
+            }
+            return $this->calcDiscount($price, $offer->type, $offer->value, $offer->percent_limited);
+        }
+        return 0;
+    }
 
 }

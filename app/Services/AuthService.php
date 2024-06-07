@@ -42,6 +42,14 @@ class AuthService extends Service
     /**
      * @throws Exception
      */
+    public function register($attributes): Result
+    {
+        $attributes["role"]=User::ROLE_CUSTOMER;
+        return $this->userService->register($attributes);
+    }
+    /**
+     * @throws Exception
+     */
     public function phoneLogin($attributes): Result
     {
         $user = $this->userService->getUserBy("phone", $attributes["phone"]);
@@ -72,5 +80,9 @@ class AuthService extends Service
             return $this->ok(true, 'done');
         }
         throw new Exception('unauthenticated');
+    }
+
+    public function delete($id)
+    {
     }
 }

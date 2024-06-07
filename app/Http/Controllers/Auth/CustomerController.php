@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginNumberRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterNumberRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SocialLoginRequest;
 use App\Http\Requests\verifyRequest;
 use App\Http\Responses\SuccessResponse;
@@ -35,6 +36,13 @@ class CustomerController extends Controller
         return $this->ok($this->service->login($request->all()));
     }
 
+    /**
+     * @throws Exception
+     */
+    public function register(RegisterRequest $request): SuccessResponse
+    {
+        return $this->ok($this->service->register($request->all()));
+    }
     /**
      * @throws Exception
      */
@@ -75,8 +83,8 @@ class CustomerController extends Controller
     {
         return $this->ok($this->service->logout());
     }
-    public function delete( ): SuccessResponse
+    public function delete($id): SuccessResponse
     {
-        return $this->ok($this->service->destroy());
+        return $this->ok($this->service->delete($id));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTOs\Result;
 use App\Models\User;
 use App\Models\UserFcm;
+use App\Notifications\UpdateOrder;
 use Exception;
 use Exception as ExceptionAlias;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Firebase\Exception\MessagingException;
 use Throwable;
 
 class UserService extends ModelService
@@ -19,12 +22,12 @@ class UserService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language','tap_customer_id','cm_firebase_token',"remember_token","role","vendor"];
+    protected array $storables = ['username', 'name', 'email', 'phone', 'password', 'role_id', 'status', 'language', 'tap_customer_id', 'cm_firebase_token', "remember_token", "role", "vendor"];
 
     /**
      * updatable field is a field which can be filled during updating the record
      */
-    protected array $updatables = ['username', 'name', 'email', 'phone','password', 'status', 'language','cm_firebase_token',"remember_token",'role'];
+    protected array $updatables = ['username', 'name', 'email', 'phone', 'password', 'status', 'language', 'cm_firebase_token', "remember_token", 'role'];
 
     /**
      * searchable field is a field which can be searched for from keyword parameter in search method
@@ -35,6 +38,7 @@ class UserService extends ModelService
      *
      */
     protected array $with = [];
+    protected FirebaseService $firebaseService;
 
     public function builder(): \Illuminate\Database\Eloquent\Builder
     {
@@ -47,24 +51,27 @@ class UserService extends ModelService
 
     }
 
+    public function __construct(FirebaseService $firebaseService)
+    {
+        $this->firebaseService = $firebaseService;
+    }
+
     /**
      * @throws ExceptionAlias
      */
-    public function fcmSave(User $user, String $fcm): void
+    public function fcmSave(User $user, string $fcm): void
     {
 
         try {
-            $user->fcm()->create(["fcm"=>$fcm]);
+            $user->fcm()->create(["fcm" => $fcm]);
 
         } catch (QueryException $e) {
             if ($e->errorInfo[1] != 1062) {
                 throw new \Exception($e->getMessage());
-            }
-            else{
+            } else {
                 UserFcm::where('fcm', $fcm)->update(['user_id' => $user->id]);
             }
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             dd($e->getMessage());
         }
     }
@@ -72,7 +79,7 @@ class UserService extends ModelService
     /**
      * @throws ExceptionAlias
      */
-    public function login($role,array $credentials): \App\DTOs\Result
+    public function login($role, array $credentials): \App\DTOs\Result
     {
         $user = $this->getUserBy('email', $credentials['email']);
         if (!$user instanceof User) {
@@ -94,12 +101,12 @@ class UserService extends ModelService
         if (!$user->hasRole($role)) {
             throw new Exception('Unauthorized');
         }
-
         $token = $user->createToken('*');
         $data = ['user' => $user, 'token' => $token->plainTextToken,];
 
         return $this->ok($data, 'Login successful');
     }
+
     /**
      * prepare
      */
@@ -126,21 +133,22 @@ class UserService extends ModelService
      * @throws Exception
      * @throws ExceptionAlias
      */
-    public function loginRegister($user, $attributes,$role): Result
+    public function loginRegister($user, $attributes, $role): Result
     {
         if ($user instanceof User) {
             if (isset($credentials["fcm"])) {
                 $this->fcmSave($user, $credentials["fcm"]);
                 unset($credentials["fcm"]);
             }
-            if($user->hasRole($role)){
+
+            if ($user->hasRole($role)) {
                 $token = $user->createToken('*');
                 $data = [
                     'user' => $user,
                     'token' => $token->plainTextToken,
                 ];
                 return $this->ok($data, 'login succeed');
-            }else{
+            } else {
                 throw new Exception("unauthorized");
             }
         }
@@ -155,7 +163,7 @@ class UserService extends ModelService
         if (!isset($attributes['password'])) {
             $attributes['password'] = "welcome1";
         }
-        $attributes["role"]=$role;
+        $attributes["role"] = $role;
 
         $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
         $user = $this->store($attributes);
@@ -169,14 +177,15 @@ class UserService extends ModelService
         ];
         return $this->ok($data, 'clients:register:step1:done');
     }
+
     /**
      * @throws ExceptionAlias
      */
     public function register($attributes): Result
     {
         $attributes['status'] = User::status_active;
-        if(!isset($attributes['password'])){
-            $attributes['password']="welcome1";
+        if (!isset($attributes['password'])) {
+            $attributes['password'] = "welcome1";
         }
         $attributes['registered'] = Carbon::parse(date('Y-m-d H:i:s'))->format('Y-m-d H:i:s');
         $user = $this->store($attributes);
@@ -184,11 +193,10 @@ class UserService extends ModelService
             // $user = $client->user()->get()->first();
             $user = $this->ignoredFind($user->id);
             $token = $user->createToken('*');
-            try{
+            try {
                 (new EmailService($this))->sendWelcomeMail($user);
+            } catch (Exception $e) {
             }
-             catch (Exception $e){
-             }
             $data = [
                 'user' => $user->toLightWeightArray(),
                 'token' => $token->plainTextToken,
@@ -199,6 +207,7 @@ class UserService extends ModelService
         }
         throw new \Exception('clients:register:step1:errors:failed');
     }
+
     /**
      * create a new user
      * @throws ExceptionAlias
@@ -208,47 +217,50 @@ class UserService extends ModelService
         unset($attributes["fcm"]);
         // TODO: sites attribute value
         return parent::store($attributes);
-    }    public function save($id,array $attributes): Result
-{
-        if(isset($attributes["password"])){
-            $user=auth()->user();
-            if($user instanceof User){
-            if (Hash::check($attributes["current_password"], $user->password)) {
-                $attributes["password"] = Hash::make($attributes["password"]);
-                $user->update(["password" => $attributes["password"]]);
-                unset($attributes["password"]);
+    }
 
+    public function save($id, array $attributes): Result
+    {
+        if (isset($attributes["password"])) {
+            $user = auth()->user();
+            if ($user instanceof User) {
+                if (Hash::check($attributes["current_password"], $user->password)) {
+                    $attributes["password"] = Hash::make($attributes["password"]);
+                    $user->update(["password" => $attributes["password"]]);
+                    unset($attributes["password"]);
+
+                } else {
+                    throw  new \Exception("current password uncorrected", 403);
+                }
             }
-           else{
-           throw  new \Exception("current password uncorrected",403);
-           }
         }
-        }
-        return parent::save($id,$attributes);
+        return parent::save($id, $attributes);
 
     }
+
     /**
      * delete inner
      * @throws ExceptionAlias
      */
-    public function delete( $id=0): Result
+    public function delete($id = 0): Result
     {
-        if(!$id){
-            $id=auth()->id();
+        if (!$id) {
+            $id = auth()->id();
         }
         $user = $this->find($id);
 
-            if($user instanceof User){
-                $user->vehicles()->forceDelete();
-                $user->locations()->forceDelete();
-                $user->carts()->forceDelete();
-                $user->fcm()->forceDelete();
-                $user->resetToken()->forceDelete();
-                $user->book()->forceDelete();
+        if ($user instanceof User) {
+            $user->vehicles()->forceDelete();
+            $user->locations()->forceDelete();
+            $user->carts()->forceDelete();
+            $user->fcm()->forceDelete();
+            $user->resetToken()->forceDelete();
+            $user->book()->forceDelete();
         }
         $user->forceDelete();
-        return $this->ok(1,"user delete success");
+        return $this->ok(1, "user delete success");
     }
+
     /**
      * activate user
      * @throws ExceptionAlias
@@ -283,15 +295,15 @@ class UserService extends ModelService
 
     /**
      *
+     * @throws ExceptionAlias
      */
-    public function ignoredFind( $id): User
+    public function ignoredFind($id): User
     {
         $qb = $this->builder()->withoutGlobalScope('accessDB');
 
         if ($id == null) {
             throw new ExceptionAlias('records:find:errors:not_found');
-        }
-        else if (is_array($id)) {
+        } else if (is_array($id)) {
             if (!count($id)) {
                 throw new ExceptionAlias('records:find:errors:not_found');
             }
@@ -306,5 +318,28 @@ class UserService extends ModelService
             throw new ExceptionAlias('records:find:errors:not_found');
         }
         return $qb;
+    }
+
+    public function pushNotification( $user, $title, $body): void
+    {
+        $message = [
+            'token' => $user->routeNotificationForFirebase(),
+            'notification' => [
+                'title' => $title,
+                'body' => $body,
+            ],
+        ];
+        try {
+
+            if ($user->role == User::ROLE_VENDOR) {
+                $this->firebaseService->sendNotificationToAppVendor($message);
+
+            } else if($user->role == User::ROLE_CUSTOMER){
+                $this->firebaseService->sendNotificationToAppCustomer($message);
+
+            }
+        } catch (Exception|MessagingException|FirebaseException $e) {
+
+        }
     }
 }

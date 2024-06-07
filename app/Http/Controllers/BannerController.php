@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Responses\SuccessResponse;
 use App\Services\AuthService;
 use App\Services\BannerService;
+use Exception;
 
 class BannerController extends Controller
 {
@@ -26,7 +27,7 @@ class BannerController extends Controller
      *
      * @param SearchRequest $request
      * @return SuccessResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function index(SearchRequest $request): SuccessResponse
     {
@@ -38,7 +39,7 @@ class BannerController extends Controller
      *
      * @param int $id
      * @return SuccessResponse
-     * @throws \Exception
+     * @throws Exception
      */
     public function show(int $id): SuccessResponse
     {
@@ -47,7 +48,7 @@ class BannerController extends Controller
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function update(BannerRequest $request, int $id): SuccessResponse
     {
@@ -55,7 +56,7 @@ class BannerController extends Controller
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(BannerRequest $request): SuccessResponse
     {
@@ -63,7 +64,7 @@ class BannerController extends Controller
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(int $id): SuccessResponse
     {

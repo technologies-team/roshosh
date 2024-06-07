@@ -74,6 +74,7 @@ class CouponService extends ModelService
             $newColumn["total_price"] = $newPrice;
             $newColumn["coupon_id"] = $coupon->id;
         }
+        $coupon->update(["count"=>$coupon->count-1]);
 
       return $this->ok($this->cartService->update($cartService->id,$newColumn), "coupon Applied  successful");
     }

@@ -187,5 +187,6 @@ Route::prefix('/coupon')->group(function () {
             Route::post('/remove', [CouponController::class, 'remove']);
 
         });
+
 });
 

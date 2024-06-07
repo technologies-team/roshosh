@@ -71,6 +71,7 @@ class CouponService extends ModelService
 
             $newPrice = number_format($price, 2, '.', '');
             $newColumn["total_rewards"] = $newPrice*100;
+            $newColumn["total_price"] = $newPrice*100;
             $newColumn["coupon_id"] = $coupon->id;
         }
 

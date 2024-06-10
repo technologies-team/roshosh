@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'customer',
                 'email' => 'customer@roshosh.ae',
                 'phone' => '02020202020200',
-                'rewards' => 0,
+                'rewards' => 25000,
                 'role'=>'customer',
                 'status' => User::status_active,
                 'password' => bcrypt('password'),

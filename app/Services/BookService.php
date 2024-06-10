@@ -153,7 +153,7 @@ class BookService extends ModelService
             } else {
                 $oldStatus = $book->status;
             }
-            $editor = $this->userService->find($book->user_id);
+            $editor = $this->userService->find($update->user_id);
         }
         if ($oldStatus == $attributes["status"]) {
             return $this->ok($book, "no change");

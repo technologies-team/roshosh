@@ -23,7 +23,7 @@ class LocationsTableSeeder extends Seeder
                 'longitude' => -74.0060,
                 'phone' => '21234566',
                 'verified' => true,
-                'user_id' => 1,
+                'user_id' => 4,
                 'parking_type' => 'Residential',
                 'created_at' => now(),
                 'updated_at' => now(),

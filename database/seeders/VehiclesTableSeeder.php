@@ -16,7 +16,7 @@ class VehiclesTableSeeder extends Seeder
         DB::table('vehicles')->insert([
 
              [  'vehicle_type'=>'car',
-               'user_id'=>'1',
+               'user_id'=>3,
                 'type' => 'SUV',
                 'color' => 'Black',
                 'make' => 'Toyota',
@@ -27,7 +27,7 @@ class VehiclesTableSeeder extends Seeder
             ],
             [
 
-                'user_id'=>'1',
+                'user_id'=>4,
                 'vehicle_type'=>'car',
                 'type' => 'Sedan',
                 'color' => 'White',

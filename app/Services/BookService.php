@@ -71,8 +71,11 @@ class BookService extends ModelService
 
             if ($cart_details instanceof CartService) {
                 if(!isset($attributes["total_price"])){
-                $attributes['total_price'] = $cart_details->total_price;
+                $attributes['total_price'] = number_format($cart_details->total_price, 2, '.', '');
 
+                }
+                else{
+                    $attributes["total_price"]=number_format($attributes["total_price"], 2, '.', '');
                 }
                 if(isset($attributes["total_rewards"])){
                     $attributes['total_rewards'] =number_format($attributes['total_rewards'], 2, '.', '');

@@ -175,10 +175,10 @@ foreach ($updates as $update ){
         }
         $this->bookLogService->create(["user_id" => $user->id, "book_id" => $book->id, "notes" => $attributes["notes"] ?? "-", "reason" => $attributes["reason"] ?? "-", "old_status" => $oldStatus, "new_status" => $attributes["status"]]);;
 
-        foreach ($users as $key =>$user) {
+        foreach ($users as $key =>$notify_user) {
 
             try {
-                $this->userService->pushNotification($user, "order status", " updated status  from  " . $oldStatus . " to  " . $attributes["status"]);
+                $this->userService->pushNotification($notify_user, "order status", " updated status  from  " . $oldStatus . " to  " . $attributes["status"]);
 
             }catch (Exception $e){
 

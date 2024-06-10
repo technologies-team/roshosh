@@ -118,7 +118,7 @@ class BookService extends ModelService
             if ($rewards < $attributes["total_rewards"]) {
                 throw new Exception("rewards not enugh");
             }
-            $user->update(["rewards" => $rewards - $attributes["rewards"]]);
+            $user->update(["rewards" => $rewards - $attributes["total_rewards"]]);
         } else {
 
             $user->update(["rewards" => $rewards]);

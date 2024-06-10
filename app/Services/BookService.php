@@ -70,8 +70,11 @@ class BookService extends ModelService
             if ($cart_details instanceof CartService) {
                 if(!isset($attributes["total_price"])){
                 $attributes['total_price'] = $cart_details->total_price;}
-                $details['service_time'] = $cart_details->service_time;
-            } else {
+                if(isset($attributes["total_rewards"])){
+                    $attributes['total_rewards'] =number_format($attributes['total_rewards'], 2, '.', '');
+               ;
+                }
+                 } else {
                 throw new Exception('your cart is empty');
             }
         } else {
@@ -111,8 +114,8 @@ class BookService extends ModelService
         }
         $rewards = $user->rewards + 15;
 
-        if (isset($attributes["rewards"])&&$attributes["rewards"]>0) {
-            if ($rewards < $attributes["rewards"]) {
+        if (isset($attributes["total_rewards"])&&$attributes["total_rewards"]>0) {
+            if ($rewards < $attributes["total_rewards"]) {
                 throw new Exception("rewards not enugh");
             }
             $user->update(["rewards" => $rewards - $attributes["rewards"]]);

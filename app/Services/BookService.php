@@ -67,10 +67,11 @@ class BookService extends ModelService
         if ($cart instanceof Cart) {
             $attributes["cart_id"] = $cart->id;
             $cart_details = $cart->cartService()->first();
+            $details['service_time'] = $cart_details->service_time;
+
             if ($cart_details instanceof CartService) {
                 if(!isset($attributes["total_price"])){
                 $attributes['total_price'] = $cart_details->total_price;
-                    $details['service_time'] = $cart_details->service_time;
 
                 }
                 if(isset($attributes["total_rewards"])){

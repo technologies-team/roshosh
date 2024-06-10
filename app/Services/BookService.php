@@ -145,13 +145,18 @@ class BookService extends ModelService
         $editor = null;
         if (isset($attributes["status"])) {
             $book = $this->find($id);
-            $update = $book->logs()->orderBy('created_at', 'desc')->first();
+            $updates = $book->logs()->orderBy('created_at', 'desc')->get();
+foreach ($updates as $update ){
+    if ($update instanceof BookLog) {
 
-            if ($update instanceof BookLog) {
+        $users[$update->user_id]=true;
+    }
+}
+            if (isset($updates[0])&&$updates[0] instanceof BookLog) {
                 $oldStatus = $update->new_status;
-                $editor = $this->userService->find($update->user_id);
-
+                $editor = $this->userService->find($updates[0]->user_id);
             } else {
+                $editor=$user;
                 $oldStatus = $book->status;
             }
         }
@@ -161,7 +166,7 @@ class BookService extends ModelService
         $this->bookLogService->create(["user_id" => $user->id, "book_id" => $book->id, "notes" => $attributes["notes"] ?? "-", "reason" => $attributes["reason"] ?? "-", "old_status" => $oldStatus, "new_status" => $attributes["status"]]);;
         if (isset($editor->id)&&$user->id == $editor->id) {
             try {
-                $this->userService->pushNotification($user, "order status", "you update status  from  " . $oldStatus . " to  " . $attributes["status"]);
+                $this->userService->pushNotification($user, "order status", "you updated status  from  " . $oldStatus . " to  " . $attributes["status"]);
 
             } catch (Exception $e) {
 
@@ -177,7 +182,7 @@ class BookService extends ModelService
             }
             try {
                 if($editor) {
-                    $this->userService->pushNotification($editor, "order status", "you update status  from  " . $oldStatus . " to  " . $attributes["status"]);
+                    $this->userService->pushNotification($editor, "order status", "you updated status  from  " . $oldStatus . " to  " . $attributes["status"]);
                 }
             } catch (Exception $e) {
 

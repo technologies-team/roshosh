@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('total_price');
-            $table->string('total_rewards');
+            $table->string('total_rewards')->nullable();
             $table->string('total_discount')->default(0);
             $table->string('total_fee')->default(0);
             $table->unsignedBigInteger("user_id");

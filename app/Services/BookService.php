@@ -71,7 +71,6 @@ class BookService extends ModelService
                 if(!isset($attributes["total_price"])){
                 $attributes['total_price'] = $cart_details->total_price;}
                 $details['service_time'] = $cart_details->service_time;
-
             } else {
                 throw new Exception('your cart is empty');
             }
@@ -112,7 +111,7 @@ class BookService extends ModelService
         }
         $rewards = $user->rewards + 15;
 
-        if (isset($attributes["rewards"])) {
+        if (isset($attributes["rewards"])&&$attributes["rewards"]>0) {
             if ($rewards < $attributes["rewards"]) {
                 throw new Exception("rewards not enugh");
             }
@@ -150,16 +149,17 @@ class BookService extends ModelService
 
             if ($update instanceof BookLog) {
                 $oldStatus = $update->new_status;
+                $editor = $this->userService->find($update->user_id);
+
             } else {
                 $oldStatus = $book->status;
             }
-            $editor = $this->userService->find($update->user_id);
         }
         if ($oldStatus == $attributes["status"]) {
             return $this->ok($book, "no change");
         }
         $this->bookLogService->create(["user_id" => $user->id, "book_id" => $book->id, "notes" => $attributes["notes"] ?? "-", "reason" => $attributes["reason"] ?? "-", "old_status" => $oldStatus, "new_status" => $attributes["status"]]);;
-        if ($user->id == $editor->id) {
+        if (isset($editor->id)&&$user->id == $editor->id) {
             try {
                 $this->userService->pushNotification($user, "order status", "you update status  from  " . $oldStatus . " to  " . $attributes["status"]);
 
@@ -176,8 +176,9 @@ class BookService extends ModelService
 
             }
             try {
-                $this->userService->pushNotification($editor, "order status", "you update status  from  " . $oldStatus . " to  " . $attributes["status"]);
-
+                if($editor) {
+                    $this->userService->pushNotification($editor, "order status", "you update status  from  " . $oldStatus . " to  " . $attributes["status"]);
+                }
             } catch (Exception $e) {
 
             }

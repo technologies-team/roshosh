@@ -20,7 +20,7 @@ class BookService extends ModelService
     /**
      * storable field is a field which can be filled during creating the record
      */
-    protected array $storables = ['total_price', 'total_discount', 'total_fee', 'user_id', 'status', 'payment_method', 'notes', 'service_time'];
+    protected array $storables = ['total_price','total_rewards', 'total_discount', 'total_fee', 'user_id', 'status', 'payment_method', 'notes', 'service_time'];
 
     /**
      * updatable field is a field which can be filled during updating the record
@@ -68,7 +68,8 @@ class BookService extends ModelService
             $attributes["cart_id"] = $cart->id;
             $cart_details = $cart->cartService()->first();
             if ($cart_details instanceof CartService) {
-                $attributes['total_price'] = $cart_details->total_price;
+                if(!isset($attributes["total_price"])){
+                $attributes['total_price'] = $cart_details->total_price;}
                 $details['service_time'] = $cart_details->service_time;
 
             } else {

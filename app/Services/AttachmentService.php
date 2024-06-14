@@ -34,7 +34,7 @@ class AttachmentService extends ModelService
     ];
 
     /**
-     * searchable field is a field which can be search for from keyword parameter in search method
+     * searchable field is a field which can be searched for from keyword parameter in search method
      */
     protected array $searchables = ['name'];
 

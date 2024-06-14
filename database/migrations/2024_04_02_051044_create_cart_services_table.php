@@ -25,12 +25,12 @@ return new class extends Migration
             $table->decimal('total_price');
             $table->decimal('total_rewards')->nullable();
             $table->dateTime('service_time');
-            $table->timestamps();
             $table->foreign('coupon_id')->references('id')->on('coupons')->onDelete('set null');
             $table->foreign('offer_id')->references('id')->on('offers')->onDelete('set null');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

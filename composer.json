@@ -5,7 +5,7 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "ext-curl": "*",
         "guzzlehttp/guzzle": "^7.8.1",
         "kawankoding/laravel-fcm": "^0.2.9",
